@@ -24,6 +24,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { RidesComponent } from './rides/rides.component';
+import { RoutesComponent } from './routes/routes.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     AboutComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    RidesComponent,
+    RoutesComponent
   ],
   imports: [
     BrowserModule,
