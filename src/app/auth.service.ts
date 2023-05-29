@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from './../environments/environment';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 
 import User from './User';
 import RegisterUser from './RegisterUser';
@@ -50,5 +50,16 @@ export class AuthService {
 
   register(registerUser: RegisterUser): Observable<any> {
     return this.http.post<any>(`${environment.userAPIBase}/register`, registerUser);
+  }
+
+  getAccountInfo(): Observable<any> {
+    const token = this.getToken();
+    if (token) {
+      const headers = { Authorization: `Bearer ${token}` };
+      return this.http.get<any>(`${environment.userAPIBase}/account`, {
+        headers
+      });
+    }
+    return new Observable();
   }
 }

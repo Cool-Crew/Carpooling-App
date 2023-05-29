@@ -26,6 +26,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
+import { AccInfoComponent } from './acc-info/acc-info.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { RoutesComponent } from './routes/routes.component';
     RegisterComponent,
     LoginComponent,
     RidesComponent,
-    RoutesComponent
+    RoutesComponent,
+    AccInfoComponent
   ],
   imports: [
     BrowserModule,

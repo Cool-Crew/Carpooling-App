@@ -9,7 +9,7 @@ import {AuthService} from '../auth.service';
 })
 export class RegisterComponent implements OnInit{
 
-  registerUser ={email: "", password: "", firstName: "", lastName: ""};
+  registerUser ={email: "", password: "", firstName: "", lastName: "", phone: ""};
   warning="";
   success=false;
   loading=false;
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit{
   constructor(private aservice: AuthService ) {}
 
   onSubmit() {
-       if(this.registerUser.email!="" && this.registerUser.password!="" && this.registerUser.firstName!="" && this.registerUser.lastName){
+       if(this.registerUser.email!="" && this.registerUser.password!="" && this.registerUser.firstName!="" && this.registerUser.lastName && this.registerUser.phone){
         console.log("In Submit")
         this.loading=true;
         console.log(this.registerUser);

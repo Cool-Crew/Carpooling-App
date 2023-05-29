@@ -9,7 +9,7 @@ import {AuthService} from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  user ={email: "", password: "", _id: ""};
+  user ={email: "", password: "", _id: "", phone: ""};
   warning="";
   loading=false;
 

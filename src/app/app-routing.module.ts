@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
+import { AccInfoComponent } from './acc-info/acc-info.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent, canActivate: [GuardAuthService] },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'rides', component: RidesComponent, canActivate: [GuardAuthService] },
-  { path: 'routes', component: RoutesComponent, canActivate: [GuardAuthService] }
+  { path: 'routes', component: RoutesComponent, canActivate: [GuardAuthService] },
+  { path: 'acc-info', component: AccInfoComponent, canActivate: [GuardAuthService] }
 ];
 
 @NgModule({

@@ -47,6 +47,17 @@
           />
           <mat-error>Please provide a valid last name</mat-error>
         </mat-form-field><br />
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            type="number"
+            placeholder="1234567890"
+            name="phone"
+            [(ngModel)]="registerUser.phone"
+            required
+          />
+          <mat-error>Please provide a valid last name</mat-error>
+        </mat-form-field><br />
         <button
           mat-raised-button
           color="accent"
