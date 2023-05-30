@@ -62,4 +62,16 @@ export class AuthService {
     }
     return new Observable();
   }
+
+  update(userData: any): Observable<any> {
+  const token = this.getToken();
+  if (token) {
+    const headers = { Authorization: `JWT ${token}` };
+    console.log('Sending update request with data:', userData);
+    return this.http.put<any>(`${environment.userAPIBase}/update`, userData, {
+      headers
+    });
+  }
+  return new Observable();
+}
 }

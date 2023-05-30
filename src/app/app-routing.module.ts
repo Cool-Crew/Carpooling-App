@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
 import { AccInfoComponent } from './acc-info/acc-info.component';
+import { UpdateComponent } from './update/update.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent, canActivate: [GuardAuthService] },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'rides', component: RidesComponent, canActivate: [GuardAuthService] },
   { path: 'routes', component: RoutesComponent, canActivate: [GuardAuthService] },
-  { path: 'acc-info', component: AccInfoComponent, canActivate: [GuardAuthService] }
+  { path: 'acc-info', component: AccInfoComponent, canActivate: [GuardAuthService] },
+  { path: 'update', component: UpdateComponent, canActivate: [GuardAuthService] }
 ];
 
 @NgModule({

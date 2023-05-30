@@ -2,4 +2,12 @@
     <h1>{{ user.firstName }} {{ user.lastName }}</h1>
     <p>Email: {{ user.email }}</p>
     <p>Phone: {{ user.phone }}</p>
+    <button
+          routerLink="/update"        
+          mat-raised-button
+          color="accent"
+        >
+          <mat-icon>save</mat-icon>
+          <span>&nbsp;&nbsp;&nbsp;Update</span>
+        </button>
   </div>

@@ -1,0 +1,69 @@
+<mat-card>
+    <mat-card-content>
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+        <h2>Update Personal Information</h2>
+        <mat-error *ngIf="warning != null">{{ warning }}</mat-error><br />
+        <p>Enter current Email to verify it's you.</p>
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Email"
+            formControlName="email"
+            required
+          />
+          <mat-error *ngIf="updateForm.get('email')?.invalid && updateForm.get('email')?.touched">
+            <span *ngIf="updateForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="updateForm.get('email')?.errors?.['email']">Email must be a valid email address.</span>
+          </mat-error>
+        </mat-form-field><br /><br />
+        <h4>Update Info</h4><hr /><br />
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="First Name" formControlName="firstName" required />
+            <mat-error *ngIf="updateForm.get('firstName')?.invalid && updateForm.get('firstName')?.touched">
+              First name is required.
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <mat-form-field class="full-width-input">
+            <input matInput placeholder="Last Name" formControlName="lastName" required />
+            <mat-error *ngIf="updateForm.get('lastName')?.invalid && updateForm.get('lastName')?.touched">
+              Last name is required.
+            </mat-error>
+          </mat-form-field>
+          <br />
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            type="tel"
+            placeholder="Phone"
+            formControlName="phone"
+            required
+          />
+          <mat-error *ngIf="updateForm.get('phone')?.invalid && updateForm.get('phone')?.touched">
+            <span *ngIf="updateForm.get('phone')?.errors?.['required']">Phone is required.</span>
+            <span *ngIf="updateForm.get('phone')?.errors?.['pattern']">Phone must be a valid phone number.</span>
+          </mat-error>
+        </mat-form-field><br />
+        <!-- Add additional form fields here -->
+        <button
+          mat-raised-button
+          color="accent"
+          type="submit"
+          *ngIf="loading === false"
+        >
+          <mat-icon>save</mat-icon>
+          <span>&nbsp;Save</span>
+        </button>
+        <button
+          *ngIf="loading"
+          [disabled]="loading"
+          mat-raised-button
+          color="primary"
+          type="submit"
+        >
+          <mat-icon>account_box</mat-icon>
+          <span>&nbsp;&nbsp;&nbsp;Processing Request</span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -27,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
 import { AccInfoComponent } from './acc-info/acc-info.component';
+import { UpdateComponent } from './update/update.component';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { AccInfoComponent } from './acc-info/acc-info.component';
     LoginComponent,
     RidesComponent,
     RoutesComponent,
-    AccInfoComponent
+    AccInfoComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { AccInfoComponent } from './acc-info/acc-info.component';
     MatToolbarModule,
     MatListModule,
     MatButtonModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
