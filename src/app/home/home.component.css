@@ -1,0 +1,31 @@
+.home .wave{
+    position: absolute;
+    bottom: -.5rem;
+    left: 0;
+    height: 11rem;
+    width: 100%;
+    background: url(../../assets/wave.png);
+    background-size: 100rem 11rem;
+    animation: waves 8s linear infinite;
+    background-repeat: repeat-x;
+}
+
+.home .wave2{
+    animation-direction: reverse;
+    animation-duration: 6s;
+    opacity: .3;
+}
+
+.home .wave3{
+    animation-duration: 4s;
+    opacity: .5;
+}
+
+@keyframes waves{
+    0%{
+        background-position-x: 0;
+    }
+    100%{
+        background-position-x: 100rem;
+    }
+}

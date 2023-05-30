@@ -9,6 +9,8 @@ body {
   font-size: 14px;
 }
 
+
+
 .mat-list-item,
 .mat-menu-item {
   font-size: 14px !important;
@@ -39,7 +41,7 @@ mat-chip:hover{
 
 .navbar-container {
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   position: absolute;
   top: 0;
   bottom: 0;
