@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./update.component.css']
 })
 export class UpdateComponent {
+  user: any;
   updateForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -23,6 +24,14 @@ export class UpdateComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  ngOnInit(): void {
+    this.user = this.authService.readToken();
+    this.updateForm.patchValue({
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      phone: this.user.phone,
+    });
+  }
   onSubmit() {
     if (this.updateForm.valid) {
       this.loading = true;
