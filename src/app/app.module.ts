@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { CommonModule } from '@angular/common';
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,8 +20,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
 
 
 import { AboutComponent } from './about/about.component';
@@ -34,8 +29,6 @@ import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
 import { AccInfoComponent } from './acc-info/acc-info.component';
 import { UpdateComponent } from './update/update.component';
-import { HomeComponent } from './home/home.component';
-import { ButtonComponent } from './button/button.component';
 
 
 @NgModule({
@@ -47,9 +40,7 @@ import { ButtonComponent } from './button/button.component';
     RidesComponent,
     RoutesComponent,
     AccInfoComponent,
-    UpdateComponent,
-    HomeComponent,
-    ButtonComponent
+    UpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +50,6 @@ import { ButtonComponent } from './button/button.component';
     MatSidenavModule,
     MatProgressBarModule,
     MatMenuModule,
-    MatTooltipModule,
     MatToolbarModule,
     MatListModule,
     MatButtonModule,
@@ -70,9 +60,7 @@ import { ButtonComponent } from './button/button.component';
     MatChipsModule,
     HttpClientModule,
     FormsModule,
-    MatSnackBarModule,
-    CommonModule,
-    NgxSpinnerModule
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
