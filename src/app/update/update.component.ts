@@ -1,24 +1,27 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { AuthService } from "../auth.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrls: ['./update.component.css']
+  selector: "app-update",
+  templateUrl: "./update.component.html",
+  styleUrls: ["./update.component.css"],
 })
 export class UpdateComponent {
   user: any;
   updateForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]),
+    firstName: new FormControl("", Validators.required),
+    lastName: new FormControl("", Validators.required),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    phone: new FormControl("", [
+      Validators.required,
+      Validators.pattern("[0-9]{10}"),
+    ]),
     // Add additional form controls here
   });
 
-  warning = '';
+  warning = "";
   success = false;
   loading = false;
 
@@ -36,13 +39,13 @@ export class UpdateComponent {
     if (this.updateForm.valid) {
       this.loading = true;
       this.authService.update(this.updateForm.value).subscribe(
-        success => {
+        (success) => {
           this.success = true;
-          this.warning = '';
+          this.warning = "";
           this.loading = false;
-          this.router.navigate(['/acc-info']);
+          this.router.navigate(["/acc-info"]);
         },
-        err => {
+        (err) => {
           this.success = false;
           this.warning = err.error.message;
           this.loading = false;

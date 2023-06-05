@@ -1,7 +1,8 @@
-export default class RegisterUser{
-    email: string = "";
-    password: string = "";
-    firstName: string = "";
-    lastName: string = "";
-    phone: string = "";
-    }
+export default class RegisterUser {
+  username: string = "";
+  email: string = "";
+  password: string = "";
+  firstName: string = "";
+  lastName: string = "";
+  phone: string = "";
+}
