@@ -29,17 +29,6 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
-          type="password"
-          placeholder="Password"
-          name="password"
-          [(ngModel)]="registerUser.password"
-          required
-        />
-        <mat-error>Please provide a valid password</mat-error> </mat-form-field
-      ><br />
-      <mat-form-field class="full-width-input">
-        <input
-          matInput
           type="text"
           placeholder="First Name"
           name="firstName"
@@ -64,15 +53,13 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
-          type="number"
-          placeholder="1234567890"
-          name="phone"
-          [(ngModel)]="registerUser.phone"
+          type="password"
+          placeholder="Password"
+          name="password"
+          [(ngModel)]="registerUser.password"
           required
         />
-        <mat-error
-          >Please provide a valid phone number</mat-error
-        > </mat-form-field
+        <mat-error>Please provide a valid password</mat-error> </mat-form-field
       ><br />
       <button
         mat-raised-button

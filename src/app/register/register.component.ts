@@ -14,7 +14,6 @@ export class RegisterComponent implements OnInit {
     username: "",
     firstName: "",
     lastName: "",
-    phone: "",
   };
   warning = "";
   success = false;
@@ -28,8 +27,7 @@ export class RegisterComponent implements OnInit {
       this.registerUser.password != "" &&
       this.registerUser.username != "" &&
       this.registerUser.firstName != "" &&
-      this.registerUser.lastName != "" &&
-      this.registerUser.phone != ""
+      this.registerUser.lastName != ""
     ) {
       console.log("In Submit");
       this.loading = true;

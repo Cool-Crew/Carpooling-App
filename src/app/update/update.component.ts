@@ -43,7 +43,16 @@ export class UpdateComponent {
           this.success = true;
           this.warning = "";
           this.loading = false;
-          this.router.navigate(["/acc-info"]);
+
+          this.authService.refreshToken().subscribe(
+            (refreshSuccess) => {
+              this.authService.setToken(refreshSuccess.token);
+              this.router.navigate(["/acc-info"]);
+            },
+            (refreshError) => {
+              console.error("Error refreshing token:", refreshError);
+            }
+          );
         },
         (err) => {
           this.success = false;

@@ -4,5 +4,4 @@ export default class RegisterUser {
   password: string = "";
   firstName: string = "";
   lastName: string = "";
-  phone: string = "";
 }
