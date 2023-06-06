@@ -29,6 +29,17 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
+          placeholder="Phone"
+          name="phone"
+          [(ngModel)]="registerUser.phone"
+          required
+          autofocus
+        />
+        <mat-error>Please provide a valid email</mat-error> </mat-form-field
+      ><br />
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
           type="text"
           placeholder="First Name"
           name="firstName"
