@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../auth.service";
+import User from "../User";
 
 @Component({
   selector: "app-login",
@@ -8,17 +9,7 @@ import { AuthService } from "../auth.service";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
-  user = {
-    email: "",
-    password: "",
-    _id: "",
-    phone: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-    classes: [],
-    interests: [],
-  };
+  user: User = new User();
   warning = "";
   loading = false;
 
@@ -34,7 +25,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/home"]);
         },
         (err) => {
-          console.log(err);
           this.warning = err.error.message;
           this.loading = false;
         }

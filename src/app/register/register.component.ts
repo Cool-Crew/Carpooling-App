@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { first } from "rxjs";
 import { AuthService } from "../auth.service";
+import RegisterUser from "../RegisterUser";
 
 @Component({
   selector: "app-register",
@@ -8,14 +9,7 @@ import { AuthService } from "../auth.service";
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
-  registerUser = {
-    email: "",
-    phone: "",
-    password: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-  };
+  registerUser: RegisterUser = new RegisterUser();
   warning = "";
   success = false;
   loading = false;
