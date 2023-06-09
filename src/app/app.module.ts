@@ -29,7 +29,8 @@ import { RoutesComponent } from "./routes/routes.component";
 import { AccInfoComponent } from "./acc-info/acc-info.component";
 import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
-import { MapComponent } from './map/map.component';
+import { MapComponent } from "./map/map.component";
+import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MapComponent } from './map/map.component';
     UpdateComponent,
     HomeComponent,
     MapComponent,
+    PreferenceMgmtComponent,
   ],
   imports: [
     BrowserModule,
