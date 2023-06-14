@@ -1,0 +1,27 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+  
+.form-container {
+    border-style: solid;
+    border-color: rgb(150, 162, 180);
+    grid-column: 1;
+    width: 66%;
+}
+
+.map-container {
+    grid-column: 2;
+}
+
+.results-container {
+    border-style: solid;
+    border-color: rgb(150, 162, 180);
+    border-width: 1px;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: 1.5em;
+}
+
