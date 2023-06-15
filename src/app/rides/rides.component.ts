@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {Ride, Rider, NewRide} from "../Ride";
+import { Component } from '@angular/core';
+import { RideService } from '../ride.service'
+import {Ride} from '../Ride';
 
 @Component({
   selector: 'app-rides',
@@ -14,11 +15,31 @@ export class RidesComponent{
   riderDriver: string = '';
   searchRange: string = '';
 
-  constructor() {}
+  constructor(private rserv: RideService) {}
 
   onSubmit() {
 
-    console.log('submit')
+    if (this.pickupLocation && 
+      this.dropoffLocation && 
+      this.selectedDate && 
+      this.selectedTime
+    ) {
+
+      let nr = new Ride();
+      nr.riders = [{riderID: 'rider1', pickupLocation: this.pickupLocation}];
+      nr.dropoffLocation = this.dropoffLocation;
+      nr.dateTime = new Date(`${this.selectedDate}T${this.selectedTime}`);
+
+
+      this.rserv.createNewRide(nr).subscribe(
+        (success) => {
+          console.log('✅ - new ride registered! Huzzah!');
+        },
+        (err) => {
+          console.log('❗ - unable to create new ride\n' + err)
+        }
+      )
+    }
     
   }
 

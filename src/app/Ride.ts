@@ -20,10 +20,3 @@ export class Ride {
     chat: Message[] = [];
     status: Status = Status.Not_Started;
 }
-
-export class NewRide {
-    rider: Rider = new Rider();
-    dropoffLocation: string = '';
-    dateTime: Date = new Date();
-    status: Status = Status.Not_Started;
-}
