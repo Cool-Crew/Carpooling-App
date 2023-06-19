@@ -1,22 +1,28 @@
 export class Rider {
-    riderID: string = "";
-    pickupLocation: string = "";
+  riderID: string = "";
+  pickupLocation: string = "";
 }
 
-class Message {
-    msgID: string = '';
-    content: string = '';
-    userID: string = '';
+export class Message {
+  msgID: string = "";
+  content: string = "";
+  userID: string = "";
 }
 
-enum Status {Not_Started, In_Progress, Complete, Cancelled}
+export enum Status {
+  Not_Started = "Not_Started",
+  In_Progress = "In_Progress",
+  Complete = "Complete",
+  Cancelled = "Cancelled",
+}
 
 export class Ride {
-    _id: string = "";
-    driverStartLocation: string = '';
-    riders: Rider[] = [];
-    dropoffLocation: string = '';
-    dateTime: Date = new Date();
-    chat: Message[] = [];
-    status: Status = Status.Not_Started;
+  _id: string = "";
+  driver: string = "";
+  driverStartLocation: string = "";
+  riders: Rider[] = [];
+  dropoffLocation: string = "";
+  dateTime: Date | undefined;
+  chat: Message[] = [];
+  status: Status = Status.Not_Started;
 }

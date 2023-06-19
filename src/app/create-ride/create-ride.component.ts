@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { RideService } from "../ride.service";
+import { AuthService } from "../auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-ride",
@@ -6,18 +9,37 @@ import { Component } from "@angular/core";
   styleUrls: ["./create-ride.component.css"],
 })
 export class CreateRideComponent {
+  user: any;
   startLocation = "";
   dropOffLocation = "";
   dateTime = "";
 
+  constructor(
+    private rideService: RideService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.user = this.authService.readToken();
+  }
+
   submitForm() {
-    // Perform any necessary processing with the submitted data
-    console.log(
-      "Submitted data:",
-      this.startLocation,
-      this.dropOffLocation,
-      this.dateTime
+    const rideData = {
+      driver: this.user._id,
+      startLocation: this.startLocation,
+      dropOffLocation: this.dropOffLocation,
+      dateTime: new Date(this.dateTime),
+    };
+
+    this.rideService.registerRide(rideData).subscribe(
+      (response) => {
+        console.log("Ride registered successfully:", response);
+        this.router.navigate(["/rides"]);
+      },
+      (error) => {
+        console.error("Error registering ride:", error);
+      }
     );
-    // You can also make API calls or perform other actions here
   }
 }

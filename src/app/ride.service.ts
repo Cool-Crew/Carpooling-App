@@ -1,15 +1,27 @@
 import { Injectable } from "@angular/core";
-import {HttpClient} from '@angular/common/http'
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import {environment} from "../environments/environment";
+import { environment } from "../environments/environment";
+import { AuthService } from "./auth.service";
 
-import {Ride} from './Ride';
+import { Ride } from "./Ride";
 
-@Injectable({providedIn: 'root',})
+@Injectable({ providedIn: "root" })
 export class RideService {
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
-    public createNewRide = (ride:Ride):Observable<any> => {
-        return this.http.post<any>(`${environment.userAPIBase}/register-ride`, ride);
+  registerRide(rideData: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.post<any>(
+        `${environment.userAPIBase}/register-ride`,
+        rideData,
+        {
+          headers,
+        }
+      );
     }
+    return new Observable();
+  }
 }
