@@ -1,55 +1,94 @@
 <html>
-<head>
+  <head>
     <title>Rides</title>
-    
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="form-container">
-            <form (ngSubmit)="onSubmit()">
-                <label for="pickup-location">Pickup Location:</label>
-                <input type="text" id="pickup-location" name="pickup-location" required [(ngModel)]="pickupLocation"><br><br>
-              
-                <label for="dropoff-location">Drop-off Location:</label>
-                <input type="text" id="dropoff-location" name="dropoff-location" required [(ngModel)]="dropoffLocation">
-                <br><br>
-              
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required [(ngModel)]="selectedDate"><br><br>
-              
-                <label for="time">Time:</label>
-                <input type="time" id="time" name="time" required [(ngModel)]="selectedTime"><br><br>
-              
-                <label for="rider-driver">Rider/Driver:</label>
-                <input type="text" id="rider-driver" name="rider-driver" [(ngModel)]="riderDriver"><br><br>
-              
-                <label for="search-range">Search Range:</label>
-                <select id="search-range" name="search-range" [(ngModel)]="searchRange">
-                  <option value="2.5 kilometers">2.5 kilometers</option>
-                  <option value="5 kilometers">5 kilometers</option>
-                  <option value="10 kilometers">10 kilometers</option>
-                  <option value="20 kilometers">20 kilometers</option>
-                </select><br><br>
-              
-                <!-- <button type="submit" value="Submit">Submit</button> -->
-                <button type="submit" value="Create New Ride" (click)="onSubmit()">Create New Ride</button>
-                <!-- Buttons to be combined, new ride only present for dev -->
-              </form>
-              
+      <div class="form-container">
+        <form (ngSubmit)="onSubmit()">
+          <label for="pickup-location">Pickup Location:</label>
+          <input
+            type="text"
+            id="pickup-location"
+            name="pickup-location"
+            required
+            [(ngModel)]="pickupLocation"
+          /><br /><br />
 
-            <div class="results-container">
-                <p>results list placeholder</p>
-                <!-- Want to place an updating stack of cards showing ride details here, scrolling list -->
-            </div>
+          <label for="dropoff-location">Drop-off Location:</label>
+          <input
+            type="text"
+            id="dropoff-location"
+            name="dropoff-location"
+            required
+            [(ngModel)]="dropoffLocation"
+          />
+          <br /><br />
 
+          <label for="date">Date:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            required
+            [(ngModel)]="selectedDate"
+          /><br /><br />
+
+          <label for="time">Time:</label>
+          <input
+            type="time"
+            id="time"
+            name="time"
+            required
+            [(ngModel)]="selectedTime"
+          /><br /><br />
+
+          <label for="rider-driver">Rider/Driver:</label>
+          <input
+            type="text"
+            id="rider-driver"
+            name="rider-driver"
+            [(ngModel)]="riderDriver"
+          /><br /><br />
+
+          <label for="search-range">Search Range:</label>
+          <select
+            id="search-range"
+            name="search-range"
+            [(ngModel)]="searchRange"
+          >
+            <option value="2.5 kilometers">2.5 kilometers</option>
+            <option value="5 kilometers">5 kilometers</option>
+            <option value="10 kilometers">10 kilometers</option>
+            <option value="20 kilometers">20 kilometers</option></select
+          ><br /><br />
+
+          <!-- <button type="submit" value="Submit">Submit</button> -->
+          <div class="button-container">
+            <button type="submit" class="search-button" value="Search">
+              Search
+            </button>
+            <button
+              type="submit"
+              class="create-button"
+              value="Create New Ride"
+              routerLink="/create-ride"
+            >
+              Create New Ride
+            </button>
+          </div>
+          <!-- Buttons to be combined, new ride only present for dev -->
+        </form>
+
+        <div class="results-container">
+          <p>results list placeholder</p>
+          <!-- Want to place an updating stack of cards showing ride details here, scrolling list -->
         </div>
+      </div>
 
-        <div class="map-container">
-            <app-map></app-map>
-        </div>
-
+      <div class="map-container">
+        <app-map></app-map>
+      </div>
     </div>
-</body>
+  </body>
 </html>
-
-

@@ -1,0 +1,36 @@
+<div class="container">
+  <h2 class="heading">Create Ride</h2>
+  <form (ngSubmit)="submitForm()" class="form">
+    <div class="form-group">
+      <label for="startLocation">Start Location:</label>
+      <input
+        type="text"
+        id="startLocation"
+        [(ngModel)]="startLocation"
+        name="startLocation"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="dropOffLocation">Drop-off Location:</label>
+      <input
+        type="text"
+        id="dropOffLocation"
+        [(ngModel)]="dropOffLocation"
+        name="dropOffLocation"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="dateTime">Date Time:</label>
+      <input
+        type="datetime-local"
+        id="dateTime"
+        [(ngModel)]="dateTime"
+        name="dateTime"
+        required
+      />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
