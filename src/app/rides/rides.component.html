@@ -7,22 +7,11 @@
       <div class="form-container">
         <form (ngSubmit)="onSubmit()">
           <label for="pickup-location">Pickup Location:</label>
-          <input
-            type="text"
-            id="pickup-location"
-            name="pickup-location"
-            required
-            [(ngModel)]="pickupLocation"
-          /><br /><br />
+          <app-place-autocomplete-input></app-place-autocomplete-input>
+          <br /><br />
 
           <label for="dropoff-location">Drop-off Location:</label>
-          <input
-            type="text"
-            id="dropoff-location"
-            name="dropoff-location"
-            required
-            [(ngModel)]="dropoffLocation"
-          />
+          <app-place-autocomplete-input></app-place-autocomplete-input>
           <br /><br />
 
           <label for="date">Date:</label>
