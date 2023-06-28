@@ -5,52 +5,59 @@
   <body>
     <div class="container">
       <div class="form-container">
-        <form (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onSubmit()" [formGroup]="rideForm">
           <label for="pickup-location">Pickup Location:</label>
-          <app-place-autocomplete-input></app-place-autocomplete-input>
-          <br /><br />
+          <input
+            #puLocation
+            type="text"
+            class="place-autocomplete"
+            formControlName = "pickupLocation"
+          /><br />
 
           <label for="dropoff-location">Drop-off Location:</label>
-          <app-place-autocomplete-input></app-place-autocomplete-input>
-          <br /><br />
+          <input
+            #doLocation
+            type="text"
+            class="place-autocomplete"
+            formControlName = "dropoffLocation"
+          /><br />
 
           <label for="date">Date:</label>
           <input
             type="date"
             id="date"
             name="date"
-            required
-            [(ngModel)]="selectedDate"
-          /><br /><br />
+            formControlName = "selectedDate"
+          /><br />
 
           <label for="time">Time:</label>
           <input
             type="time"
             id="time"
             name="time"
-            required
-            [(ngModel)]="selectedTime"
+            formControlName = "selectedTime"
           /><br /><br />
 
-          <label for="rider-driver">Rider/Driver:</label>
+          <!-- Temporary Removal - waiting for further functionality -->
+          <!-- <label for="rider-driver">Rider/Driver:</label>
           <input
             type="text"
             id="rider-driver"
             name="rider-driver"
-            [(ngModel)]="riderDriver"
+            formControlName = "riderDriver"
           /><br /><br />
 
           <label for="search-range">Search Range:</label>
           <select
             id="search-range"
             name="search-range"
-            [(ngModel)]="searchRange"
+            formControlName = "searchRange"
           >
             <option value="2.5 kilometers">2.5 kilometers</option>
             <option value="5 kilometers">5 kilometers</option>
             <option value="10 kilometers">10 kilometers</option>
             <option value="20 kilometers">20 kilometers</option></select
-          ><br /><br />
+          ><br /><br /> -->
 
           <!-- <button type="submit" value="Submit">Submit</button> -->
           <div class="button-container">
