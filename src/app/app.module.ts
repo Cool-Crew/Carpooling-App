@@ -32,8 +32,8 @@ import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
 import { CreateRideComponent } from './create-ride/create-ride.component';
-import { PlaceAutocompleteInputComponent } from './place-autocomplete-input/place-autocomplete-input.component';
 import { PlaceValidatorDirective } from './place-validator.directive';
+import { AvailableRidesListComponent } from './available-rides-list/available-rides-list.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ import { PlaceValidatorDirective } from './place-validator.directive';
     PreferenceMgmtComponent,
     CreateRideComponent,
     PlaceValidatorDirective,
+    AvailableRidesListComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +71,6 @@ import { PlaceValidatorDirective } from './place-validator.directive';
     HttpClientModule,
     FormsModule,
     MatSnackBarModule,
-    PlaceAutocompleteInputComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
