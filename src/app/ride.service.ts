@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
 import { AuthService } from "./auth.service";
 
-import { Ride } from "./Ride";
 
 @Injectable({ providedIn: "root" })
 export class RideService {

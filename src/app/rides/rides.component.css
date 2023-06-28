@@ -66,6 +66,9 @@ button.search-button {
 button.create-button {
   background-color: rgb(63, 81, 181);
 }
+button.create-button:hover {
+  background-color: rgb(90, 111, 218);
+}
 
 input.ng-touched.ng-invalid {
   border: red 1px solid;

@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { FormGroup, Validators, FormControl, ValidationErrors, ValidatorFn, AbstractControl } from "@angular/forms";
+import { FormGroup, Validators, FormControl, ValidationErrors, AbstractControl } from "@angular/forms";
+import { RideService } from "../ride.service";
+import { AuthService } from "../auth.service";
+import { Router } from "@angular/router";
 
 interface PlaceResult {
   address?: string;
@@ -15,6 +18,7 @@ interface PlaceResult {
 })
 
 export class RidesComponent implements OnInit{
+  user: any;
 
   rideForm: FormGroup | any;
   pickupLocation: PlaceResult | undefined;
@@ -32,9 +36,15 @@ export class RidesComponent implements OnInit{
   @ViewChild('doLocation', {static: false})
   doLocation!: ElementRef;
 
-  constructor() {}
+  constructor(
+    private rideService: RideService,
+    private authService: AuthService,
+    private router: Router
+    ) {}
 
   ngOnInit() {
+    this.user = this.authService.readToken();
+
     this.rideForm = new FormGroup({
       pickupLocation: new FormControl(null, [Validators.required, this.validatePlace]),
       dropoffLocation: new FormControl(null, [Validators.required, this.validatePlace]),
@@ -58,7 +68,7 @@ export class RidesComponent implements OnInit{
         location: place?.geometry?.location,
       };
 
-      this.rideForm.pickupLocation = result;
+      this.pickupLocation = result;
       this.rideForm.controls.pickupLocation.patchValue(result.address);
     });
 
@@ -79,7 +89,7 @@ export class RidesComponent implements OnInit{
 
   validatePlace = (ctrl: AbstractControl): {[key: string]:any} | null => {
     if (ctrl.value){
-      if (ctrl.value.includes('ON')){
+      if (ctrl.value.includes('ON')){ //Need to also ensure street numbers are present
         return null;
       }
       else {
@@ -108,21 +118,42 @@ export class RidesComponent implements OnInit{
 
   validateTime = (ctrl:AbstractControl):ValidationErrors | null => {
 
-    if (ctrl.value){}
+    this.selectedTime = ctrl.value;
 
     return null;
   }
 
   async onSubmit() {
     //TODO - submit the new ride to the API
+    let dateNoTime: string | undefined = this.selectedDate?.toISOString();
+    const dateParts = dateNoTime?.split('T');
+    var fullDate: Date | undefined;
+    if (dateParts) {
+      fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
+      console.log(fullDate);
+    }
+
+    const rideData = {
+      riders: [{riderID: this.user._id, pickupLocation: this.pickupLocation?.address?.toString()}],
+      dropOffLocatiion: this.dropoffLocation?.address?.toString(),
+      dateTime: fullDate, //need to add the time
+    }
+
+
     if (this.rideForm.invalid){
-      alert('❗ Bad form!\n'+ JSON.stringify(this.rideForm.value));
+      alert('❗ Invalid ride requsted ❗');
       return;
     }
-    else {
 
-      alert('✅ SUCCESS\n' + JSON.stringify(this.rideForm.value, null, 4));
-    }
+    this.rideService.registerRide(rideData).subscribe(
+      (response) => {
+        alert('✅ Your ride has been registered');
+        this.router.navigate(["/rides"]);
+      },
+      (err) => {
+        alert('❗ There was an issue registering the ride' + JSON.stringify(err));
+      }
+    )
     
   }
 }
