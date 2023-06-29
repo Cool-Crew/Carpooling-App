@@ -132,8 +132,18 @@ export class RidesComponent implements OnInit{
     }
 
     const rideData = {
-      riders: [{riderID: this.user._id, driverStartLocation: this.pickupLocation?.address?.toString()}],
-      dropoffLocation: this.dropoffLocation?.address,
+      riders: [{
+        riderID: this.user._id, 
+        pickupLocation: {
+          address: this.pickupLocation?.address, 
+          location: this.pickupLocation?.location,
+          name: this.pickupLocation?.name, 
+        }}],
+      dropoffLocation: {
+        address: this.dropoffLocation?.address,
+        location: this.dropoffLocation?.location,
+        name: this.dropoffLocation?.name,
+      },
       dateTime: fullDate,
     }
 
