@@ -19,6 +19,14 @@ export class RideService {
     return ;
   }
 
+  registerDriverToRide(rideId: any, driverData: any):Observable<any> {//Promise<{message: String} | undefined>{
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = {Authorization: `JWT ${token}`};
+      return this.http.post<{message:String}>(`${environment.userAPIBase}/rides/:${rideId}/driver`, {ride:rideId, newDriver: driverData}, { headers });
+    }
+    return new Observable();
+  }
 
   registerRide(rideData: any): Observable<any> {
     const token = this.auth.getToken();

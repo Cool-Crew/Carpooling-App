@@ -10,21 +10,29 @@ import { Router } from '@angular/router';
   template: `
     <div class="card">
       <div class="card-header">
-        <p>Ride._id: {{ ride?._id }}</p>
+        <p><b>Ride._id:</b> {{ ride?._id }}</p>
       </div>
       <div class="card-body" (click)="onRideClick()">
-        <p>Time: {{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
-        <p>Date: {{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{ rideDate?.getFullYear() }}</p>
-        <p>Capacity: {{ riderCount }}/3</p>
-        <p>Destination: {{ ride?.dropoffLocation?.address }}</p>
+        <p><b>Destination:</b> {{ ride?.dropoffLocation?.address }}</p>
+        <p><b>Capacity:</b> {{ riderCount }}/3</p>
+
+        <div class="time-date">
+          <label><b>Time:</b></label>
+          <p>{{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
+          <label><b>Date:</b></label>
+          <p>{{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{ rideDate?.getFullYear() }}</p>
+        </div>
+        
         <p></p>
-        <button *ngIf="needsDriver" (click)="onDriverNeededClick()">Driver Needed!</button>
+        <button *ngIf="needsDriver" (click)="onDriverNeededClick()">Offer To Drive</button>
         <button *ngIf="roomAvailable" (click)="onJoinRideClick()" >Join Ride</button>
       </div>
     </div>
   `
 })
 export class RideCardComponent implements OnInit {
+
+  user:any;
 
   rideDate: Date | undefined;
   riderCount: number | undefined;
@@ -46,6 +54,8 @@ export class RideCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user = this.authService.readToken();
+
     let dateTimeStr = this.ride?.dateTime;
     if (dateTimeStr) {
       this.rideDate = new Date(dateTimeStr);
@@ -69,7 +79,20 @@ export class RideCardComponent implements OnInit {
 
   onDriverNeededClick() {
     // TODO: set user as driver of the ride after confirming
-    alert('✅ Driver offered?');
+
+    this.rideService.registerDriverToRide(this.ride?._id, this.user?._id).subscribe(
+      (response) => {
+        console.log('✅')
+      },
+      (err) => {
+        console.log('❗')
+      }
+    )
+
+    alert(
+      `✅ You have offered to drive to:\n ${this.ride?.dropoffLocation?.address}\n` +
+      ``
+      );
   }
 
   onJoinRideClick() {

@@ -18,15 +18,14 @@ export class MapComponent implements OnInit {
   }
 
   //called when a user selects a ride to add pin
-  reInit(){
+  async reInit(){
 
     const mapOptions = {
       center: this.pinLocation,
-      //center: { lat: 43.79597128985944, lng: -79.34858107406576 }, // Set the initial center coordinates
       zoom: 14 // Set the initial zoom level
     };
 
-    this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    this.map = await new google.maps.Map(document.getElementById('map'), mapOptions);
 
     const pin = new google.maps.Marker({map: this.map, position: this.pinLocation})
   }
