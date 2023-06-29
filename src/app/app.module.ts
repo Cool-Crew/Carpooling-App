@@ -34,6 +34,7 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
 import { CreateRideComponent } from './create-ride/create-ride.component';
 import { PlaceValidatorDirective } from './place-validator.directive';
 import { AvailableRidesListComponent } from './available-rides-list/available-rides-list.component';
+import { RideCardComponent } from './ride-card/ride-card.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AvailableRidesListComponent } from './available-rides-list/available-ri
     CreateRideComponent,
     PlaceValidatorDirective,
     AvailableRidesListComponent,
+    RideCardComponent,
   ],
   imports: [
     BrowserModule,

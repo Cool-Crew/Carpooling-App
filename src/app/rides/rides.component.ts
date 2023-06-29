@@ -40,7 +40,7 @@ export class RidesComponent implements OnInit{
     private rideService: RideService,
     private authService: AuthService,
     private router: Router
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.user = this.authService.readToken();
@@ -124,19 +124,17 @@ export class RidesComponent implements OnInit{
   }
 
   async onSubmit() {
-    //TODO - submit the new ride to the API
     let dateNoTime: string | undefined = this.selectedDate?.toISOString();
     const dateParts = dateNoTime?.split('T');
     var fullDate: Date | undefined;
     if (dateParts) {
       fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
-      console.log(fullDate);
     }
 
     const rideData = {
       riders: [{riderID: this.user._id, pickupLocation: this.pickupLocation?.address?.toString()}],
-      dropOffLocatiion: this.dropoffLocation?.address?.toString(),
-      dateTime: fullDate, //need to add the time
+      dropoffLocatiion: this.dropoffLocation?.address,
+      dateTime: fullDate,
     }
 
 
