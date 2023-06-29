@@ -7,11 +7,34 @@
     transition: 0.3s;
     display: flex;
     flex-direction: column;
+    height:fit-content;
+}
+
+.card-header {
+    background-color:#96aac9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: .5em;
+    padding-top: .2em;
+}
+
+.card-body {
+    background-color:#c9d6eb;
+    padding-left: .5em;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.card button.leave {
+    background-color: rgb(211, 85, 85);
+}
+.card button.leave:hover {
+    background-color: rgb(201, 64, 64);
 }
 
 .card button {
     display: block;
-    width: 100%;
+    width: 90%;
     padding: .5em;
     background-color: #4caf50;
     color: #fff;
@@ -19,8 +42,9 @@
     border-radius: 2px;
     cursor: pointer;
     margin-bottom: .35em;
-    margin-left: .2em ;
-     margin-right:.2em;
+    margin-left: .5em ;
+    margin-right:.2em;
+    align-self: center;
 }
 
 .card button:hover {
