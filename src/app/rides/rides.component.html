@@ -74,11 +74,11 @@
           <!-- Buttons to be combined, new ride only present for dev -->
         </form>
 
-        <app-available-rides-list></app-available-rides-list>
+        <app-available-rides-list (passLocation)="recvLocation($event)"></app-available-rides-list>
       </div>
 
       <div class="map-container">
-        <app-map></app-map>
+        <app-map #map [pinLocation]="currPinLocation"></app-map>
       </div>
     </div>
   </body>

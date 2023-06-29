@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Ride } from '../Ride';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Ride, StopLocation } from '../Ride';
+import { RideService } from '../ride.service';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ride-card',
@@ -9,7 +12,7 @@ import { Ride } from '../Ride';
       <div class="card-header">
         <p>Ride._id: {{ ride?._id }}</p>
       </div>
-      <div class="card-body">
+      <div class="card-body" (click)="onRideClick()">
         <p>Time: {{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
         <p>Date: {{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{ rideDate?.getFullYear() }}</p>
         <p>Capacity: {{ riderCount }}/3</p>
@@ -27,8 +30,20 @@ export class RideCardComponent implements OnInit {
   riderCount: number | undefined;
   needsDriver: boolean | undefined = false;
   roomAvailable: boolean = false;
+  endLocation: StopLocation | undefined;
+  endLocationMarker: {lat: number, lng: number} | undefined;
 
   @Input() ride: Ride | undefined;
+  @Output() newRideEvent = new EventEmitter<{lat: number, lng: number}>();
+  emitLocation() {
+    this.newRideEvent.emit(this.endLocationMarker);
+  }
+
+  constructor(
+    private rideService: RideService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     let dateTimeStr = this.ride?.dateTime;
@@ -46,6 +61,10 @@ export class RideCardComponent implements OnInit {
     if (!this.ride?.driver) {
       this.needsDriver = true;
     }
+
+    this.endLocation = this.ride?.dropoffLocation;
+
+    this.endLocationMarker = this.endLocation?.location;
   }
 
   onDriverNeededClick() {
@@ -56,5 +75,9 @@ export class RideCardComponent implements OnInit {
   onJoinRideClick() {
     //TODO: set user as new rider after confirming
     alert('✅ Join ride?');
+  }
+
+  onRideClick() {
+    this.emitLocation();
   }
 }

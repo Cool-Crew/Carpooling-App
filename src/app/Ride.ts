@@ -16,7 +16,7 @@ export enum Status {
   Cancelled = "Cancelled",
 }
 
-class location {
+export class StopLocation {
   address: string = "";
   location: { lat: number; lng: number; } | undefined;
   name: string = "";
@@ -25,9 +25,9 @@ class location {
 export class Ride {
   _id: string = "";
   driver: string = "";
-  driverStartLocation: location | undefined;
+  driverStartLocation: StopLocation | undefined;
   riders: Rider[] = [];
-  dropoffLocation: location | undefined;
+  dropoffLocation: StopLocation | undefined;
   dateTime: Date | undefined;
   chat: Message[] = [];
   status: Status = Status.Not_Started;

@@ -1,4 +1,4 @@
 <div class="results-container">
-    <app-ride-card *ngFor="let ride of rides" [ride]="ride"></app-ride-card>
+    <app-ride-card *ngFor="let ride of rides" [ride]="ride" (newRideEvent)="rideSelected($event)"></app-ride-card>
     <!-- Want to place an updating stack of cards showing ride details here, scrolling list -->
 </div>

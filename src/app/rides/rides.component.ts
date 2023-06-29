@@ -4,6 +4,8 @@ import { RideService } from "../ride.service";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 
+import { MapComponent } from "../map/map.component";
+
 interface PlaceResult {
   address?: string;
   location?: google.maps.LatLng;
@@ -27,6 +29,8 @@ export class RidesComponent implements OnInit{
   selectedTime: string = "";
   riderDriver: string = "";
   searchRange: string = "";
+
+  currPinLocation:{lat:number, lng:number} | undefined;
   
   autocomplete: google.maps.places.Autocomplete | undefined;
   autocomplete2: google.maps.places.Autocomplete | undefined;
@@ -35,12 +39,19 @@ export class RidesComponent implements OnInit{
   puLocation!: ElementRef;
   @ViewChild('doLocation', {static: false})
   doLocation!: ElementRef;
+  @ViewChild('map', {static: false})
+  map!:MapComponent;
 
   constructor(
     private rideService: RideService,
     private authService: AuthService,
     private router: Router
   ) {}
+
+  recvLocation(location: {lat: number, lng: number}){
+    this.currPinLocation = location;
+    this.map.reInit();
+  }
 
   ngOnInit() {
     this.user = this.authService.readToken();
@@ -56,6 +67,8 @@ export class RidesComponent implements OnInit{
   }
 
   ngAfterViewInit() {
+
+    //console.log(this.map.map);
     this.autocomplete = new google.maps.places.Autocomplete(this.puLocation.nativeElement);
     this.autocomplete2 = new google.maps.places.Autocomplete(this.doLocation.nativeElement)
 
