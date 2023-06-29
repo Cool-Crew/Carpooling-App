@@ -157,6 +157,7 @@ export class RideCardComponent implements OnInit {
 
     this.reInit();
   }
+  
   onCancelDriveOfferClick(){
     console.log('🛸');
 
