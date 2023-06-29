@@ -43,7 +43,7 @@ export class RideCardComponent implements OnInit {
       }
     }
 
-    if (!this.ride?.dropoffLocation) {
+    if (!this.ride?.driver) {
       this.needsDriver = true;
     }
   }
