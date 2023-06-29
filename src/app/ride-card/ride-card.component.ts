@@ -54,6 +54,7 @@ export class RideCardComponent implements OnInit {
   }
 
   onJoinRideClick() {
+    //TODO: set user as new rider after confirming
     alert('✅ Join ride?');
   }
 }
