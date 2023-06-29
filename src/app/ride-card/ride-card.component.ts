@@ -13,7 +13,7 @@ import { Ride } from '../Ride';
         <p>Time: {{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
         <p>Date: {{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{ rideDate?.getFullYear() }}</p>
         <p>Capacity: {{ riderCount }}/3</p>
-        <!-- <p>Destination: {{ ride?.dropoffLocation }}</p> -->
+        <p>Destination: {{ ride?.dropoffLocation }}</p>
         <p></p>
         <button *ngIf="needsDriver" (click)="onDriverNeededClick()">Driver Needed!</button>
         <button *ngIf="roomAvailable" (click)="onJoinRideClick()" >Join Ride</button>
