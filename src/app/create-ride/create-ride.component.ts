@@ -27,8 +27,8 @@ export class CreateRideComponent {
   submitForm() {
     const rideData = {
       driver: this.user._id,
-      startLocation: this.startLocation,
-      dropOffLocation: this.dropOffLocation,
+      driverStartLocation: this.startLocation,
+      dropoffLocation: this.dropOffLocation,
       dateTime: new Date(this.dateTime),
     };
 
