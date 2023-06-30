@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-rating",
@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./rating.component.css"],
 })
 export class RatingComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
   rideId: number = 0;
   rideDate: string = "";
   rideStartLocation: string = "";
@@ -47,7 +47,7 @@ export class RatingComponent implements OnInit {
     // Here, you can access the selected rating and text feedback
     console.log("Rating: ", this.selectedStar);
     console.log("Text Feedback: ", this.textFeedback);
-
+    this.router.navigate(["/rideFeedback"]);
     // Further logic for submitting the feedback can be added here
   }
 }
