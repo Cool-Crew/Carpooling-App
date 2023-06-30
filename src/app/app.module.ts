@@ -31,6 +31,8 @@ import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+import { RideListComponent } from "./ride-list/ride-list.component";
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
     HomeComponent,
     MapComponent,
     PreferenceMgmtComponent,
+    RideListComponent,
+    RatingComponent,
   ],
   imports: [
     BrowserModule,

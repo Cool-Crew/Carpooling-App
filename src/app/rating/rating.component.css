@@ -1,0 +1,62 @@
+div {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+.star {
+  font-size: 350%;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.selected,
+.hovered {
+  font-size: 400%;
+  color: orange;
+}
+
+.large-textarea {
+  height: 200px;
+  width: 50%;
+  resize: none;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rating {
+  justify-content: center;
+  margin-bottom: 3%;
+  display: flex;
+  font-size: x-large;
+  align-items: baseline;
+}
+
+.textarea-container {
+  justify-content: center;
+  display: flex;
+  align-items: baseline;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.custom-button:hover {
+  cursor: pointer;
+}
+.custom-button {
+  padding: 10px 20px; /* Adjust the padding as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+  border-radius: 8px; /* Adjust the border radius as needed */
+  border: none;
+  background-color: #007bff; /* Set the desired background color */
+  color: #fff; /* Set the desired text color */
+}
