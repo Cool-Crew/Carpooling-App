@@ -32,7 +32,7 @@ const routes: Routes = [
     component: UpdateComponent,
     canActivate: [GuardAuthService],
   },
-  { path: "home", component: HomeComponent, canActivate: [GuardAuthService] },
+  { path: "home", component: HomeComponent, canActivate: [GuardAuthService] },  
   {
     path: "preference-mgmt",
     component: PreferenceMgmtComponent,
