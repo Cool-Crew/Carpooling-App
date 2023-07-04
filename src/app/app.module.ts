@@ -4,13 +4,16 @@ import { HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from 'ngx-toastr';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { StreamChatModule, StreamAutocompleteTextareaModule } from 'stream-chat-angular';
+import { NotificationsService } from "./notifications.service";
 
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -53,8 +56,10 @@ import { ChatComponent } from './chat/chat.component';
   ],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     MatIconModule,
     MatSidenavModule,
     MatProgressBarModule,
@@ -75,7 +80,7 @@ import { ChatComponent } from './chat/chat.component';
     StreamAutocompleteTextareaModule, 
     StreamChatModule,
   ],
-  providers: [],
+  providers: [NotificationsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

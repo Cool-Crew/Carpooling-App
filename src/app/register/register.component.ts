@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { first } from "rxjs";
 import { AuthService } from "../auth.service";
 import RegisterUser from "../RegisterUser";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
 
 @Component({
   selector: "app-register",
@@ -14,7 +16,7 @@ export class RegisterComponent implements OnInit {
   success = false;
   loading = false;
 
-  constructor(private aservice: AuthService) {}
+  constructor(private aservice: AuthService, private toastr: ToastrService, private notificationsService: NotificationsService) {}
 
   onSubmit() {
     if (
@@ -30,6 +32,8 @@ export class RegisterComponent implements OnInit {
       this.aservice.register(this.registerUser).subscribe(
         (data) => {
           this.success = true;
+          this.toastr.success("Account created successfully!")
+          this.notificationsService.addNotification("Welcome Aboard!");
           this.warning = "";
           this.loading = false;
           console.log(data);

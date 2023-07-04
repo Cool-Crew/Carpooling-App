@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
 
 @Component({
   selector: "app-preference-mgmt",
@@ -18,7 +20,7 @@ export class PreferenceMgmtComponent {
   availableClasses: string[] = ["Class A", "Class B", "Class C"];
   availableInterests: string[] = ["Interest 1", "Interest 2", "Interest 3"];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
 
   addClass() {
     if (this.selectedClass) {
@@ -57,6 +59,9 @@ export class PreferenceMgmtComponent {
       (response) => {
         console.log("User data updated successfully:", response);
         this.updateStatus = "Data updated successfully.";
+        this.toastr.success("preferences saved");
+        this.notificationsService.addNotification("Hobbies Updated");    
+
         // Refresh token
         this.authService.refreshToken().subscribe(
           (refreshResponse) => {
