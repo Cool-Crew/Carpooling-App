@@ -44,7 +44,7 @@ export class RideCardComponent implements OnInit {
   endLocation: StopLocation | undefined;
   endLocationMarker: {lat: number, lng: number} | undefined;
   userCanJoin: boolean = true;
-  userCanDrive: boolean = false;
+  userCanDrive: boolean = true;
   userIsDriver: boolean = false;
 
   @Input() ride: Ride | undefined;
@@ -86,10 +86,9 @@ export class RideCardComponent implements OnInit {
     }
 
     //checks if ride has a driver
-    if (!this.ride?.driver) {
-      this.needsDriver = true;
-    } 
-    else {
+    if (this.ride?.driver) {
+      this.needsDriver = false;
+
       if(this.ride?.driver === this.user._id){
         this.userCanDrive = false;
         this.userIsDriver = true;
@@ -98,6 +97,7 @@ export class RideCardComponent implements OnInit {
 
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
+
   }
 
   reInit(){
@@ -139,8 +139,6 @@ export class RideCardComponent implements OnInit {
   }
 
   onRideClick() {
-    console.log(this.ride);
-    console.log(this)
     this.emitLocation();
   }
 
@@ -160,6 +158,14 @@ export class RideCardComponent implements OnInit {
   
   onCancelDriveOfferClick(){
     console.log('🛸');
+    this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
+      (response) => {
+        console.log('✅')
+      },
+      (err) => {
+        console.log('❗')
+      }
+    )
 
     this.reInit();
   }

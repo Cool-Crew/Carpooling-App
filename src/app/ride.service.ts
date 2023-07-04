@@ -39,6 +39,16 @@ export class RideService {
     return new Observable();
   }
 
+  rmDriverFromRide(rideId: any):Observable<any> {
+    const token = this.auth.getToken();
+    if (token){
+      const headers = {Authorization: `JWT ${token}`};
+      return this.http.delete<{message:String}>(`${environment.userAPIBase}/rides/${rideId}/driver`, { headers });
+    }
+
+    return new Observable();
+  }
+
   registerRidertoRide(rideId: any, riderId: any):Observable<any>{
     const token = this.auth.getToken();
     if (token) {
