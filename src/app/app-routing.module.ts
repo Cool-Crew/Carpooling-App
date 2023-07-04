@@ -10,6 +10,7 @@ import { AccInfoComponent } from "./acc-info/acc-info.component";
 import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+import { ChatComponent } from "./chat/chat.component";
 
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
@@ -37,6 +38,10 @@ const routes: Routes = [
     path: "preference-mgmt",
     component: PreferenceMgmtComponent,
     canActivate: [GuardAuthService],
+  },
+  {
+    path: "chat",
+    component: ChatComponent,
   },
 ];
 

@@ -9,6 +9,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { TranslateModule } from '@ngx-translate/core';
+import { StreamChatModule, StreamAutocompleteTextareaModule } from 'stream-chat-angular';
+
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
@@ -31,6 +34,7 @@ import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,7 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
     HomeComponent,
     MapComponent,
     PreferenceMgmtComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +70,10 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
     HttpClientModule,
     FormsModule,
     MatSnackBarModule,
+    BrowserModule, 
+    TranslateModule.forRoot(), 
+    StreamAutocompleteTextareaModule, 
+    StreamChatModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
