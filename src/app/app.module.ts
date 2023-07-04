@@ -16,6 +16,7 @@ import {
   StreamChatModule,
   StreamAutocompleteTextareaModule,
 } from "stream-chat-angular";
+
 import { NotificationsService } from "./notifications.service";
 
 import { MatIconModule } from "@angular/material/icon";
@@ -40,9 +41,11 @@ import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+
 import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
+
 
 @NgModule({
   declarations: [
