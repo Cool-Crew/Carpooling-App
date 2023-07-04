@@ -1,76 +1,4 @@
 <mat-card>
-<<<<<<< HEAD
-    <mat-card-content>
-      <form (ngSubmit)="onSubmit()">
-        <h2>Log In</h2>
-        <mat-error *ngIf="warning != null">{{ warning }}</mat-error><br />
-        <mat-form-field class="full-width-input">
-          <input
-            matInput
-            placeholder="Email"
-            name="email"
-            [(ngModel)]="user.email"
-            required
-            autofocus
-          />
-          <mat-error>Please provide a valid email</mat-error>
-        </mat-form-field><br />
-        <mat-form-field class="full-width-input">
-          <input
-            matInput
-            type="password"
-            placeholder="Password"
-            name="password"
-            [(ngModel)]="user.password"
-            required
-          />
-          <mat-error>Please provide a valid password</mat-error>
-        </mat-form-field><br />
-        <button
-          mat-raised-button
-          color="accent"
-          type="submit"
-          *ngIf="loading === false"
-        >
-          <mat-icon>login</mat-icon>
-          <span>&nbsp;&nbsp;&nbsp;Login</span>
-        </button>
-        <button
-          *ngIf="loading"
-          [disabled]="loading"
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loading"
-        >
-          <mat-icon>account_box</mat-icon>
-          <span>&nbsp;&nbsp;&nbsp;Processing Request</span>
-        </button>
-        &nbsp;&nbsp;
-        <button
-          mat-raised-button
-          color="primary"
-          routerLink="/register"
-          routerLinkActive="active"
-        >
-          <mat-icon>account_box</mat-icon>
-          <span>&nbsp;&nbsp;&nbsp;Register</span>
-        </button>
-
-        <button
-          style="margin-top: 20px;"
-          mat-button
-          routerLink="/password-reset"
-          routerLinkActive="active"
-        >
-          <mat-icon>lock_open</mat-icon>
-          <span>&nbsp;&nbsp;&nbsp;Forgot Password?</span>
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-  
-=======
   <mat-card-content>
     <form (ngSubmit)="onSubmit()">
       <h2>Log In</h2>
@@ -131,4 +59,3 @@
     </form>
   </mat-card-content>
 </mat-card>
->>>>>>> fc51aef28344a3783d0ae85dc110be4c400feed2
