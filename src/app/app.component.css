@@ -6,3 +6,72 @@ p {
   margin: 0;
 }
 
+.notification-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.notifications-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  max-height: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+@media (max-width: 576px) {
+  /* Adjust the width for smaller screens, like iPhones */
+  .notifications-menu {
+    width: 250px;
+  }
+}
+
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.notification-icon {
+  margin-right: 10px;
+  font-size: 13px;
+  color: #333;
+}
+
+.notification-details {
+  flex: 1;
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+.notification-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.notification-message {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+#topbell{
+  font-size: 17px;
+  color:antiquewhite;
+}
+
+
