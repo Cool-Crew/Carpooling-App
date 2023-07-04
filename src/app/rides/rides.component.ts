@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./rides.component.css']
 })
 export class RidesComponent {
+  ride = {
 
+  }
 }
+
+

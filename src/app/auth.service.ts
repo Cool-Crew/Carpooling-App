@@ -1,28 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from './../environments/environment';
-import jwt_decode from 'jwt-decode';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, tap } from "rxjs";
+import { environment } from "./../environments/environment";
+import jwt_decode from "jwt-decode";
 
-import User from './User';
-import RegisterUser from './RegisterUser';
+import User from "./User";
+import RegisterUser from "./RegisterUser";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-  constructor( private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getToken(): string | null {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem("access_token");
   }
 
-  public setToken(token: string): void{
-    localStorage.setItem('access_token', token);
+  public setToken(token: string): void {
+    localStorage.setItem("access_token", token);
   }
 
   public readToken(): User | null {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
 
     if (token) {
       return jwt_decode(token);
@@ -30,9 +30,9 @@ export class AuthService {
       return null;
     }
   }
-   
+
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (token) {
       return true;
     } else {
@@ -45,11 +45,14 @@ export class AuthService {
   }
 
   public logout() {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem("access_token");
   }
 
   register(registerUser: RegisterUser): Observable<any> {
-    return this.http.post<any>(`${environment.userAPIBase}/register`, registerUser);
+    return this.http.post<any>(
+      `${environment.userAPIBase}/register`,
+      registerUser
+    );
   }
 
   getAccountInfo(): Observable<any> {
@@ -57,21 +60,38 @@ export class AuthService {
     if (token) {
       const headers = { Authorization: `Bearer ${token}` };
       return this.http.get<any>(`${environment.userAPIBase}/account`, {
-        headers
+        headers,
       });
     }
     return new Observable();
   }
 
   update(userData: any): Observable<any> {
-  const token = this.getToken();
-  if (token) {
-    const headers = { Authorization: `JWT ${token}` };
-    console.log('Sending update request with data:', userData);
-    return this.http.put<any>(`${environment.userAPIBase}/update`, userData, {
-      headers
-    });
+    const token = this.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      console.log("Sending update request with data:", userData);
+      return this.http.put<any>(`${environment.userAPIBase}/update`, userData, {
+        headers,
+      });
+    }
+    return new Observable();
   }
-  return new Observable();
-}
+
+  refreshToken(): Observable<any> {
+    const token = this.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http
+        .get<any>(`${environment.userAPIBase}/refresh-token`, { headers })
+        .pipe(
+          tap((response) => {
+            if (response.token) {
+              this.setToken(response.token);
+            }
+          })
+        );
+    }
+    return new Observable();
+  }
 }

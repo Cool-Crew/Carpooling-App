@@ -1,37 +1,40 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
+import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
+import { TranslateModule } from '@ngx-translate/core';
+import { StreamChatModule, StreamAutocompleteTextareaModule } from 'stream-chat-angular';
 
+import { MatIconModule } from "@angular/material/icon";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatListModule } from "@angular/material/list";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
+import { MatChipsModule } from "@angular/material/chips";
 
-import { AboutComponent } from './about/about.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { RidesComponent } from './rides/rides.component';
-import { RoutesComponent } from './routes/routes.component';
-import { AccInfoComponent } from './acc-info/acc-info.component';
-import { UpdateComponent } from './update/update.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
+import { AboutComponent } from "./about/about.component";
+import { RegisterComponent } from "./register/register.component";
+import { LoginComponent } from "./login/login.component";
+import { RidesComponent } from "./rides/rides.component";
+import { RoutesComponent } from "./routes/routes.component";
+import { AccInfoComponent } from "./acc-info/acc-info.component";
+import { UpdateComponent } from "./update/update.component";
+import { HomeComponent } from "./home/home.component";
+import { MapComponent } from "./map/map.component";
+import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -43,13 +46,15 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     RoutesComponent,
     AccInfoComponent,
     UpdateComponent,
-    PasswordResetComponent,
-    ResetPasswordComponent
+    HomeComponent,
+    MapComponent,
+    PreferenceMgmtComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     MatIconModule,
     MatSidenavModule,
     MatProgressBarModule,
@@ -64,9 +69,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatChipsModule,
     HttpClientModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    BrowserModule, 
+    TranslateModule.forRoot(), 
+    StreamAutocompleteTextareaModule, 
+    StreamChatModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

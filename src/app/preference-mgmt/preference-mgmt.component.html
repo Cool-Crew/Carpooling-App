@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="left-panel">
+    <div class="add-section">
+      <h2>Add Class</h2>
+      <div>
+        <select [(ngModel)]="selectedClass">
+          <option value="" disabled selected>Select a class</option>
+          <option
+            *ngFor="let classItem of availableClasses"
+            [value]="classItem"
+          >
+            {{ classItem }}
+          </option>
+        </select>
+        <button (click)="addClass()">Add Class</button>
+        <p class="error-message" *ngIf="isClassFieldEmpty">
+          Please select a class.
+        </p>
+      </div>
+    </div>
+    <br />
+    <div class="table-container">
+      <table *ngIf="user.classes.length > 0">
+        <tr *ngFor="let classItem of user.classes; let i = index">
+          <td>{{ classItem }}</td>
+          <td><button (click)="removeClass(i)">Remove</button></td>
+        </tr>
+      </table>
+      <div class="table-outline" *ngIf="user.classes.length === 0"></div>
+    </div>
+  </div>
+
+  <div class="middle-panel">
+    <div class="add-section">
+      <h2>Add Interest</h2>
+      <div>
+        <select [(ngModel)]="selectedInterest">
+          <option value="" disabled selected>Select an interest</option>
+          <option
+            *ngFor="let interest of availableInterests"
+            [value]="interest"
+          >
+            {{ interest }}
+          </option>
+        </select>
+        <button (click)="addInterest()">Add Interest</button>
+        <p class="error-message" *ngIf="isInterestFieldEmpty">
+          Please select an interest.
+        </p>
+      </div>
+    </div>
+    <br />
+    <div class="table-container">
+      <table *ngIf="user.interests.length > 0">
+        <tr *ngFor="let interest of user.interests; let i = index">
+          <td>{{ interest }}</td>
+          <td><button (click)="removeInterest(i)">Remove</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="right-panel">
+    <button mat-raised-button color="accent" type="submit" (click)="onSubmit()">
+      <mat-icon>save</mat-icon>
+      <span>&nbsp;Save</span>
+    </button>
+    <p class="status-message">{{ updateStatus }}</p>
+  </div>
+</div>

@@ -5,12 +5,11 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <a class="navbar-brand" matTooltip="Home">
+    <a class="navbar-brand" matTooltip="Home" routerLink="/home">
       <h1>Carpooling App</h1>
     </a>
 
     <span class="navbar-spacer"></span>
-
     <button
       mat-button
       *ngIf="token != undefined"
@@ -30,6 +29,11 @@
       <a mat-menu-item routerLink="/acc-info" routerLinkActive="active">
         <mat-icon>account_box</mat-icon>
         <span>Account Info</span>
+      </a>
+
+      <a mat-menu-item routerLink="/preference-mgmt" routerLinkActive="active">
+        <mat-icon>account_circle</mat-icon>
+        <span>Account Preferences</span>
       </a>
 
       <a mat-menu-item (click)="logout()">
@@ -55,6 +59,10 @@
 
         <a mat-list-item>
           <p mat-line routerLink="/routes" routerLinkActive="active">Routes</p>
+        </a>
+
+        <a mat-list-item>
+          <p mat-line routerLink="/chat" routerLinkActive="active">Messages</p>
         </a>
 
         <mat-divider></mat-divider>
