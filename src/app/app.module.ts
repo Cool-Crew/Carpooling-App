@@ -29,6 +29,8 @@ import { RidesComponent } from './rides/rides.component';
 import { RoutesComponent } from './routes/routes.component';
 import { AccInfoComponent } from './acc-info/acc-info.component';
 import { UpdateComponent } from './update/update.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { UpdateComponent } from './update/update.component';
     RidesComponent,
     RoutesComponent,
     AccInfoComponent,
-    UpdateComponent
+    UpdateComponent,
+    PasswordResetComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
