@@ -12,7 +12,10 @@ import { AccInfoComponent } from "./acc-info/acc-info.component";
 import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+
+import { CreateRideComponent } from "./create-ride/create-ride.component";
 import { ChatComponent } from "./chat/chat.component";
+
 
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
@@ -36,6 +39,11 @@ const routes: Routes = [
     canActivate: [GuardAuthService],
   },
   { path: "home", component: HomeComponent, canActivate: [GuardAuthService] },
+  {
+    path: "create-ride",
+    component: CreateRideComponent,
+    canActivate: [GuardAuthService],
+  },
   {
     path: "preference-mgmt",
     component: PreferenceMgmtComponent,
