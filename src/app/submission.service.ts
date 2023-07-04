@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class NotificationService {
+export class SubmissionService {
   private notificationSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>("");
   public notification$: Observable<string> =

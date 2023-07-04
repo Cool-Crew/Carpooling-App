@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NotificationService } from "../notification.service";
+import { SubmissionService } from "../submission.service";
 
 @Component({
   selector: "app-rating",
@@ -11,7 +11,7 @@ export class RatingComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: SubmissionService
   ) {}
   rideId: number = 0;
   rideDate: string = "";

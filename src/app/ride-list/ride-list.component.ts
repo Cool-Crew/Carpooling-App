@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { NotificationService } from "../notification.service";
+import { SubmissionService } from "../submission.service";
 
 interface Ride {
   id: number;
@@ -31,7 +31,7 @@ export class RideListComponent implements OnInit {
   ];
   notificationMessage: string = "";
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: SubmissionService) {}
 
   ngOnInit() {
     this.notificationService.notification$.subscribe((message) => {
