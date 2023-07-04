@@ -39,7 +39,7 @@ export class RideCardComponent implements OnInit {
 
   rideDate: Date | undefined;
   riderCount: number | undefined;
-  needsDriver: boolean | undefined = false;
+  needsDriver: boolean | undefined = true;
   roomAvailable: boolean = true;
   endLocation: StopLocation | undefined;
   endLocationMarker: {lat: number, lng: number} | undefined;
@@ -97,6 +97,8 @@ export class RideCardComponent implements OnInit {
 
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
+
+    console.log(this);
 
   }
 
