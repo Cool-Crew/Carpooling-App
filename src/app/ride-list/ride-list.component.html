@@ -1,5 +1,9 @@
 <h1>Ride List</h1>
-
+<div class="notification-container">
+  <div class="notification" *ngIf="notificationMessage">
+    {{ notificationMessage }}
+  </div>
+</div>
 <div class="ride-container">
   <a
     *ngFor="let ride of rides"

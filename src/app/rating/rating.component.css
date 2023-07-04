@@ -60,3 +60,8 @@ div {
   background-color: #007bff; /* Set the desired background color */
   color: #fff; /* Set the desired text color */
 }
+.error-message {
+  display: flex;
+  justify-content: center;
+  color: #f52828;
+}

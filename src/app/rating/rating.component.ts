@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NotificationService } from "../notification.service";
 
 @Component({
   selector: "app-rating",
@@ -7,12 +8,17 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./rating.component.css"],
 })
 export class RatingComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
   rideId: number = 0;
   rideDate: string = "";
   rideStartLocation: string = "";
   rideEndLocation: string = "";
   textFeedback: string = "";
+  errorMessage: string = "";
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.rideId = +params["id"];
@@ -44,10 +50,17 @@ export class RatingComponent implements OnInit {
     this.ratingChange.emit(rating);
   }
   submitFeedback(): void {
-    // Here, you can access the selected rating and text feedback
+    if (this.selectedStar === 0) {
+      // A star rating has not been selected, show error message
+      this.errorMessage = "Please select a star rating.";
+      return;
+    }
     console.log("Rating: ", this.selectedStar);
     console.log("Text Feedback: ", this.textFeedback);
     this.router.navigate(["/rideFeedback"]);
+    this.notificationService.showNotification(
+      "Feedback submitted successfully."
+    );
     // Further logic for submitting the feedback can be added here
   }
 }
