@@ -11,24 +11,38 @@
 
     <span class="navbar-spacer"></span>
 
-      <!-- ***************************************************************************** --> 
+    <!-- ***************************************************************************** -->
 
     <div class="notification-icon">
-      <fa-icon *ngIf="token != undefined" id="topbell" [icon]="faBell" (click)="toggleNotifications()" (document:click)="onDocumentClick($event)"></fa-icon>
+      <fa-icon
+        *ngIf="token != undefined"
+        id="topbell"
+        [icon]="faBell"
+        (click)="toggleNotifications()"
+        (document:click)="onDocumentClick($event)"
+      ></fa-icon>
       <div class="notifications-menu" *ngIf="showNotifications">
         <ul class="notifications-list">
           <li *ngFor="let not of fnotifs" class="notification-item">
-            <fa-icon class="notification-icon" [icon]="faTimes" (click)="removeNotification(not)"></fa-icon>
+            <fa-icon
+              class="notification-icon"
+              [icon]="faTimes"
+              (click)="removeNotification(not)"
+            ></fa-icon>
             <div class="notification-details">
               <h4 class="notification-title">{{ not }}</h4>
               <ng-container *ngIf="not === 'Welcome Back!'">
                 <p class="notification-message">Get ready for a ride 🚗</p>
               </ng-container>
               <ng-container *ngIf="not === 'Hobbies Updated'">
-                <p class="notification-message">Your Preferences were updates.</p>
+                <p class="notification-message">
+                  Your Preferences were updates.
+                </p>
               </ng-container>
               <ng-container *ngIf="not === 'Information updated'">
-                <p class="notification-message">Your account information was updated.</p>
+                <p class="notification-message">
+                  Your account information was updated.
+                </p>
               </ng-container>
               <!-- <ng-container *ngIf="not !== 'Information updated' && not !== 'Something else'">
                 <p class="notification-message">Default notification message</p>
@@ -39,8 +53,6 @@
         </ul>
       </div>
     </div>
-    
-    
     <button
       mat-button
       *ngIf="token != undefined"
@@ -92,6 +104,11 @@
           <p mat-line routerLink="/routes" routerLinkActive="active">Routes</p>
         </a>
 
+        <a mat-list-item>
+          <p mat-line routerLink="/rideFeedback" routerLinkActive="active">
+            Feedback
+          </p>
+        </a>
         <a mat-list-item>
           <p mat-line routerLink="/chat" routerLinkActive="active">Messages</p>
         </a>

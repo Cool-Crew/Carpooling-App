@@ -1,0 +1,24 @@
+<h1>Ride List</h1>
+<div class="notification-container">
+  <div class="notification" *ngIf="notificationMessage">
+    {{ notificationMessage }}
+  </div>
+</div>
+<div class="ride-container">
+  <a
+    *ngFor="let ride of rides"
+    [routerLink]="'/rating/' + ride.id"
+    [queryParams]="{
+      date: ride.date,
+      startLocation: ride.startLocation,
+      endLocation: ride.endLocation
+    }"
+    class="ride-card"
+  >
+    <div class="ride-details">
+      <p>Date: {{ ride.date }}</p>
+      <p>Start Location: {{ ride.startLocation }}</p>
+      <p>End Location: {{ ride.endLocation }}</p>
+    </div>
+  </a>
+</div>
