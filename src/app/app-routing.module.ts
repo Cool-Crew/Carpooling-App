@@ -6,11 +6,16 @@ import { RegisterComponent } from "./register/register.component";
 import { LoginComponent } from "./login/login.component";
 import { RidesComponent } from "./rides/rides.component";
 import { RoutesComponent } from "./routes/routes.component";
+import { RatingComponent } from "./rating/rating.component";
+import { RideListComponent } from "./ride-list/ride-list.component";
 import { AccInfoComponent } from "./acc-info/acc-info.component";
 import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
+
 import { CreateRideComponent } from "./create-ride/create-ride.component";
+import { ChatComponent } from "./chat/chat.component";
+
 
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
@@ -43,6 +48,20 @@ const routes: Routes = [
     path: "preference-mgmt",
     component: PreferenceMgmtComponent,
     canActivate: [GuardAuthService],
+  },
+  {
+    path: "rideFeedback",
+    component: RideListComponent,
+    canActivate: [GuardAuthService],
+  },
+  {
+    path: "rating/:id",
+    component: RatingComponent,
+    canActivate: [GuardAuthService],
+  },
+  {
+    path: "chat",
+    component: ChatComponent,
   },
 ];
 

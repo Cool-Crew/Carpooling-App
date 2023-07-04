@@ -2,6 +2,9 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
+
 
 @Component({
   selector: "app-update",
@@ -25,7 +28,7 @@ export class UpdateComponent {
   success = false;
   loading = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
 
   ngOnInit(): void {
     this.user = this.authService.readToken();
@@ -37,10 +40,16 @@ export class UpdateComponent {
   }
   onSubmit() {
     if (this.updateForm.valid) {
+      const enteredEmail = this.updateForm.value.email;
+      const currentUserEmail = this.user.email;
+
+      if (enteredEmail === currentUserEmail) {
       this.loading = true;
       this.authService.update(this.updateForm.value).subscribe(
         (success) => {
           this.success = true;
+          this.toastr.success("Account Updated")
+          this.notificationsService.addNotification("Information updated");
           this.warning = "";
           this.loading = false;
 
@@ -53,6 +62,12 @@ export class UpdateComponent {
               console.error("Error refreshing token:", refreshError);
             }
           );
+
+           // Redirect to home page after 2 seconds
+        setTimeout(() => {
+          this.router.navigate(["/home"]);
+        }, 1500);
+
         },
         (err) => {
           this.success = false;
@@ -60,6 +75,10 @@ export class UpdateComponent {
           this.loading = false;
         }
       );
+    } else {
+      this.success = false;
+      this.warning = "Email does not match the current user's email.";
     }
   }
+}
 }

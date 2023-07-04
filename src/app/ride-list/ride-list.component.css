@@ -1,0 +1,30 @@
+.ride-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ride-container > a {
+  text-decoration: none;
+  color: inherit;
+}
+.ride-card,
+.notification {
+  width: 300px;
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.notification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notification {
+  color: green;
+}
+.ride-details {
+  text-align: left;
+}
