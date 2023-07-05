@@ -1,16 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Ride, StopLocation } from '../Ride';
-import { RideService } from '../ride.service';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Ride, StopLocation } from "../Ride";
+import { RideService } from "../ride.service";
+import { AuthService } from "../auth.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-ride-card',
-  styleUrls: ['./ride-card.component.css'],
+  selector: "app-ride-card",
+  styleUrls: ["./ride-card.component.css"],
   template: `
     <div class="card">
       <div class="card-header">
-      <p><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
+        <p><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
       </div>
 
       <div class="card-body" (click)="onRideClick()">
@@ -21,34 +21,59 @@ import { Router } from '@angular/router';
           <label><b>Time:</b></label>
           <p>{{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
           <label><b>Date:</b></label>
-          <p>{{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{ rideDate?.getFullYear() }}</p>
+          <p>
+            {{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{
+              rideDate?.getFullYear()
+            }}
+          </p>
         </div>
-        
+
         <p></p>
-        <button *ngIf="needsDriver && userCanDrive" (click)="onDriverNeededClick()">Offer To Drive</button>
-        <button *ngIf="roomAvailable && userCanJoin" (click)="onJoinRideClick()" >Join Ride</button>
-        <button class="leave" *ngIf="!userCanJoin && !userCanDrive" (click)="onLeaveRideClick()">Leave Ride</button>
-        <button class="leave" *ngIf="userIsDriver" (click)="onCancelDriveOfferClick()">Cancel Drive Offer</button>
+        <button
+          *ngIf="needsDriver && userCanDrive"
+          (click)="onDriverNeededClick()"
+        >
+          Offer To Drive
+        </button>
+        <button
+          *ngIf="roomAvailable && userCanJoin"
+          (click)="onJoinRideClick()"
+        >
+          Join Ride
+        </button>
+        <button
+          class="leave"
+          *ngIf="!userCanJoin && !userCanDrive"
+          (click)="onLeaveRideClick()"
+        >
+          Leave Ride
+        </button>
+        <button
+          class="leave"
+          *ngIf="userIsDriver"
+          (click)="onCancelDriveOfferClick()"
+        >
+          Cancel Drive Offer
+        </button>
       </div>
     </div>
-  `
+  `,
 })
 export class RideCardComponent implements OnInit {
-
-  user:any;
+  user: any;
 
   rideDate: Date | undefined;
   riderCount: number | undefined;
   needsDriver: boolean | undefined = true;
   roomAvailable: boolean = true;
   endLocation: StopLocation | undefined;
-  endLocationMarker: {lat: number, lng: number} | undefined;
+  endLocationMarker: { lat: number; lng: number } | undefined;
   userCanJoin: boolean = true;
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
 
   @Input() ride: Ride | undefined;
-  @Output() newRideEvent = new EventEmitter<{lat: number, lng: number}>();
+  @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);
   }
@@ -69,16 +94,16 @@ export class RideCardComponent implements OnInit {
 
     //check if room is available to join, remove join button if not
     this.riderCount = this.ride?.riders?.length;
-    if (this.riderCount){
-      if (this.riderCount >= 3){
+    if (this.riderCount) {
+      if (this.riderCount >= 3) {
         this.roomAvailable = false;
       }
     }
 
     //check if user is already involved in ride, no buttons if so
     if (this.ride?.riders) {
-      for (const rider of this.ride?.riders){
-        if (rider.riderID === this.user._id){
+      for (const rider of this.ride?.riders) {
+        if (rider.riderID === this.user._id) {
           this.userCanJoin = false;
           this.userCanDrive = false;
         }
@@ -89,7 +114,7 @@ export class RideCardComponent implements OnInit {
     if (this.ride?.driver) {
       this.needsDriver = false;
 
-      if(this.ride?.driver === this.user._id){
+      if (this.ride?.driver === this.user._id) {
         this.userCanDrive = false;
         this.userIsDriver = true;
       }
@@ -99,44 +124,48 @@ export class RideCardComponent implements OnInit {
     this.endLocationMarker = this.endLocation?.location;
 
     console.log(this);
-
   }
 
-  reInit(){
+  reInit() {
     this.ngOnInit();
   }
 
+  //Add a driver to the ride
   onDriverNeededClick() {
-
-    this.rideService.registerDriverToRide(this.ride?._id, this.user?._id).subscribe(
-      (response) => {
-        console.log('✅')
-      },
-      (err) => {
-        console.log('❗')
-      }
-    )
+    this.rideService
+      .registerDriverToRide(this.ride?._id, this.user?._id)
+      .subscribe(
+        (response) => {
+          console.log("✅");
+        },
+        (err) => {
+          console.log("❗");
+        }
+      );
 
     alert(
       `✅ You have offered to drive to:\n ${this.ride?.dropoffLocation?.address}\n` +
-      ``
+        ``
     );
     this.reInit();
-    
   }
 
+  //Add a rider to the ride
   onJoinRideClick() {
+    this.rideService
+      .registerRidertoRide(this.ride?._id, this.user?._id)
+      .subscribe(
+        (response) => {
+          console.log("✅");
+        },
+        (err) => {
+          console.log("❗");
+        }
+      );
 
-    this.rideService.registerRidertoRide(this.ride?._id, this.user?._id).subscribe(
-      (response) => {
-        console.log('✅')
-      },
-      (err) => {
-        console.log('❗')
-      }
-    )
-
-    alert(`✅ You have joined the ride to '${this.ride?.dropoffLocation?.address}'`);
+    alert(
+      `✅ You have joined the ride to '${this.ride?.dropoffLocation?.address}'`
+    );
     this.reInit();
   }
 
@@ -144,30 +173,31 @@ export class RideCardComponent implements OnInit {
     this.emitLocation();
   }
 
+  //Remove a rider from the ride (if they are a driver, they can't leave)
   onLeaveRideClick() {
-    console.log('👋');
+    console.log("👋");
     this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
       (response) => {
-        console.log('✅')
+        console.log("✅");
       },
       (err) => {
-        console.log('❗')
+        console.log("❗");
       }
-    )
+    );
 
     this.reInit();
   }
-  
-  onCancelDriveOfferClick(){
-    console.log('🛸');
+
+  onCancelDriveOfferClick() {
+    console.log("🛸");
     this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
       (response) => {
-        console.log('✅')
+        console.log("✅");
       },
       (err) => {
-        console.log('❗')
+        console.log("❗");
       }
-    )
+    );
 
     this.reInit();
   }
