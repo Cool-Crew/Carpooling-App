@@ -1,12 +1,16 @@
-<html>
-<head>
-    <title>Rides</title>
-    
-</head>
-<body>
-    <p>rides works!</p>
-    <app-map></app-map>
-</body>
-</html>
+s
+<button (click)="createFakeRide()">Create a fake ride</button>
 
-
+<div *ngIf="rides.length > 0">
+  <h2>Available Rides</h2>
+  <ul>
+    <li *ngFor="let ride of rides">
+      <p>Ride ID: {{ ride._id }}</p>
+      <p>Driver: {{ ride.driver }}</p>
+      <p>Start Location: {{ ride.driverStartLocation }}</p>
+      <p>Status: {{ ride.status }}</p>
+      <button (click)="cancelRide(ride._id)">Cancel Ride</button>
+    </li>
+  </ul>
+</div>
+<app-map></app-map>
