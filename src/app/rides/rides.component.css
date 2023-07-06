@@ -1,21 +1,79 @@
-.ride-card-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .ride-card {
-    display: flex;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ride-info {
-    padding: 20px;
-  }
-  
-  .app-map {
-    flex-grow: 1;
-  }
-  
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+}
+
+.form-container {
+  width: 350px;
+  margin-right: 20px;
+}
+
+form {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.map-container {
+  width: 70%; /* Adjust the width as desired */
+  height: 70%; /* Adjust the height as desired */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-button,
+.create-button {
+  flex: 1;
+  margin-right: 10px;
+}
+
+button.search-button {
+  background-color: #ff3333;
+}
+
+button.create-button {
+  background-color: rgb(63, 81, 181);
+}
+button.create-button:hover {
+  background-color: rgb(84, 104, 206);
+}
+
+input.ng-touched.ng-invalid {
+  border: red 1px solid;
+}
+
+button:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 2, 12, 0.2);
+}

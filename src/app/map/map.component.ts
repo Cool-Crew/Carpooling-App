@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 declare const google: any;
 
@@ -8,10 +8,26 @@ declare const google: any;
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+
   map: any;
+  @Input() pinLocation:{lat:number,lng:number} | undefined;
 
   ngOnInit() {
+
     this.initMap();
+  }
+
+  //called when a user selects a ride to add pin
+  async reInit(){
+
+    const mapOptions = {
+      center: this.pinLocation,
+      zoom: 14 // Set the initial zoom level
+    };
+
+    this.map = await new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    const pin = new google.maps.Marker({map: this.map, position: this.pinLocation})
   }
 
   initMap() {

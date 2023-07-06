@@ -4,15 +4,19 @@ import { HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from "ngx-toastr";
 
-import { TranslateModule } from '@ngx-translate/core';
-import { StreamChatModule, StreamAutocompleteTextareaModule } from 'stream-chat-angular';
+import { TranslateModule } from "@ngx-translate/core";
+import {
+  StreamChatModule,
+  StreamAutocompleteTextareaModule,
+} from "stream-chat-angular";
+
 import { NotificationsService } from "./notifications.service";
 
 import { MatIconModule } from "@angular/material/icon";
@@ -37,7 +41,15 @@ import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
-import { ChatComponent } from './chat/chat.component';
+import { CreateRideComponent } from './create-ride/create-ride.component';
+import { PlaceValidatorDirective } from './place-validator.directive';
+import { AvailableRidesListComponent } from './available-rides-list/available-rides-list.component';
+import { RideCardComponent } from './ride-card/ride-card.component';
+
+import { RideListComponent } from "./ride-list/ride-list.component";
+import { RatingComponent } from "./rating/rating.component";
+import { ChatComponent } from "./chat/chat.component";
+
 
 @NgModule({
   declarations: [
@@ -52,7 +64,16 @@ import { ChatComponent } from './chat/chat.component';
     HomeComponent,
     MapComponent,
     PreferenceMgmtComponent,
+
+    CreateRideComponent,
+    PlaceValidatorDirective,
+    AvailableRidesListComponent,
+    RideCardComponent,
+
+    RideListComponent,
+    RatingComponent,
     ChatComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -75,9 +96,9 @@ import { ChatComponent } from './chat/chat.component';
     HttpClientModule,
     FormsModule,
     MatSnackBarModule,
-    BrowserModule, 
-    TranslateModule.forRoot(), 
-    StreamAutocompleteTextareaModule, 
+    BrowserModule,
+    TranslateModule.forRoot(),
+    StreamAutocompleteTextareaModule,
     StreamChatModule,
   ],
   providers: [NotificationsService],

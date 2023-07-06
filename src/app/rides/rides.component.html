@@ -1,16 +1,85 @@
-s
-<button (click)="createFakeRide()">Create a fake ride</button>
+<html>
+  <head>
+    <title>Rides</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <form (ngSubmit)="onSubmit()" [formGroup]="rideForm">
+          <label for="pickup-location">Pickup Location:</label>
+          <input
+            #puLocation
+            type="text"
+            class="place-autocomplete"
+            formControlName = "pickupLocation"
+          /><br />
 
-<div *ngIf="rides.length > 0">
-  <h2>Available Rides</h2>
-  <ul>
-    <li *ngFor="let ride of rides">
-      <p>Ride ID: {{ ride._id }}</p>
-      <p>Driver: {{ ride.driver }}</p>
-      <p>Start Location: {{ ride.driverStartLocation }}</p>
-      <p>Status: {{ ride.status }}</p>
-      <button (click)="cancelRide(ride._id)">Cancel Ride</button>
-    </li>
-  </ul>
-</div>
-<app-map></app-map>
+          <label for="dropoff-location">Drop-off Location:</label>
+          <input
+            #doLocation
+            type="text"
+            class="place-autocomplete"
+            formControlName = "dropoffLocation"
+          /><br />
+
+          <label for="date">Date:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            formControlName = "selectedDate"
+          /><br />
+
+          <label for="time">Time:</label>
+          <input
+            type="time"
+            id="time"
+            name="time"
+            formControlName = "selectedTime"
+          /><br /><br />
+
+          <!-- Temporary Removal - waiting for further functionality -->
+          <!-- <label for="rider-driver">Rider/Driver:</label>
+          <input
+            type="text"
+            id="rider-driver"
+            name="rider-driver"
+            formControlName = "riderDriver"
+          /><br /><br />
+
+          <label for="search-range">Search Range:</label>
+          <select
+            id="search-range"
+            name="search-range"
+            formControlName = "searchRange"
+          >
+            <option value="2.5 kilometers">2.5 kilometers</option>
+            <option value="5 kilometers">5 kilometers</option>
+            <option value="10 kilometers">10 kilometers</option>
+            <option value="20 kilometers">20 kilometers</option></select
+          ><br /><br /> -->
+
+          <!-- <button type="submit" value="Submit">Submit</button> -->
+          <div class="button-container">
+            <!-- <button type="submit" class="search-button" value="Search">
+              Search
+            </button> -->
+            <button
+              type="submit"
+              class="create-button"
+            >
+              Create New Ride
+            </button>
+          </div>
+          <!-- Buttons to be combined, new ride only present for dev -->
+        </form>
+
+        <app-available-rides-list (passLocation)="recvLocation($event)"></app-available-rides-list>
+      </div>
+
+      <div class="map-container">
+        <app-map #map [pinLocation]="currPinLocation"></app-map>
+      </div>
+    </div>
+  </body>
+</html>
