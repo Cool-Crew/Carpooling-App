@@ -1,3 +1,9 @@
+export enum Category {
+  Ride = "Ride",
+  Account_Update = "Account_Update",
+  General = "General",
+}
+
 export default class User {
   _id: string = "";
   email: string = "";
@@ -8,4 +14,8 @@ export default class User {
   phone: string = "";
   classes: string[] = [];
   interests: string[] = [];
+  notifications: {
+    msg: string;
+    category: Category;
+  }[] = [];
 }

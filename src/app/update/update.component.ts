@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
 
-
 @Component({
   selector: "app-update",
   templateUrl: "./update.component.html",
@@ -28,7 +27,12 @@ export class UpdateComponent {
   success = false;
   loading = false;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService,
+    private notificationsService: NotificationsService
+  ) {}
 
   ngOnInit(): void {
     this.user = this.authService.readToken();
@@ -44,41 +48,41 @@ export class UpdateComponent {
       const currentUserEmail = this.user.email;
 
       if (enteredEmail === currentUserEmail) {
-      this.loading = true;
-      this.authService.update(this.updateForm.value).subscribe(
-        (success) => {
-          this.success = true;
-          this.toastr.success("Account Updated")
-          this.notificationsService.addNotification("Information updated");
-          this.warning = "";
-          this.loading = false;
+        this.loading = true;
+        this.authService.update(this.updateForm.value).subscribe(
+          (success) => {
+            this.success = true;
+            // Notifications are being handled here for updating account information
+            this.toastr.success("Account Updated");
+            this.notificationsService.addNotification("Information updated");
+            this.warning = "";
+            this.loading = false;
 
-          this.authService.refreshToken().subscribe(
-            (refreshSuccess) => {
-              this.authService.setToken(refreshSuccess.token);
-              this.router.navigate(["/acc-info"]);
-            },
-            (refreshError) => {
-              console.error("Error refreshing token:", refreshError);
-            }
-          );
+            this.authService.refreshToken().subscribe(
+              (refreshSuccess) => {
+                this.authService.setToken(refreshSuccess.token);
+                this.router.navigate(["/acc-info"]);
+              },
+              (refreshError) => {
+                console.error("Error refreshing token:", refreshError);
+              }
+            );
 
-           // Redirect to home page after 2 seconds
-        setTimeout(() => {
-          this.router.navigate(["/home"]);
-        }, 1500);
-
-        },
-        (err) => {
-          this.success = false;
-          this.warning = err.error.message;
-          this.loading = false;
-        }
-      );
-    } else {
-      this.success = false;
-      this.warning = "Email does not match the current user's email.";
+            // Redirect to home page after 2 seconds
+            setTimeout(() => {
+              this.router.navigate(["/home"]);
+            }, 1500);
+          },
+          (err) => {
+            this.success = false;
+            this.warning = err.error.message;
+            this.loading = false;
+          }
+        );
+      } else {
+        this.success = false;
+        this.warning = "Email does not match the current user's email.";
+      }
     }
   }
-}
 }
