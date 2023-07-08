@@ -16,6 +16,7 @@ export default class User {
   interests: string[] = [];
   notifications: {
     msg: string;
+    dateTime: Date | undefined;
     category: Category;
   }[] = [];
 }

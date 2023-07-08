@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
           // Add a welcome notification
           const notificationData = {
             msg: "Welcome aboard!",
+            dateTime: Date.now(),
             category: "General",
           };
           this.notificationsService

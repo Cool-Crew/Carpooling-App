@@ -57,6 +57,7 @@ export class UpdateComponent {
             // Add a notification for updating account information
             const notificationData = {
               msg: "Account information updated",
+              dateTime: Date.now(),
               category: "Account_Update",
             };
             this.notificationsService

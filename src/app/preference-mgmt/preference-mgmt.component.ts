@@ -69,6 +69,7 @@ export class PreferenceMgmtComponent {
         // Add a notification for updating hobbies
         const notificationData = {
           msg: "Hobbies updated",
+          dateTime: Date.now(),
           category: "Account_Update",
         };
         this.notificationsService
