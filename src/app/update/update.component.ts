@@ -52,26 +52,44 @@ export class UpdateComponent {
         this.authService.update(this.updateForm.value).subscribe(
           (success) => {
             this.success = true;
-            // Notifications are being handled here for updating account information
             this.toastr.success("Account Updated");
-            this.notificationsService.addNotification("Information updated");
-            this.warning = "";
-            this.loading = false;
 
-            this.authService.refreshToken().subscribe(
-              (refreshSuccess) => {
-                this.authService.setToken(refreshSuccess.token);
-                this.router.navigate(["/acc-info"]);
-              },
-              (refreshError) => {
-                console.error("Error refreshing token:", refreshError);
-              }
-            );
+            // Add a notification for updating account information
+            const notificationData = {
+              msg: "Account information updated",
+              category: "Account_Update",
+            };
+            this.notificationsService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
 
-            // Redirect to home page after 2 seconds
-            setTimeout(() => {
-              this.router.navigate(["/home"]);
-            }, 1500);
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/acc-info"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );
+
+                  // Redirect to home page after 2 seconds
+                  setTimeout(() => {
+                    this.router.navigate(["/home"]);
+                  }, 1500);
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
           },
           (err) => {
             this.success = false;
