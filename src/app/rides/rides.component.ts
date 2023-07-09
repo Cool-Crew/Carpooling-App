@@ -153,6 +153,7 @@ export class RidesComponent implements OnInit {
     }
 
     const rideData = {
+      creator: this.user._id,
       riders: [
         {
           riderID: this.user._id,
