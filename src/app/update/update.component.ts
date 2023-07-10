@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
 
-
 @Component({
   selector: "app-update",
   templateUrl: "./update.component.html",
@@ -28,7 +27,12 @@ export class UpdateComponent {
   success = false;
   loading = false;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService,
+    private notificationsService: NotificationsService
+  ) {}
 
   ngOnInit(): void {
     this.user = this.authService.readToken();
@@ -44,41 +48,60 @@ export class UpdateComponent {
       const currentUserEmail = this.user.email;
 
       if (enteredEmail === currentUserEmail) {
-      this.loading = true;
-      this.authService.update(this.updateForm.value).subscribe(
-        (success) => {
-          this.success = true;
-          this.toastr.success("Account Updated")
-          this.notificationsService.addNotification("Information updated");
-          this.warning = "";
-          this.loading = false;
+        this.loading = true;
+        this.authService.update(this.updateForm.value).subscribe(
+          (success) => {
+            this.success = true;
+            this.toastr.success("Account Updated");
 
-          this.authService.refreshToken().subscribe(
-            (refreshSuccess) => {
-              this.authService.setToken(refreshSuccess.token);
-              this.router.navigate(["/acc-info"]);
-            },
-            (refreshError) => {
-              console.error("Error refreshing token:", refreshError);
-            }
-          );
+            // Add a notification for updating account information
+            const notificationData = {
+              msg: "Account information updated",
+              dateTime: Date.now(),
+              category: "Account_Update",
+            };
+            this.notificationsService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
 
-           // Redirect to home page after 2 seconds
-        setTimeout(() => {
-          this.router.navigate(["/home"]);
-        }, 1500);
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/acc-info"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );
 
-        },
-        (err) => {
-          this.success = false;
-          this.warning = err.error.message;
-          this.loading = false;
-        }
-      );
-    } else {
-      this.success = false;
-      this.warning = "Email does not match the current user's email.";
+                  // Redirect to home page after 2 seconds
+                  setTimeout(() => {
+                    this.router.navigate(["/home"]);
+                  }, 1500);
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
+          },
+          (err) => {
+            this.success = false;
+            this.warning = err.error.message;
+            this.loading = false;
+          }
+        );
+      } else {
+        this.success = false;
+        this.warning = "Email does not match the current user's email.";
+      }
     }
   }
-}
 }

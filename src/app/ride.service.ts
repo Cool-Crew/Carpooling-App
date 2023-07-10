@@ -78,13 +78,21 @@ export class RideService {
     return new Observable();
   }
 
-  registerRidertoRide(rideId: any, riderId: any): Observable<any> {
+  registerRidertoRide(
+    rideId: any,
+    riderId: any,
+    pickupLocation: any
+  ): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      return this.http.post<{ message: String }>(
-        `${environment.userAPIBase}/rides/:${rideId}/riders`,
-        { ride: rideId, newRider: riderId },
+      const riderData = {
+        riderID: riderId,
+        pickupLocation: pickupLocation,
+      };
+      return this.http.post<{ message: string }>(
+        `${environment.userAPIBase}/rides/${rideId}/riders`,
+        { ride: rideId, newRider: riderData },
         { headers }
       );
     }

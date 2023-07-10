@@ -11,20 +11,25 @@ import { NotificationsService } from "../notifications.service";
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
+  user: any;
   registerUser: RegisterUser = new RegisterUser();
   warning = "";
   success = false;
   loading = false;
 
-  constructor(private aservice: AuthService, private toastr: ToastrService, private notificationsService: NotificationsService) {}
+  constructor(
+    private aservice: AuthService,
+    private toastr: ToastrService,
+    private notificationsService: NotificationsService
+  ) {}
 
   onSubmit() {
     if (
-      this.registerUser.email != "" &&
-      this.registerUser.password != "" &&
-      this.registerUser.username != "" &&
-      this.registerUser.firstName != "" &&
-      this.registerUser.lastName != ""
+      this.registerUser.email !== "" &&
+      this.registerUser.password !== "" &&
+      this.registerUser.username !== "" &&
+      this.registerUser.firstName !== "" &&
+      this.registerUser.lastName !== ""
     ) {
       console.log("In Submit");
       this.loading = true;
@@ -32,11 +37,26 @@ export class RegisterComponent implements OnInit {
       this.aservice.register(this.registerUser).subscribe(
         (data) => {
           this.success = true;
-          this.toastr.success("Account created successfully!")
-          this.notificationsService.addNotification("Welcome Aboard!");
-          this.warning = "";
-          this.loading = false;
-          console.log(data);
+          this.toastr.success("Account created successfully!");
+
+          // Add a welcome notification
+          const notificationData = {
+            msg: "Welcome aboard!",
+            dateTime: Date.now(),
+            category: "General",
+          };
+          this.notificationsService
+            .addNotification(this.user._id, notificationData)
+            .subscribe(
+              () => {
+                this.warning = "";
+                this.loading = false;
+                console.log(data);
+              },
+              (notificationError) => {
+                console.error("Error adding notification:", notificationError);
+              }
+            );
         },
         (err) => {
           this.success = false;
@@ -47,5 +67,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = this.aservice.readToken();
+  }
 }

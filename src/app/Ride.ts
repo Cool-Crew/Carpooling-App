@@ -25,6 +25,7 @@ export class StopLocation {
 export class Ride {
   _id: string = "";
   driver: string = "";
+  creator: string = "";
   driverStartLocation: StopLocation | undefined;
   riders: Rider[] = [];
   dropoffLocation: StopLocation | undefined;

@@ -20,7 +20,12 @@ export class PreferenceMgmtComponent {
   availableClasses: string[] = ["Class A", "Class B", "Class C"];
   availableInterests: string[] = ["Interest 1", "Interest 2", "Interest 3"];
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService,
+    private notificationsService: NotificationsService
+  ) {}
 
   addClass() {
     if (this.selectedClass) {
@@ -59,23 +64,37 @@ export class PreferenceMgmtComponent {
       (response) => {
         console.log("User data updated successfully:", response);
         this.updateStatus = "Data updated successfully.";
-        this.toastr.success("preferences saved");
-        this.notificationsService.addNotification("Hobbies Updated");    
+        this.toastr.success("Preferences saved");
 
-        // Refresh token
-        this.authService.refreshToken().subscribe(
-          (refreshResponse) => {
-            console.log("Token refreshed successfully:", refreshResponse);
-          },
-          (error) => {
-            console.error("Error refreshing token:", error);
-          }
-        );
+        // Add a notification for updating hobbies
+        const notificationData = {
+          msg: "Hobbies updated",
+          dateTime: Date.now(),
+          category: "Account_Update",
+        };
+        this.notificationsService
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              // Refresh token
+              this.authService.refreshToken().subscribe(
+                (refreshResponse) => {
+                  console.log("Token refreshed successfully:", refreshResponse);
+                },
+                (error) => {
+                  console.error("Error refreshing token:", error);
+                }
+              );
 
-        // Redirect to home page after 2 seconds
-        setTimeout(() => {
-          this.router.navigate(["/home"]);
-        }, 1500);
+              // Redirect to home page after 2 seconds
+              setTimeout(() => {
+                this.router.navigate(["/home"]);
+              }, 1500);
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+            }
+          );
       },
       (error) => {
         console.error("Error updating user data:", error);
