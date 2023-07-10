@@ -12,7 +12,24 @@
             type="text"
             class="place-autocomplete"
             formControlName = "pickupLocation"
-          /><br />
+          />
+          <!-- Error message -->
+          <div
+            *ngIf="
+              rideForm.get('pickupLocation').invalid &&
+              (rideForm.get('pickupLocation').dirty || rideForm.get('pickupLocation').touched)
+            "
+            class="form-error-msg"
+          >
+            <div
+              *ngIf="
+                rideForm.get('pickupLocation').errors.required || rideForm.get('pickupLocation').errors.invalidPlace
+              "
+            >
+              Please enter a valid pickup location within Ontario.
+            </div>
+          </div>
+          <br />
 
           <label for="dropoff-location">Drop-off Location:</label>
           <input
@@ -20,7 +37,18 @@
             type="text"
             class="place-autocomplete"
             formControlName = "dropoffLocation"
-          /><br />
+          />
+          <!-- Error message -->
+          <div
+            *ngIf="
+              rideForm.get('dropoffLocation').invalid &&
+              (rideForm.get('dropoffLocation').dirty || rideForm.get('dropoffLocation').touched)
+            "
+            class="form-error-msg"
+          >
+            Please enter a valid pickup location within Ontario.
+          </div>
+          <br />
 
           <label for="date">Date:</label>
           <input
@@ -28,7 +56,15 @@
             id="date"
             name="date"
             formControlName = "selectedDate"
-          /><br />
+          />
+          <!-- Error Message -->
+          <div
+            *ngIf="
+              rideForm.get('selectedDate').invalid &&
+              (rideForm.get('selectedDate').dirty || rideForm.get('selectedDate').touched)
+            "
+            class="form-error-msg">Please enter a valid future date</div>
+          <br />
 
           <label for="time">Time:</label>
           <input
@@ -36,7 +72,15 @@
             id="time"
             name="time"
             formControlName = "selectedTime"
-          /><br /><br />
+          />
+          <!-- Error Message -->
+          <div
+            *ngIf="
+              rideForm.get('selectedTime').invalid &&
+              (rideForm.get('selectedTime').dirty || rideForm.get('selectedTime').touched)
+            "
+            class="form-error-msg">Please enter a valid future time</div>
+          <br /><br />
 
           <!-- Temporary Removal - waiting for further functionality -->
           <!-- <label for="rider-driver">Rider/Driver:</label>
