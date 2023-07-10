@@ -18,7 +18,7 @@ export enum Status {
 
 export class StopLocation {
   address: string = "";
-  location: { lat: number; lng: number; } | undefined;
+  location: { lat: number; lng: number } | undefined;
   name: string = "";
 }
 
@@ -31,4 +31,14 @@ export class Ride {
   dateTime: Date | undefined;
   chat: Message[] = [];
   status: Status = Status.Not_Started;
+}
+
+export class RideList {
+  _id: string = "";
+  pickupLocation: String | undefined;
+  dropoffLocation: String | undefined;
+  dateTime: String | undefined;
+  status: Status = Status.Not_Started;
+  statusString: String | undefined;
+  color: string | undefined;
 }

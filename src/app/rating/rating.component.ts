@@ -57,7 +57,7 @@ export class RatingComponent implements OnInit {
     }
     console.log("Rating: ", this.selectedStar);
     console.log("Text Feedback: ", this.textFeedback);
-    this.router.navigate(["/rideFeedback"]);
+    this.router.navigate(["/myRides"]);
     this.notificationService.showNotification(
       "Feedback submitted successfully."
     );

@@ -1,24 +1,40 @@
-<h1>Ride List</h1>
+<h1>My Rides</h1>
+<div *ngIf="!rides || rides.length === 0">
+  <!-- Show loader when rides array is empty -->
+  <div class="loader"></div>
+</div>
 <div class="notification-container">
   <div class="notification" *ngIf="notificationMessage">
     {{ notificationMessage }}
   </div>
 </div>
-<div class="ride-container">
-  <a
-    *ngFor="let ride of rides"
-    [routerLink]="'/rating/' + ride.id"
-    [queryParams]="{
-      date: ride.date,
-      startLocation: ride.startLocation,
-      endLocation: ride.endLocation
-    }"
-    class="ride-card"
-  >
+<div class="ride-container" *ngIf="rides && rides.length > 0">
+  <div *ngFor="let ride of rides" class="ride-card">
     <div class="ride-details">
-      <p>Date: {{ ride.date }}</p>
-      <p>Start Location: {{ ride.startLocation }}</p>
-      <p>End Location: {{ ride.endLocation }}</p>
+      <p>Date: {{ ride.dateTime }}</p>
+      <p>Start Location: {{ ride.pickupLocation }}</p>
+      <p>End Location: {{ ride.dropoffLocation }}</p>
     </div>
-  </a>
+    <div class="ride-status">
+      <div [style.backgroundColor]="ride.color" [ngClass]="{ dot: true }"></div>
+      <span class="status-text">{{ ride.statusString }}</span>
+    </div>
+    <hr class="ride-divider" />
+    <!-- Add the buttons and divider here -->
+    <div class="ride-buttons">
+      <button
+        class="ride-button"
+        [routerLink]="'/rating/' + ride._id"
+        [queryParams]="{
+          date: ride.dateTime,
+          startLocation: ride.pickupLocation,
+          endLocation: ride.dropoffLocation
+        }"
+      >
+        Provide Feedback
+      </button>
+      <button class="ride-button">Messages</button>
+      <button class="ride-button">Cancel Ride</button>
+    </div>
+  </div>
 </div>
