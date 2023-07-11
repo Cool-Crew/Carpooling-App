@@ -6,10 +6,8 @@ import {
   ValidationErrors,
   AbstractControl,
 } from "@angular/forms";
-import { Location } from "@angular/common";
 import { RideService } from "../ride.service";
 import { AuthService } from "../auth.service";
-import { Router } from "@angular/router";
 
 import { MapComponent } from "../map/map.component";
 
@@ -47,9 +45,7 @@ export class RidesComponent implements OnInit {
 
   constructor(
     private rideService: RideService,
-    private authService: AuthService,
-    private router: Router,
-    private location: Location
+    private authService: AuthService
   ) {}
 
   recvLocation(location: { lat: number; lng: number }) {
@@ -153,6 +149,7 @@ export class RidesComponent implements OnInit {
     }
 
     const rideData = {
+      creator: this.user._id,
       riders: [
         {
           riderID: this.user._id,

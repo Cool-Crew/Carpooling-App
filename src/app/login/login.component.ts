@@ -3,8 +3,6 @@ import { Router } from "@angular/router";
 import { AuthService } from "../auth.service";
 import User from "../User";
 import { ToastrService } from "ngx-toastr";
-import { NotificationsService } from "../notifications.service";
-
 
 @Component({
   selector: "app-login",
@@ -16,7 +14,11 @@ export class LoginComponent implements OnInit {
   warning = "";
   loading = false;
 
-  constructor(private aservice: AuthService, private router: Router, private toastr: ToastrService, private notificationsService: NotificationsService) {}
+  constructor(
+    private aservice: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   onSubmit() {
     if (this.user.email != "" && this.user.password != "") {
@@ -27,10 +29,6 @@ export class LoginComponent implements OnInit {
           this.aservice.setToken(success.token);
           this.router.navigate(["/home"]);
           this.toastr.success("Login Successful");
-          
-          // Generate notification after successful login
-        this.notificationsService.addNotification("Welcome Back!");              
-
         },
         (err) => {
           this.warning = err.error.message;
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
       );
     }
   }
-  
 
   ngOnInit(): void {}
 }

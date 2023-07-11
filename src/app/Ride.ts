@@ -18,13 +18,14 @@ export enum Status {
 
 export class StopLocation {
   address: string = "";
-  location: { lat: number; lng: number; } | undefined;
+  location: { lat: number; lng: number } | undefined;
   name: string = "";
 }
 
 export class Ride {
   _id: string = "";
   driver: string = "";
+  creator: string = "";
   driverStartLocation: StopLocation | undefined;
   riders: Rider[] = [];
   dropoffLocation: StopLocation | undefined;

@@ -21,7 +21,7 @@ export class AvailableRidesListComponent implements OnInit{
   
   async ngOnInit(): Promise<void> {
     //API call for rides
-    let res: {message: String, _rides: [Ride]} | undefined = await this.rideService.getRides();
+    let res: {message: String, _rides: [Ride]} | undefined = await this.rideService.getRides(); 
     this.rides = res?._rides;
   }
 

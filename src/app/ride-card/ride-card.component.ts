@@ -150,10 +150,16 @@ export class RideCardComponent implements OnInit {
     this.reInit();
   }
 
-  //Add a rider to the ride
+  //Add a rider to the ride PlaceHolder for now
   onJoinRideClick() {
+    const pickupLocation = {
+      address: "Pickup Address",
+      location: {},
+      name: "Pickup Location",
+    };
+
     this.rideService
-      .registerRidertoRide(this.ride?._id, this.user?._id)
+      .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
         (response) => {
           console.log("✅");

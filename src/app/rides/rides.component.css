@@ -59,6 +59,13 @@ button {
   margin-right: 10px;
 }
 
+.form-error-msg{
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
 button.search-button {
   background-color: #ff3333;
 }
