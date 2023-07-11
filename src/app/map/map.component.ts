@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 declare const google: any;
 
@@ -7,14 +7,19 @@ declare const google: any;
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnChanges{
 
-  map: any;
+  map: any //google.maps.Map |undefined;
   @Input() pinLocation:{lat:number,lng:number} | undefined;
 
   ngOnInit() {
-
     this.initMap();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['pinLocation']){
+      this.reInit();
+    }
   }
 
   //called when a user selects a ride to add pin
@@ -25,17 +30,22 @@ export class MapComponent implements OnInit {
       zoom: 14 // Set the initial zoom level
     };
 
-    this.map = await new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    const pin = new google.maps.Marker({map: this.map, position: this.pinLocation})
+    this.initMap(new google.maps.Marker({map: this.map, position: this.pinLocation}));
   }
 
-  initMap() {
-    const mapOptions = {
-      center: { lat: 43.79597128985944, lng: -79.34858107406576 }, // Set the initial center coordinates
-      zoom: 16 // Set the initial zoom level
-    };
+  async initMap(pin:google.maps.Marker | null = null): Promise<void> {
 
-    this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    const senecaNewnham = { lat: 43.79597128985944, lng: -79.34858107406576 };
+
+    // Create a new map. If pin is null, then the map will be centered on Seneca Newnham, if not then it will be centered on the pin. 
+    // If the pin is not null, then it will be added to the map.
+    this.map = await new google.maps.Map(document.getElementById("map") as HTMLElement, {
+      center: pin == null ? senecaNewnham : pin.getPosition(),
+      zoom: 14,
+    });
+
+    if(pin != null){
+      pin.setMap(this.map);
+    }
   }
 }
