@@ -1,12 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { SubmissionService } from "../submission.service";
-
-interface Ride {
-  id: number;
-  date: string;
-  startLocation: string;
-  endLocation: string;
-}
+import { AuthService } from "../auth.service";
+import { RideList } from "../Ride";
+import { RideService } from "../ride.service";
 
 @Component({
   selector: "app-ride-list",
@@ -14,33 +9,42 @@ interface Ride {
   styleUrls: ["./ride-list.component.css"],
 })
 export class RideListComponent implements OnInit {
-  rides: Ride[] = [
-    {
-      id: 1,
-      date: "2023-06-30",
-      startLocation: "137, Redwater Drive",
-      endLocation: "1750, Finch Avenue East",
-    },
-    {
-      id: 2,
-      date: "2023-07-01",
-      startLocation: "390, Sentinel Road",
-      endLocation: "70, The Pond Road",
-    },
-    // Add more rides as needed
-  ];
+  user: any;
   notificationMessage: string = "";
+  color: string | undefined;
+  rides: RideList[] | undefined = [];
+  constructor(
+    private rideService: RideService,
+    private authService: AuthService
+  ) {}
 
-  constructor(private notificationService: SubmissionService) {}
-
-  ngOnInit() {
-    this.notificationService.notification$.subscribe((message) => {
-      this.notificationMessage = message;
-
-      //Hide the notification after 2 seconds
-      setTimeout(() => {
-        this.notificationMessage = "";
-      }, 2000);
+  async ngOnInit(): Promise<void> {
+    this.user = this.authService.readToken();
+    console.log("This is the id", this.user._id);
+    let res: { message: String; _rides: [RideList] } | undefined =
+      await this.rideService.getUserRides(this.user._id);
+    this.rides = res?._rides;
+    this.rides?.forEach((r) => {
+      r.statusString = r.status.replace(/_/g, " ");
+      r.dateTime = r?.dateTime?.split("T")[0];
+      switch (r.statusString) {
+        case "Not Started":
+          r.color = "yellow";
+          break;
+        case "Complete":
+          r.color = "green";
+          break;
+        case "In Progress":
+          r.color = "orange";
+          break;
+        case "Cancelled":
+          r.color = "red";
+          break;
+        default:
+          r.color = "yellow";
+          break;
+      }
+      console.log("This is color", r.color);
     });
   }
 }

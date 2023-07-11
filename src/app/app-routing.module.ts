@@ -16,7 +16,6 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
 import { CreateRideComponent } from "./create-ride/create-ride.component";
 import { ChatComponent } from "./chat/chat.component";
 
-
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
   { path: "register", component: RegisterComponent },
@@ -50,7 +49,7 @@ const routes: Routes = [
     canActivate: [GuardAuthService],
   },
   {
-    path: "rideFeedback",
+    path: "myRides",
     component: RideListComponent,
     canActivate: [GuardAuthService],
   },

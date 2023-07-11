@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
 import { AuthService } from "./auth.service";
-import { Ride } from "./Ride";
+import { Ride, RideList } from "./Ride";
 
 @Injectable({ providedIn: "root" })
 export class RideService {
@@ -16,6 +16,21 @@ export class RideService {
       return this.http
         .get<{ message: String; _rides: [Ride] }>(
           `${environment.userAPIBase}/rides`,
+          { headers }
+        )
+        .toPromise();
+    }
+    return;
+  }
+  async getUserRides(
+    riderId: any
+  ): Promise<{ message: String; _rides: [RideList] } | undefined> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http
+        .get<{ message: String; _rides: [RideList] }>(
+          `${environment.userAPIBase}/userRides/:${riderId}`,
           { headers }
         )
         .toPromise();
@@ -91,6 +106,26 @@ export class RideService {
       return this.http.post<any>(
         `${environment.userAPIBase}/register-ride`,
         rideData,
+        {
+          headers,
+        }
+      );
+    }
+    return new Observable();
+  }
+
+  addFeedback(
+    id: String,
+    rating: Number,
+    feedback: String,
+    rideId: String | null
+  ): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.post<any>(
+        `${environment.userAPIBase}/addFeedback/${rideId}`,
+        { riderId: id, rideRating: rating, rideFeedback: feedback },
         {
           headers,
         }
