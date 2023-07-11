@@ -115,3 +115,25 @@
 .orange {
   background-color: orange;
 }
+/* .no-list-style {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.no-list-style li {
+  margin-left: 0;
+} */
+.custom-list {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.custom-list-item::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 1px;
+  background-color: black;
+  margin-right: 5px;
+  vertical-align: middle;
+}

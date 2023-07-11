@@ -12,7 +12,15 @@
   <div *ngFor="let ride of rides" class="ride-card">
     <div class="ride-details">
       <p>Date: {{ ride.dateTime }}</p>
-      <p>Start Location: {{ ride.pickupLocation }}</p>
+      <p *ngIf="ride.pickupLocation">
+        Start Location: {{ ride.pickupLocation }}
+      </p>
+      <p *ngIf="!ride.pickupLocation">Pickup Locations</p>
+      <ul *ngIf="!ride.pickupLocation" class="custom-list">
+        <li *ngFor="let r of ride.riders" class="custom-list-item">
+          {{ r.riderId }}: {{ r.pickupLocation }}
+        </li>
+      </ul>
       <p>End Location: {{ ride.dropoffLocation }}</p>
     </div>
     <div class="ride-status">
