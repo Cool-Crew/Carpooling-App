@@ -113,4 +113,24 @@ export class RideService {
     }
     return new Observable();
   }
+
+  addFeedback(
+    id: String,
+    rating: Number,
+    feedback: String,
+    rideId: String | null
+  ): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.post<any>(
+        `${environment.userAPIBase}/addFeedback/${rideId}`,
+        { riderId: id, rideRating: rating, rideFeedback: feedback },
+        {
+          headers,
+        }
+      );
+    }
+    return new Observable();
+  }
 }

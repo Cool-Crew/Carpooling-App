@@ -24,7 +24,7 @@
     <div class="ride-buttons">
       <button
         class="ride-button"
-        [routerLink]="'/rating/' + ride._id"
+        [routerLink]="'/rating/' + ride.rideId"
         [queryParams]="{
           date: ride.dateTime,
           startLocation: ride.pickupLocation,

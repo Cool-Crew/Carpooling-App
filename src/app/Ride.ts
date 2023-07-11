@@ -35,7 +35,7 @@ export class Ride {
 }
 
 export class RideList {
-  _id: string = "";
+  rideId: string = "";
   pickupLocation: String | undefined;
   dropoffLocation: String | undefined;
   dateTime: String | undefined;

@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
-import { SubmissionService } from "../submission.service";
 
 @Component({
   selector: "app-ride-list",
@@ -15,7 +14,6 @@ export class RideListComponent implements OnInit {
   color: string | undefined;
   rides: RideList[] | undefined = [];
   constructor(
-    private notificationService: SubmissionService,
     private rideService: RideService,
     private authService: AuthService
   ) {}
@@ -47,14 +45,6 @@ export class RideListComponent implements OnInit {
           break;
       }
       console.log("This is color", r.color);
-    });
-    this.notificationService.notification$.subscribe((message) => {
-      this.notificationMessage = message;
-
-      //Hide the notification after 2 seconds
-      setTimeout(() => {
-        this.notificationMessage = "";
-      }, 2000);
     });
   }
 }
