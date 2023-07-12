@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
+import { HttpClient } from "@angular/common/http"; 
 
 @Component({
   selector: "app-ride-list",
@@ -15,7 +16,8 @@ export class RideListComponent implements OnInit {
   rides: RideList[] | undefined = [];
   constructor(
     private rideService: RideService,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {}
 
   async ngOnInit(): Promise<void> {
