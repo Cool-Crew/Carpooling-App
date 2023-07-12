@@ -47,4 +47,5 @@ export class RideList {
   statusString: String | undefined;
   color: string | undefined;
   riders: RiderLocationMapping[] | undefined;
+  driverName: string | undefined;
 }

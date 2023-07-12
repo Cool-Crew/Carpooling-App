@@ -10,9 +10,8 @@ import { RideService } from "../ride.service";
 })
 export class RideListComponent implements OnInit {
   user: any;
-  notificationMessage: string = "";
   color: string | undefined;
-  rides: RideList[] | undefined = [];
+  rides: RideList[] | undefined;
   constructor(
     private rideService: RideService,
     private authService: AuthService
@@ -44,7 +43,34 @@ export class RideListComponent implements OnInit {
           r.color = "yellow";
           break;
       }
-      console.log("This is color", r.color);
     });
+  }
+  onDriverNeededClick(rideId: String, dropoffLocation: String | undefined) {
+    this.user = this.authService.readToken();
+    this.rideService.registerDriverToRide(rideId, this.user?._id).subscribe(
+      (response) => {
+        console.log("✅");
+      },
+      (err) => {
+        console.log("❗");
+      }
+    );
+
+    alert(`✅ You have offered to drive to:\n ${dropoffLocation}\n` + ``);
+    this.ngOnInit();
+  }
+
+  onLeaveRideClick(rideId: String) {
+    console.log("👋");
+    this.rideService.rmRiderFromRide(rideId, this.user?._id).subscribe(
+      (response) => {
+        console.log("✅");
+      },
+      (err) => {
+        console.log("❗");
+      }
+    );
+
+    this.ngOnInit();
   }
 }
