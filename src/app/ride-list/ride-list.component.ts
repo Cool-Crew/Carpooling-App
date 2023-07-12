@@ -60,7 +60,7 @@ export class RideListComponent implements OnInit {
     this.ngOnInit();
   }
 
-  onLeaveRideClick(rideId: String) {
+  onLeaveRideClick(rideId: String, isDriver: boolean) {
     console.log("👋");
     this.rideService.rmRiderFromRide(rideId, this.user?._id).subscribe(
       (response) => {
@@ -70,6 +70,16 @@ export class RideListComponent implements OnInit {
         console.log("❗");
       }
     );
+    if (isDriver) {
+      this.rideService.rmDriverFromRide(rideId).subscribe(
+        (response) => {
+          console.log("✅");
+        },
+        (err) => {
+          console.log("❗");
+        }
+      );
+    }
 
     this.ngOnInit();
   }

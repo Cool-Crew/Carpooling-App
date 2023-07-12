@@ -60,7 +60,10 @@
       >
         Offer to Drive
       </button>
-      <button class="ride-button" (click)="onLeaveRideClick(ride.rideId)">
+      <button
+        class="ride-button"
+        (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
+      >
         Leave Ride
       </button>
       <button class="ride-button">Cancel Ride</button>
