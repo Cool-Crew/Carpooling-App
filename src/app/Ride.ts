@@ -9,6 +9,12 @@ export class Message {
   userID: string = "";
 }
 
+export class Feedback {
+  riderId: string = "";
+  rating: number = 0;
+  feedback: string = "";
+}
+
 export enum Status {
   Not_Started = "Not_Started",
   In_Progress = "In_Progress",
@@ -31,6 +37,7 @@ export class Ride {
   dropoffLocation: StopLocation | undefined;
   dateTime: Date | undefined;
   chat: Message[] = [];
+  feedback: Feedback[] = [];
   status: Status = Status.Not_Started;
 }
 
