@@ -114,6 +114,19 @@ export class RideService {
     return new Observable();
   }
 
+  updateRide(rideId: any, updatedData: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.put<any>(
+        `${environment.userAPIBase}/api/ride-update`,
+        { rideId, updatedData },
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
   addFeedback(
     id: String,
     rating: Number,
