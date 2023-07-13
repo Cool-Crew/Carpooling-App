@@ -74,4 +74,45 @@ p {
   color:antiquewhite;
 }
 
+/* .clear-notifications-button {  
+  font-size: 14px;  
+  color: #fff;
+  background-color: #0078d4;
+  border-radius: 4px;
+  padding: 10px 20px;
+  border: none;
+}
+*/
+.clear-notifications-button:hover {
+  color:#fff; 
+  background-color: #e61728;
+} 
+
+ 
+
+/* 
+@media only screen and (max-width: 600px) {
+  .clear-notifications-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+
+@media only screen and (min-width: 600px) {
+  .clear-notifications-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}
+
+
+@media only screen and (min-width: 992px) {
+  .clear-notifications-button {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+} */
+
+
 

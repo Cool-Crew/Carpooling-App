@@ -14,6 +14,8 @@ import { NotificationsService } from "./notifications.service";
 export class AppComponent implements OnInit {
   title = 'web422-a4';
   public token: any|undefined;
+  user: any;
+  
 
   faBell = faBell;
   faTimes = faTimes;
@@ -34,22 +36,49 @@ export class AppComponent implements OnInit {
     this.showNotifications = !this.showNotifications;
   }
 
-  // fnotifs = this.notificationsService.notifications
-  // generateNotification() {
-  //   this.fnotifs = this.notificationsService.notifications;    
-  // }
+  removeNotification(notificationId: string) {
+    console.log("Remove Notification Function from app.component.ts was accessed.")
+    const userId = this.token._id;
+    this.notificationsService
+      .removeNotification(userId, notificationId)
+      .subscribe(
+        (response) => {
+          console.log("notification should be removed now.")
+          // Notification removed successfully
+          const index = this.fnotifs.indexOf(notificationId);
+          console.log(index);
+           if (index !== -1) {
+           this.fnotifs.splice(index, 1);
+          }          
+          console.log("checking"+this.fnotifs);
+        },
+        (error) => {
+          // Error occurred while removing notification
+          console.error('Error removing notification:', error);
+        }
+      );
+  }
 
-  removeNotification(rnot: string) {
-    const index = this.fnotifs.indexOf(rnot);
-    if (index !== -1) {
-      this.fnotifs.splice(index, 1);
-    }
+  clearNotifications() {
+    const userId = this.token._id;
+    this.notificationsService.clearNotifications(userId).subscribe(
+      (response) => {
+        // Notifications cleared successfully
+        this.fnotifs = [];
+      },
+      (error) => {
+        // Error occurred while clearing notifications
+        console.error('Error clearing notifications:', error);
+      }
+    );
   }
   
-
+  
+/*
   clearNotifications() {
     this.notificationsService.clearNotifications();
   }
+*/
 
   @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent) {
@@ -62,7 +91,22 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
+
+        //this.user = this.aservice.readToken();
+        //this.token = this.aservice.readToken();
+        // for (const notification of this.user.notifications) {
+        //   this.fnotifs.push(notification.msg);          
+        // }
+
         this.token = this.aservice.readToken();
+        if (this.token) {
+          this.fnotifs = this.token.notifications.map(
+            (notification: any) => notification.msg
+          );
+        } else {
+          this.fnotifs = [];
+        }
+
       }
     });
   }

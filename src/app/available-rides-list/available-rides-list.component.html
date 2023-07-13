@@ -1,4 +1,8 @@
 <div class="results-container">
+    <!-- if no rides are available, instead display an error message -->
+    <div class='form-error-msg'*ngIf="rides?.length == 0">
+        <h2>No rides available</h2>
+    </div>
     <app-ride-card *ngFor="let ride of rides" [ride]="ride" (newRideEvent)="rideSelected($event)"></app-ride-card>
-    <!-- Want to place an updating stack of cards showing ride details here, scrolling list -->
+    
 </div>

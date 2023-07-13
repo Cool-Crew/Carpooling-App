@@ -31,28 +31,26 @@
             ></fa-icon>
             <div class="notification-details">
               <h4 class="notification-title">{{ not }}</h4>
-              <ng-container *ngIf="not === 'Welcome Back!'">
-                <p class="notification-message">Get ready for a ride 🚗</p>
-              </ng-container>
-              <ng-container *ngIf="not === 'Hobbies Updated'">
-                <p class="notification-message">
-                  Your Preferences were updates.
-                </p>
-              </ng-container>
-              <ng-container *ngIf="not === 'Information updated'">
-                <p class="notification-message">
-                  Your account information was updated.
-                </p>
-              </ng-container>
-              <!-- <ng-container *ngIf="not !== 'Information updated' && not !== 'Something else'">
-                <p class="notification-message">Default notification message</p>
-              </ng-container> -->
+              <!-- <p class="notification-message">Default notification message</p> -->
             </div>
-            <!-- <fa-icon class="cancel-icon" [icon]="faTimes" (click)="removeNotification(not)"></fa-icon> -->
           </li>
         </ul>
+        <!-- <button mat-button class="clear-notifications-button" (click)="clearNotifications()">
+          Clear All
+        </button> -->
+        <div *ngIf="fnotifs.length > 0">
+          <button mat-button class="clear-notifications-button" (click)="clearNotifications()">
+            Clear All
+          </button>
+        </div>
+        <div *ngIf="fnotifs.length == 0">
+          <p>  nothing new here...</p>
+        </div>
       </div>
     </div>
+
+     <!-- ***************************************************************************** -->
+
     <button
       mat-button
       *ngIf="token != undefined"
