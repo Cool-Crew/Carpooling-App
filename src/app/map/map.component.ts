@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare const google: any;
 
@@ -12,6 +13,8 @@ export class MapComponent implements OnChanges{
   map: any //google.maps.Map |undefined;
   @Input() pinLocation:{lat:number,lng:number} | undefined;
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.initMap();
   }
@@ -21,6 +24,7 @@ export class MapComponent implements OnChanges{
       this.reInit();
     }
   }
+  
 
   //called when a user selects a ride to add pin
   async reInit(){
