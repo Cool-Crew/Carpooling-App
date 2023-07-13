@@ -1,3 +1,30 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px; /* Adjust the height to make it larger */
+}
+
+.loader:before {
+  content: "";
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px; /* Adjust the width to make it larger */
+  height: 120px; /* Adjust the height to make it larger */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .ride-container {
   display: flex;
   flex-wrap: wrap;
@@ -7,7 +34,9 @@
 .ride-container > a {
   text-decoration: none;
   color: inherit;
+  position: relative;
 }
+
 .ride-card,
 .notification {
   width: 300px;
@@ -16,15 +45,95 @@
   border: 1px solid #ccc;
   background-color: #f5f5f5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
+
 .notification-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .notification {
   color: green;
 }
+
 .ride-details {
   text-align: left;
+}
+
+.ride-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  margin-top: 10px;
+}
+
+.ride-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.ride-divider {
+  margin-top: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.ride-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+/* .no-list-style {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.no-list-style li {
+  margin-left: 0;
+} */
+.custom-list {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.custom-list-item::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 1px;
+  background-color: black;
+  margin-right: 5px;
+  vertical-align: middle;
 }

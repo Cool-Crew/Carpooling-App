@@ -33,3 +33,19 @@ export class Ride {
   chat: Message[] = [];
   status: Status = Status.Not_Started;
 }
+
+export class RiderLocationMapping {
+  riderId: String | undefined;
+  pickupLocation: String | undefined;
+}
+export class RideList {
+  rideId: String = "";
+  pickupLocation: String | undefined;
+  dropoffLocation: String | undefined;
+  dateTime: String | undefined;
+  status: Status = Status.Not_Started;
+  statusString: String | undefined;
+  color: string | undefined;
+  riders: RiderLocationMapping[] | undefined;
+  driverName: string | undefined;
+}
