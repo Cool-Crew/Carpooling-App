@@ -5,7 +5,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
-import { PlaceResult } from "../rides/rides.component";
+import { PickupLocationInfo, PlaceResult } from "../rides/rides.component";
 
 @Component({
   selector: "app-ride-card",
@@ -37,10 +37,17 @@ import { PlaceResult } from "../rides/rides.component";
           Offer To Drive
         </button>
         <button
-          *ngIf="roomAvailable && userCanJoin"
+          *ngIf="roomAvailable && userCanJoin && puLocation?.valid"
           (click)="onJoinRideClick()"
         >
           Join Ride
+        </button>
+        <!-- button that is disabled and says Join Ride if puLocation.valid is false -->
+        <button
+          *ngIf="!puLocation?.valid"
+          disabled
+          >
+          Enter a valid pickup location to join ride
         </button>
         <button
           class="leave"
@@ -77,7 +84,7 @@ export class RideCardComponent implements OnInit {
   timeStr: string | undefined;
 
   @Input() ride: Ride | undefined;
-  @Input() puLocation: PlaceResult | undefined;
+  @Input() puLocation: PickupLocationInfo | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);
@@ -154,8 +161,8 @@ export class RideCardComponent implements OnInit {
       let ampm = hour >= 12 ? 'pm' : 'am';
       hour = hour % 12;
       hour = hour ? hour : 12;
-      //this.timeStr = `${hour}:${minute} ${ampm}`;
 
+      //formatting for 12hr clock
       if (hour < 10){
         this.timeStr = `0${hour}:`;
       } else {
@@ -249,20 +256,13 @@ export class RideCardComponent implements OnInit {
         }
       );
 
-    // alert(
-    //   `✅ You have offered to drive to:\n ${this.ride?.dropoffLocation?.address}\n` +
-    //     ``
-    // );
     this.reInit();
   }
 
   //Add a rider to the ride PlaceHolder for now
   onJoinRideClick() {
-    const pickupLocation = {
-      address: "Pickup Address",
-      location: {},
-      name: "Pickup Location",
-    };
+    const pickupLocation = this.puLocation;
+    console.log(pickupLocation);
 
     this.rideService
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)

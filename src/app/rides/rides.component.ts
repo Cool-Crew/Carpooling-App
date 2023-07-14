@@ -21,7 +21,10 @@ export interface PlaceResult {
   name?: string;
 }
 
-
+export interface PickupLocationInfo {
+  puLocation: PlaceResult;
+  valid: boolean;
+}
 
 @Component({
   selector: "app-rides",
@@ -38,6 +41,7 @@ export class RidesComponent implements OnInit {
   riderDriver: string = "";
   searchRange: string = "";
   currPinLocation: { lat: number; lng: number } | undefined;
+  puLocationInfo: PickupLocationInfo | undefined;
 
   //searchParams are passed to the available-rides-list component
   searchParams: { 
@@ -117,6 +121,10 @@ export class RidesComponent implements OnInit {
       };
       this.pickupLocation = result;
       this.rideForm.controls.pickupLocation.patchValue(result.address);
+      this.puLocationInfo = {
+        puLocation: result,
+        valid: this.rideForm.controls.pickupLocation.valid
+      }
     });
 
     this.autocomplete2?.addListener("place_changed", () => {

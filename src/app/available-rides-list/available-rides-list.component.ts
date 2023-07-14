@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
 import { RideService } from '../ride.service';
 import { Ride } from '../Ride';
-import { PlaceResult } from '../rides/rides.component';
-
+import { PickupLocationInfo, PlaceResult } from '../rides/rides.component';
 
 
 @Component({
@@ -18,7 +17,7 @@ export class AvailableRidesListComponent implements OnInit{
 
 
   @Input() searchParams: {date: Date | undefined} | undefined;
-  @Input() puLocation: PlaceResult | undefined;
+  @Input() puLocation: PickupLocationInfo | undefined;
   @Output() passLocation = new EventEmitter<{lat: number, lng: number}>
   
 
