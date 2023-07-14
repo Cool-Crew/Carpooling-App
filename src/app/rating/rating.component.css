@@ -7,28 +7,21 @@ div {
 }
 
 .star {
-  font-size: 350%;
+  font-size: 175%;
   cursor: pointer;
   color: #ccc;
 }
 
 .selected,
 .hovered {
-  font-size: 400%;
+  font-size: 225%;
   color: orange;
 }
 
 .large-textarea {
-  height: 200px;
-  width: 50%;
+  height: 100px;
+  width: 90%;
   resize: none;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 .rating {
@@ -53,8 +46,8 @@ div {
   cursor: pointer;
 }
 .custom-button {
-  padding: 10px 20px; /* Adjust the padding as needed */
-  font-size: 16px; /* Adjust the font size as needed */
+  padding: 8px 18px; /* Adjust the padding as needed */
+  font-size: 14px; /* Adjust the font size as needed */
   border-radius: 8px; /* Adjust the border radius as needed */
   border: none;
   background-color: #007bff; /* Set the desired background color */

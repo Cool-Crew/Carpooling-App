@@ -11,37 +11,52 @@
 </div>
 <div class="ride-container" *ngIf="rides && rides.length > 0">
   <div *ngFor="let ride of rides" class="ride-card">
-    <div class="ride-details">
-      <p>Date: {{ ride.dateTime }}</p>
-      <p *ngIf="ride.pickupLocation">
-        Start Location: {{ ride.pickupLocation }}
-      </p>
-      <span
-        *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
-      >
-        <p>Pickup Locations</p>
-        <ul class="custom-list">
-          <li *ngFor="let r of ride.riders" class="custom-list-item">
-            {{ r.riderId }}: {{ r.pickupLocation }}
-          </li>
-        </ul>
-      </span>
-      <span
-        *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length === 0"
-      >
-        <p>No Riders yet</p>
-      </span>
-      <p>End Location: {{ ride.dropoffLocation }}</p>
-      <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-details">
+      <div>
+        <p>Date: {{ ride.dateTime }}</p>
+        <p *ngIf="ride.pickupLocation">
+          Start Location: {{ ride.pickupLocation }}
+        </p>
+        <span
+          *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
+        >
+          <p>Pickup Locations</p>
+          <ul class="custom-list">
+            <li *ngFor="let r of ride.riders" class="custom-list-item">
+              {{ r.riderId }}: {{ r.pickupLocation }}
+            </li>
+          </ul>
+        </span>
+        <span
+          *ngIf="
+            !ride.pickupLocation && ride.riders && ride.riders.length === 0
+          "
+        >
+          <p>No Riders yet</p>
+        </span>
+        <p>End Location: {{ ride.dropoffLocation }}</p>
+        <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+      </div>
+      <app-rating
+        *ngIf="!ride.rating"
+        [rideId]="ride.rideId"
+        (feedbackSubmitted)="reloadRideList(ride.rideId)"
+      ></app-rating>
+      <div *ngIf="ride.rating" class="ride-review">
+        <strong><h3>Your review of this ride:</h3></strong>
+        <p>Rating:{{ ride.rating }}</p>
+        <p *ngIf="ride.feedback">{{ ride.feedback }}</p>
+      </div>
     </div>
-    <div class="ride-status">
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-status">
       <div [style.backgroundColor]="ride.color" [ngClass]="{ dot: true }"></div>
       <span class="status-text">{{ ride.statusString }}</span>
     </div>
-    <hr class="ride-divider" />
+
+    <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
     <!-- Add the buttons and divider here -->
-    <div class="ride-buttons">
-      <button
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
+      <!-- <button
         class="ride-button"
         [routerLink]="'/rating/' + ride.rideId"
         [queryParams]="{
@@ -51,7 +66,7 @@
         }"
       >
         Provide Feedback
-      </button>
+      </button> -->
       <button class="ride-button" [routerLink]="'/chat'">Messages</button>
       <button
         class="ride-button"
@@ -67,6 +82,9 @@
         Leave Ride
       </button>
       <button class="ride-button">Cancel Ride</button>
+    </div>
+    <div *ngIf="cardLoading === ride.rideId">
+      <div class="loader"></div>
     </div>
   </div>
 </div>

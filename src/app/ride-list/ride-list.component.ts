@@ -12,6 +12,7 @@ export class RideListComponent implements OnInit {
   user: any;
   color: string | undefined;
   rides: RideList[] | undefined;
+  cardLoading: string = "";
   constructor(
     private rideService: RideService,
     private authService: AuthService
@@ -45,7 +46,7 @@ export class RideListComponent implements OnInit {
       }
     });
   }
-  onDriverNeededClick(rideId: String, dropoffLocation: String | undefined) {
+  onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
     this.user = this.authService.readToken();
     this.rideService.registerDriverToRide(rideId, this.user?._id).subscribe(
       (response) => {
@@ -57,10 +58,10 @@ export class RideListComponent implements OnInit {
     );
 
     alert(`✅ You have offered to drive to:\n ${dropoffLocation}\n` + ``);
-    this.ngOnInit();
+    this.reloadRideList(rideId);
   }
 
-  onLeaveRideClick(rideId: String, isDriver: boolean) {
+  onLeaveRideClick(rideId: string, isDriver: boolean) {
     console.log("👋");
     this.rideService.rmRiderFromRide(rideId, this.user?._id).subscribe(
       (response) => {
@@ -80,7 +81,12 @@ export class RideListComponent implements OnInit {
         }
       );
     }
-
-    this.ngOnInit();
+    this.reloadRideList(rideId);
+  }
+  async reloadRideList(rideId: string) {
+    console.log("This is ride id", rideId);
+    this.cardLoading = rideId;
+    await this.ngOnInit();
+    this.cardLoading = "";
   }
 }
