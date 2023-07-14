@@ -3,6 +3,8 @@ import { Ride, StopLocation } from "../Ride";
 import { RideService } from "../ride.service";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
 
 @Component({
   selector: "app-ride-card",
@@ -18,7 +20,7 @@ import { Router } from "@angular/router";
         <p><b>Capacity:</b> {{ riderCount }}/3</p>
 
         <div class="time-date">
-          <label><b>Time:</b></label>
+          <label><b>Arrival Time:</b></label>
           <p>{{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
           <label><b>Date:</b></label>
           <p>
@@ -78,10 +80,16 @@ export class RideCardComponent implements OnInit {
     this.newRideEvent.emit(this.endLocationMarker);
   }
 
+  warning = "";
+  success = false;
+  loading = false;
+
   constructor(
     private rideService: RideService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -136,17 +144,49 @@ export class RideCardComponent implements OnInit {
       .registerDriverToRide(this.ride?._id, this.user?._id)
       .subscribe(
         (response) => {
-          console.log("✅");
+          //console.log("✅");
+          this.toastr.success("Get Ready to Drive");
+          const notificationData = {
+            msg: `You offered to drive to: ${this.ride?.dropoffLocation?.address}`,
+            dateTime: Date.now(),
+            category: "Ride",
+          };
+          this.notificationService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
+
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/router"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );                  
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
         },
         (err) => {
           console.log("❗");
         }
       );
 
-    alert(
-      `✅ You have offered to drive to:\n ${this.ride?.dropoffLocation?.address}\n` +
-        ``
-    );
+    // alert(
+    //   `✅ You have offered to drive to:\n ${this.ride?.dropoffLocation?.address}\n` +
+    //     ``
+    // );
     this.reInit();
   }
 
@@ -162,16 +202,48 @@ export class RideCardComponent implements OnInit {
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
         (response) => {
-          console.log("✅");
+          this.toastr.success("Ride Joined");
+          const notificationData = {
+            msg: `You have joined the ride to ${this.ride?.dropoffLocation?.address}`,
+            dateTime: Date.now(),
+            category: "Ride",
+          };
+          this.notificationService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
+
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/router"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );                  
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
         },
         (err) => {
           console.log("❗");
         }
       );
-
+    /*
     alert(
       `✅ You have joined the ride to '${this.ride?.dropoffLocation?.address}'`
     );
+    */
     this.reInit();
   }
 
@@ -181,10 +253,41 @@ export class RideCardComponent implements OnInit {
 
   //Remove a rider from the ride (if they are a driver, they can't leave)
   onLeaveRideClick() {
-    console.log("👋");
+   //console.log("👋");
     this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
       (response) => {
-        console.log("✅");
+        this.toastr.error("Ride Abandoned");
+        const notificationData = {
+          msg: `You left the ride to ${this.ride?.dropoffLocation?.address}`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+            .addNotification(this.user._id, notificationData)
+            .subscribe(
+              () => {
+                this.warning = "";
+                this.loading = false;
+
+                this.authService.refreshToken().subscribe(
+                  (refreshSuccess) => {
+                    this.authService.setToken(refreshSuccess.token);
+                    this.router.navigate(["/router"]);
+                  },
+                  (refreshError) => {
+                    console.error("Error refreshing token:", refreshError);
+                  }
+                );                  
+              },
+              (notificationError) => {
+                console.error(
+                  "Error adding notification:",
+                  notificationError
+                );
+                this.warning = "Error adding notification";
+                this.loading = false;
+              }
+            );
       },
       (err) => {
         console.log("❗");
@@ -198,7 +301,38 @@ export class RideCardComponent implements OnInit {
     console.log("🛸");
     this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
       (response) => {
-        console.log("✅");
+        this.toastr.error("Drive Offer Cancelled");
+          const notificationData = {
+            msg: `You decided to withdraw your drive offer`,
+            dateTime: Date.now(),
+            category: "Ride",
+          };
+          this.notificationService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
+
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/router"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );                  
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
       },
       (err) => {
         console.log("❗");

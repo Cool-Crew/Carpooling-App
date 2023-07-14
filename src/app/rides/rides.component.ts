@@ -8,6 +8,9 @@ import {
 } from "@angular/forms";
 import { RideService } from "../ride.service";
 import { AuthService } from "../auth.service";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
+import { Router } from "@angular/router";
 
 import { MapComponent } from "../map/map.component";
 
@@ -43,9 +46,16 @@ export class RidesComponent implements OnInit {
   autocomplete: google.maps.places.Autocomplete | undefined;
   autocomplete2: google.maps.places.Autocomplete | undefined;
 
+  warning = "";
+  success = false;
+  loading = false;
+
   constructor(
     private rideService: RideService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private notificationService: NotificationsService,
+    private router: Router
   ) {}
 
   recvLocation(location: { lat: number; lng: number }) {
@@ -55,6 +65,7 @@ export class RidesComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.readToken();
+    
 
     this.rideForm = new FormGroup({
       pickupLocation: new FormControl(null, [
@@ -169,19 +180,59 @@ export class RidesComponent implements OnInit {
     };
 
     if (this.rideForm.invalid) {
-      alert("❗ Invalid ride requested ❗");
+      this.toastr.error("❗ Invalid ride requested ❗");
+      //alert("❗ Invalid ride requested ❗");
       return;
     }
 
     this.rideService.registerRide(rideData).subscribe(
       (response) => {
-        alert("✅ Your ride has been registered");
-        window.location.reload();
+        this.toastr.success("Ride Registered!");
+        //alert("✅ Your ride has been registered");
+        //window.location.reload();
+
+        const notificationData = {
+          msg: "New ride has been registered",
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
+
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  //this.router.navigate(["/acc-info"]);
+                   // Refresh the page
+                //this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['/router']);
+                
+              //});
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error(
+                "Error adding notification:",
+                notificationError
+              );
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
       },
       (err) => {
-        alert(
-          "❗ There was an issue registering the ride" + JSON.stringify(err)
-        );
+        this.toastr.error("Issue Registering Ride")
+        // alert(
+        //   "❗ There was an issue registering the ride" + JSON.stringify(err)
+        // );
       }
     );
   }

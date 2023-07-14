@@ -1,36 +1,62 @@
 <h1>My Rides</h1>
-<div *ngIf="!rides || rides.length === 0">
+<div *ngIf="!rides">
   <!-- Show loader when rides array is empty -->
   <div class="loader"></div>
 </div>
-<div class="notification-container">
-  <div class="notification" *ngIf="notificationMessage">
-    {{ notificationMessage }}
+<div class="notification-container" *ngIf="rides && rides.length === 0">
+  <div class="notification">
+    <h2>You dont have any rides yet</h2>
+    <button class="ride-button" [routerLink]="'/rides/'">Add Rides</button>
   </div>
 </div>
 <div class="ride-container" *ngIf="rides && rides.length > 0">
   <div *ngFor="let ride of rides" class="ride-card">
-    <div class="ride-details">
-      <p>Date: {{ ride.dateTime }}</p>
-      <p *ngIf="ride.pickupLocation">
-        Start Location: {{ ride.pickupLocation }}
-      </p>
-      <p *ngIf="!ride.pickupLocation">Pickup Locations</p>
-      <ul *ngIf="!ride.pickupLocation" class="custom-list">
-        <li *ngFor="let r of ride.riders" class="custom-list-item">
-          {{ r.riderId }}: {{ r.pickupLocation }}
-        </li>
-      </ul>
-      <p>End Location: {{ ride.dropoffLocation }}</p>
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-details">
+      <div>
+        <p>Date: {{ ride.dateTime }}</p>
+        <p *ngIf="ride.pickupLocation">
+          Start Location: {{ ride.pickupLocation }}
+        </p>
+        <span
+          *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
+        >
+          <p>Pickup Locations</p>
+          <ul class="custom-list">
+            <li *ngFor="let r of ride.riders" class="custom-list-item">
+              {{ r.riderId }}: {{ r.pickupLocation }}
+            </li>
+          </ul>
+        </span>
+        <span
+          *ngIf="
+            !ride.pickupLocation && ride.riders && ride.riders.length === 0
+          "
+        >
+          <p>No Riders yet</p>
+        </span>
+        <p>End Location: {{ ride.dropoffLocation }}</p>
+        <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+      </div>
+      <app-rating
+        *ngIf="!ride.rating"
+        [rideId]="ride.rideId"
+        (feedbackSubmitted)="reloadRideList(ride.rideId)"
+      ></app-rating>
+      <div *ngIf="ride.rating" class="ride-review">
+        <strong><h3>Your review of this ride:</h3></strong>
+        <p>Rating:{{ ride.rating }}</p>
+        <p *ngIf="ride.feedback">{{ ride.feedback }}</p>
+      </div>
     </div>
-    <div class="ride-status">
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-status">
       <div [style.backgroundColor]="ride.color" [ngClass]="{ dot: true }"></div>
       <span class="status-text">{{ ride.statusString }}</span>
     </div>
-    <hr class="ride-divider" />
+
+    <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
     <!-- Add the buttons and divider here -->
-    <div class="ride-buttons">
-      <button
+    <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
+      <!-- <button
         class="ride-button"
         [routerLink]="'/rating/' + ride.rideId"
         [queryParams]="{
@@ -40,11 +66,31 @@
         }"
       >
         Provide Feedback
+      </button> -->
+      <button class="ride-button" [routerLink]="'/chat'">Messages</button>
+      <button
+        class="ride-button"
+        *ngIf="ride.pickupLocation && !ride.driverName"
+        (click)="onDriverNeededClick(ride.rideId, ride.dropoffLocation)"
+      >
+        Offer to Drive
       </button>
-      <button class="ride-button">Messages</button>
-      <button class="ride-button" (click)="cancelRide(ride.rideId)">
+      <button
+        class="ride-button"
+        (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
+      >
+        Leave Ride
+      </button>
+      <button 
+        class="ride-button"  
+        *ngIf="ride.statusString !== 'Cancelled'"
+        (click)="cancelRide(ride.rideId)"
+      >
         Cancel Ride
       </button>
+    </div>
+    <div *ngIf="cardLoading === ride.rideId">
+      <div class="loader"></div>
     </div>
   </div>
 </div>
