@@ -5,6 +5,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
+import { PlaceResult } from "../rides/rides.component";
 
 @Component({
   selector: "app-ride-card",
@@ -76,6 +77,7 @@ export class RideCardComponent implements OnInit {
   timeStr: string | undefined;
 
   @Input() ride: Ride | undefined;
+  @Input() puLocation: PlaceResult | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);

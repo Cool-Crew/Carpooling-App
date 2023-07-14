@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
 import { MapComponent } from "../map/map.component";
 import { AvailableRidesListComponent } from "../available-rides-list/available-rides-list.component";
 
-interface PlaceResult {
+export interface PlaceResult {
   address?: string;
   location?: google.maps.LatLng;
   name?: string;

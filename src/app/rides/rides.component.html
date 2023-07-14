@@ -121,7 +121,7 @@
           <!-- Buttons to be combined, new ride only present for dev -->
         </form>
 
-        <app-available-rides-list #ridesListComponent [searchParams]="searchParams" (passLocation)="recvLocation($event)"></app-available-rides-list>
+        <app-available-rides-list #ridesListComponent [puLocation]="pickupLocation" [searchParams]="searchParams" (passLocation)="recvLocation($event)"></app-available-rides-list>
 
       </div>
 

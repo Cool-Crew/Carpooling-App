@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
 import { RideService } from '../ride.service';
 import { Ride } from '../Ride';
+import { PlaceResult } from '../rides/rides.component';
 
 
 
@@ -17,6 +18,7 @@ export class AvailableRidesListComponent implements OnInit{
 
 
   @Input() searchParams: {date: Date | undefined} | undefined;
+  @Input() puLocation: PlaceResult | undefined;
   @Output() passLocation = new EventEmitter<{lat: number, lng: number}>
   
 
@@ -35,6 +37,26 @@ export class AvailableRidesListComponent implements OnInit{
     //filter this.rides by ride.status === "Not_Started"
     this.rides = this.rides?.filter(ride => ride.status === "Not_Started");
 
+    //filter this.rides so that only future rides are shown
+    this.rides = this.rides?.filter(ride => {
+      let rideDateStr = ride?.dateTime;
+      var rideDate: Date | undefined;
+      if (typeof rideDateStr === 'string') {
+        rideDate = new Date(rideDateStr);
+      }
+      if (rideDate) {
+        return rideDate?.getFullYear() > new Date().getFullYear() ||
+        rideDate?.getMonth() > new Date().getMonth() ||
+        rideDate?.getDate() > new Date().getDate() ||
+        rideDate?.getHours() > new Date().getHours();
+      }
+      //possible fail-point, no issues in testing so far
+      return false;
+    });
+
+    //filter this.rides to remove any rides that have 3 or more riders already or do not have drivers
+    this.rides = this.rides?.filter(ride => ride.riders.length < 3 || ride.driver !== null);
+
     //filter this.rides by date in searchParams, but not the time portion of the date
     if(this.searchParams?.date){
       this.rides = this.rides?.filter(ride => {
@@ -43,6 +65,7 @@ export class AvailableRidesListComponent implements OnInit{
         if (typeof rideDateStr === 'string') {
           rideDate = new Date(rideDateStr);
         }
+
 
         //filter the rides by date and within 2hr before or 1hr after the search datetime
         if (rideDate && this.searchParams?.date) {
