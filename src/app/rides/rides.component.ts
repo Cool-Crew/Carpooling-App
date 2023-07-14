@@ -164,14 +164,18 @@ export class RidesComponent implements OnInit {
     const dateNoTime: string | undefined = this.selectedDate?.toISOString();
     const dateParts = dateNoTime?.split("T");
     let fullDate: Date | undefined;
+
     if (dateParts) {
       fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
     }
+
     //send the date to the available-rides-list component
     this.searchParams = {date: fullDate};
     console.log(this.searchParams);
+
     //re initioalize the available-rides-list component
     await this.ridesListComponent.refreshRides();
+    
     // console.log(this.ridesListComponent);
   }
 

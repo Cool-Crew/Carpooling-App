@@ -41,14 +41,20 @@ export class AvailableRidesListComponent implements OnInit{
         if (typeof rideDateStr === 'string') {
           rideDate = new Date(rideDateStr);
         }
-        
-        return rideDate?.getFullYear() === this.searchParams?.date?.getFullYear() &&
-        rideDate?.getMonth() === this.searchParams?.date?.getMonth() &&
-        rideDate?.getDate() === this.searchParams?.date?.getDate();
+
+        //filter the rides by date and within 1.5 hours before the search date
+        if (rideDate && this.searchParams?.date) {
+          return rideDate?.getFullYear() === this.searchParams?.date?.getFullYear() &&
+          rideDate?.getMonth() === this.searchParams?.date?.getMonth() &&
+          rideDate?.getDate() === this.searchParams?.date?.getDate() &&
+          rideDate?.getHours() >= this.searchParams?.date?.getHours() - 2 &&
+          rideDate?.getHours() <= this.searchParams?.date?.getHours() + 1;
+        }
+        return false;
+
+
       });
     }
-
-    console.log(this.rides);
   }
 
 
