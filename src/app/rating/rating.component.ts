@@ -2,36 +2,25 @@ import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../auth.service";
 import { RideService } from "../ride.service";
-
 @Component({
   selector: "app-rating",
   templateUrl: "./rating.component.html",
   styleUrls: ["./rating.component.css"],
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private rideService: RideService,
     private authService: AuthService
   ) {}
-  rideId: string | null = "";
-  rideDate: string = "";
+  @Input() rideId: string = "";
   user: any;
-  rideStartLocation: string = "";
-  rideEndLocation: string = "";
   textFeedback: string = "";
   errorMessage: string = "";
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.rideId = this.route.snapshot.paramMap.get("id");
-      this.rideDate = params["date"];
-      this.rideStartLocation = params["startLocation"];
-      this.rideEndLocation = params["endLocation"];
-    });
-  }
   @Input() ratingValue: number = 0;
   @Output() ratingChange = new EventEmitter<number>();
+  @Output() feedbackSubmitted = new EventEmitter<void>();
   stars: number[] = [1, 2, 3, 4, 5];
   selectedStar: number = 0;
   hoveredStar?: number;
@@ -64,11 +53,13 @@ export class RatingComponent implements OnInit {
       .subscribe(
         (response) => {
           alert("✅ Your Feedback has been submitted");
+          this.feedbackSubmitted.emit();
         },
         (err) => {
           alert("❗ There was an issue registering the feedback");
+          this.feedbackSubmitted.emit();
         }
       );
-    this.router.navigate(["/myRides"]);
+    this.errorMessage = "";
   }
 }

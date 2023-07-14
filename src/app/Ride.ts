@@ -46,7 +46,7 @@ export class RiderLocationMapping {
   pickupLocation: String | undefined;
 }
 export class RideList {
-  rideId: String = "";
+  rideId: string = "";
   pickupLocation: String | undefined;
   dropoffLocation: String | undefined;
   dateTime: String | undefined;
@@ -55,4 +55,6 @@ export class RideList {
   color: string | undefined;
   riders: RiderLocationMapping[] | undefined;
   driverName: string | undefined;
+  rating: number | undefined;
+  feedback: string | undefined;
 }

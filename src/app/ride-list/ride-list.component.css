@@ -37,8 +37,7 @@
   position: relative;
 }
 
-.ride-card,
-.notification {
+.ride-card {
   width: 300px;
   margin: 10px;
   padding: 20px;
@@ -47,7 +46,33 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
+.ride-card {
+  display: flex;
+  width: 28%;
+  overflow: auto;
+}
+@media (max-width: 1280px) {
+  .ride-card {
+    flex-basis: auto;
+    width: 40%;
+  }
+}
+@media (max-width: 900px) {
+  .ride-card {
+    width: 60%;
+  }
+}
 
+@media (max-width: 640px) {
+  .ride-card {
+    width: 92%;
+  }
+}
+@media (max-width: 432px) {
+  .ride-card {
+    width: 100%;
+  }
+}
 .notification-container {
   display: flex;
   justify-content: center;
@@ -60,10 +85,16 @@
 
 .ride-details {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 70%; /* Adjust the width of the details column */
+  padding-right: 10px; /* Add spacing between columns */
 }
 
 .ride-buttons {
   display: flex;
+  flex-basis: 30%; /* Adjust the width of the details column */
+  padding-left: 10px; /* Add spacing between columns */
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -83,9 +114,13 @@
 .ride-divider {
   margin-top: 10px;
   border: none;
+  border-left: 1px solid #ccc;
+}
+.ride-details-divider {
+  margin-top: 10px;
+  border: none;
   border-top: 1px solid #ccc;
 }
-
 .ride-status {
   position: absolute;
   top: 10px;
@@ -136,4 +171,8 @@
   background-color: black;
   margin-right: 5px;
   vertical-align: middle;
+}
+h3 {
+  margin: 0px 0px 8px;
+  font-weight: bold;
 }

@@ -41,15 +41,14 @@ import { UpdateComponent } from "./update/update.component";
 import { HomeComponent } from "./home/home.component";
 import { MapComponent } from "./map/map.component";
 import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.component";
-import { CreateRideComponent } from './create-ride/create-ride.component';
-import { PlaceValidatorDirective } from './place-validator.directive';
-import { AvailableRidesListComponent } from './available-rides-list/available-rides-list.component';
-import { RideCardComponent } from './ride-card/ride-card.component';
+import { CreateRideComponent } from "./create-ride/create-ride.component";
+import { PlaceValidatorDirective } from "./place-validator.directive";
+import { AvailableRidesListComponent } from "./available-rides-list/available-rides-list.component";
+import { RideCardComponent } from "./ride-card/ride-card.component";
 
 import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
-
 
 @NgModule({
   declarations: [
@@ -70,10 +69,9 @@ import { ChatComponent } from "./chat/chat.component";
     AvailableRidesListComponent,
     RideCardComponent,
 
-    RideListComponent,
     RatingComponent,
+    RideListComponent,
     ChatComponent,
-
   ],
   imports: [
     BrowserModule,
