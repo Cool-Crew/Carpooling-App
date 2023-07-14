@@ -20,7 +20,7 @@ import { NotificationsService } from "../notifications.service";
         <p><b>Capacity:</b> {{ riderCount }}/3</p>
 
         <div class="time-date">
-          <label><b>Time:</b></label>
+          <label><b>Arrival Time:</b></label>
           <p>{{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
           <label><b>Date:</b></label>
           <p>
