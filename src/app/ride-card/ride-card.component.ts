@@ -21,12 +21,10 @@ import { NotificationsService } from "../notifications.service";
 
         <div class="time-date">
           <label><b>Arrival Time:</b></label>
-          <p>{{ rideDate?.getHours() }}:{{ rideDate?.getMinutes() }}</p>
+          <p>{{ this.timeStr }}</p>
           <label><b>Date:</b></label>
           <p>
-            {{ rideDate?.getDay() }}-{{ rideDate?.getMonth() }}-{{
-              rideDate?.getFullYear()
-            }}
+            {{ rideDateStr }}
           </p>
         </div>
 
@@ -73,6 +71,9 @@ export class RideCardComponent implements OnInit {
   userCanJoin: boolean = true;
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
+  //for displaying information to the user
+  rideDateStr: string | undefined;
+  timeStr: string | undefined;
 
   @Input() ride: Ride | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
@@ -98,6 +99,71 @@ export class RideCardComponent implements OnInit {
     let dateTimeStr = this.ride?.dateTime;
     if (dateTimeStr) {
       this.rideDate = new Date(dateTimeStr);
+    }
+    //setting date string for display
+    var monthName: string | undefined;
+    switch (this.rideDate?.getMonth()) {
+      case 0:
+        monthName = 'January';
+        break;
+      case 1:
+        monthName = 'February';
+        break;
+      case 2:
+        monthName = 'March';
+        break;
+      case 3:
+        monthName = 'April';
+        break;
+      case 4:
+        monthName = 'May';
+        break;
+      case 5:
+        monthName = 'June';
+        break;
+      case 6:
+        monthName = 'July';
+        break;
+      case 7:
+        monthName = 'August';
+        break;
+      case 8:
+        monthName = 'September';
+        break;
+      case 9:
+        monthName = 'October';
+        break;
+      case 10:
+        monthName = 'November';
+        break;
+      case 11:
+        monthName = 'December';
+        break;
+      default:
+        monthName = '';
+        break;
+    }
+    this.rideDateStr = `${this.rideDate?.getDate()} ${monthName}, ${this.rideDate?.getFullYear()}`;
+
+    //setting time string for display
+    if (this.rideDate){
+      let hour = this.rideDate?.getHours();
+      let minute = this.rideDate?.getMinutes();
+      let ampm = hour >= 12 ? 'pm' : 'am';
+      hour = hour % 12;
+      hour = hour ? hour : 12;
+      //this.timeStr = `${hour}:${minute} ${ampm}`;
+
+      if (hour < 10){
+        this.timeStr = `0${hour}:`;
+      } else {
+        this.timeStr = `${hour}:`;
+      }
+      if (minute < 10){
+        this.timeStr += `0${minute} ${ampm}`;
+      }else {
+        this.timeStr += `${minute} ${ampm}`;
+      }
     }
 
     //check if room is available to join, remove join button if not

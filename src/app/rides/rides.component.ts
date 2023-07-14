@@ -39,6 +39,13 @@ export class RidesComponent implements OnInit {
   searchRange: string = "";
   currPinLocation: { lat: number; lng: number } | undefined;
 
+  //searchParams are passed to the available-rides-list component
+  searchParams: { 
+    date: Date | undefined, 
+    } 
+  | undefined;
+
+
   @ViewChild("puLocation", { static: false })
   puLocation!: ElementRef;
   @ViewChild("doLocation", { static: false })
@@ -54,8 +61,6 @@ export class RidesComponent implements OnInit {
   warning = "";
   success = false;
   loading = false;
-
-  searchParams: { date: Date | undefined} | undefined;
 
   constructor(
     private rideService: RideService,
@@ -157,6 +162,8 @@ export class RidesComponent implements OnInit {
     return null;
   };
 
+
+
   // searching for a ride
   //Pass the date to the available-rides-list component
   async onSearch() {
@@ -170,13 +177,12 @@ export class RidesComponent implements OnInit {
     }
 
     //send the date to the available-rides-list component
-    this.searchParams = {date: fullDate};
+    //this.searchParams = {date: fullDate, dropLocation: this.dropoffLocation?.location};
+    this.searchParams = { date: fullDate };
     console.log(this.searchParams);
 
     //re initioalize the available-rides-list component
     await this.ridesListComponent.refreshRides();
-    
-    // console.log(this.ridesListComponent);
   }
 
   // creating a new ride

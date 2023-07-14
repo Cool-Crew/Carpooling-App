@@ -3,6 +3,7 @@ import { RideService } from '../ride.service';
 import { Ride } from '../Ride';
 
 
+
 @Component({
   selector: 'app-available-rides-list',
   templateUrl: './available-rides-list.component.html',
@@ -13,6 +14,7 @@ export class AvailableRidesListComponent implements OnInit{
   rides:Ride[] | undefined = [];
   selectedRide: Ride | undefined;
   selectedRideEnd: {lat: number, lng: number} | undefined;
+
 
   @Input() searchParams: {date: Date | undefined} | undefined;
   @Output() passLocation = new EventEmitter<{lat: number, lng: number}>
@@ -42,7 +44,7 @@ export class AvailableRidesListComponent implements OnInit{
           rideDate = new Date(rideDateStr);
         }
 
-        //filter the rides by date and within 1.5 hours before the search date
+        //filter the rides by date and within 2hr before or 1hr after the search datetime
         if (rideDate && this.searchParams?.date) {
           return rideDate?.getFullYear() === this.searchParams?.date?.getFullYear() &&
           rideDate?.getMonth() === this.searchParams?.date?.getMonth() &&
@@ -50,8 +52,8 @@ export class AvailableRidesListComponent implements OnInit{
           rideDate?.getHours() >= this.searchParams?.date?.getHours() - 2 &&
           rideDate?.getHours() <= this.searchParams?.date?.getHours() + 1;
         }
+        //possible fail-point, no issues in testing so far
         return false;
-
 
       });
     }
