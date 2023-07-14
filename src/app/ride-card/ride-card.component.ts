@@ -131,7 +131,6 @@ export class RideCardComponent implements OnInit {
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
 
-    console.log(this);
   }
 
   reInit() {
@@ -144,7 +143,6 @@ export class RideCardComponent implements OnInit {
       .registerDriverToRide(this.ride?._id, this.user?._id)
       .subscribe(
         (response) => {
-          //console.log("✅");
           this.toastr.success("Get Ready to Drive");
           const notificationData = {
             msg: `You offered to drive to: ${this.ride?.dropoffLocation?.address}`,
@@ -253,7 +251,6 @@ export class RideCardComponent implements OnInit {
 
   //Remove a rider from the ride (if they are a driver, they can't leave)
   onLeaveRideClick() {
-   //console.log("👋");
     this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
       (response) => {
         this.toastr.error("Ride Abandoned");
@@ -298,7 +295,6 @@ export class RideCardComponent implements OnInit {
   }
 
   onCancelDriveOfferClick() {
-    console.log("🛸");
     this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
       (response) => {
         this.toastr.error("Drive Offer Cancelled");
@@ -341,4 +337,5 @@ export class RideCardComponent implements OnInit {
 
     this.reInit();
   }
+
 }
