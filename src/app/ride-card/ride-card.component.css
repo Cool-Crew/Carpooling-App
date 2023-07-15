@@ -94,5 +94,21 @@ margin-right: 5px;
     border-radius: 5px;
     padding: 1em;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    
+}
+
+div.userCommButtonSpace {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    text-align: center;
+}
+p.warning {
+    color: red;
+    font-weight: thin;
+    font-size: .8em;
+    text-align: center;
+    margin-left: -3em;
+    margin-top: -.7em;
 }
