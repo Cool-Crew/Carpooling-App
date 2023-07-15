@@ -8,6 +8,12 @@
 .form-container {
   width: 350px;
   margin-right: 20px;
+
+  margin: 1em;
+  bord-color: #ccc;
+  border-radius: 5px;
+  padding: 1em;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 form {
@@ -35,7 +41,7 @@ select {
 button {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: .5em;
   background-color: rgb(63, 81, 181);
   color: #fff;
   border: none;
