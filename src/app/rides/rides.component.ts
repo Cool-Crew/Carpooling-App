@@ -21,9 +21,9 @@ export interface PlaceResult {
   name?: string;
 }
 
-export interface PickupLocationInfo {
+export interface StopLocationInfo {
   puLocation: PlaceResult;
-  valid: boolean;
+  valid: boolean; 
 }
 
 @Component({
@@ -41,11 +41,13 @@ export class RidesComponent implements OnInit {
   riderDriver: string = "";
   searchRange: string = "";
   currPinLocation: { lat: number; lng: number } | undefined;
-  puLocationInfo: PickupLocationInfo | undefined;
+  puLocationInfo: StopLocationInfo | undefined;
+  doLocationInfo: StopLocationInfo | undefined;
 
   //searchParams are passed to the available-rides-list component
   searchParams: { 
     date: Date | undefined, 
+
     } 
   | undefined;
 

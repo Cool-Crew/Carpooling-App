@@ -5,7 +5,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
-import { PickupLocationInfo, PlaceResult } from "../rides/rides.component";
+import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
 @Component({
   selector: "app-ride-card",
@@ -28,34 +28,47 @@ import { PickupLocationInfo, PlaceResult } from "../rides/rides.component";
             {{ rideDateStr }}
           </p>
         </div>
-
         <p></p>
+
+
+        <!-- Ride card buttons -->
+        <!--  -->
         <button
           *ngIf="needsDriver && userCanDrive"
           (click)="onDriverNeededClick()"
         >
           Offer To Drive
         </button>
+
+        <!-- Button to communicate with user that they are the driver of this ride -->
+        <button
+          *ngIf="userIsDriver"
+          disabled>
+          You are already the driver of this ride
+        </button>
+
         <button
           *ngIf="roomAvailable && userCanJoin && puLocation?.valid"
-          (click)="onJoinRideClick()"
-        >
+          (click)="onJoinRideClick()">
           Join Ride
-        </button>
+        </button>    
+
         <!-- Button solely for communicating w/ user to input p/u location -->
         <button
-          *ngIf="!puLocation?.valid && userCanJoin"
+          *ngIf="!puLocation?.valid && userCanJoin && roomAvailable"
           disabled
           >
           Enter a valid pickup location to join ride
         </button>
+
         <button
           class="leave"
-          *ngIf="!userCanJoin && !userCanDrive"
+          *ngIf="userIsRider"
           (click)="onLeaveRideClick()"
         >
           Leave Ride
         </button>
+
         <button
           class="leave"
           *ngIf="userIsDriver"
@@ -63,6 +76,14 @@ import { PickupLocationInfo, PlaceResult } from "../rides/rides.component";
         >
           Cancel Drive Offer
         </button>
+        <!-- Button for user to switch from driver to rider -->
+        <button
+          class="leave"
+          *ngIf="userIsDriver && userCanJoin && puLocation?.valid && roomAvailable"
+          (click)="onJoinRideClick()">
+          Cancel Drive Offer & Switch to Rider 
+        </button>
+
       </div>
     </div>
   `,
@@ -79,12 +100,14 @@ export class RideCardComponent implements OnInit {
   userCanJoin: boolean = true;
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
+  userIsRider: boolean = false;
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
 
   @Input() ride: Ride | undefined;
-  @Input() puLocation: PickupLocationInfo | undefined;
+  @Input() puLocation: StopLocationInfo | undefined;
+  @Input() doLocation: StopLocationInfo | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);
@@ -188,7 +211,7 @@ export class RideCardComponent implements OnInit {
       for (const rider of this.ride?.riders) {
         if (rider.riderID === this.user._id) {
           this.userCanJoin = false;
-          this.userCanDrive = false;
+          this.userIsRider = true;
         }
       }
     }
@@ -198,7 +221,6 @@ export class RideCardComponent implements OnInit {
       this.needsDriver = false;
 
       if (this.ride?.driver === this.user._id) {
-        this.userCanDrive = false;
         this.userIsDriver = true;
       }
     }
@@ -214,6 +236,17 @@ export class RideCardComponent implements OnInit {
 
   //Add a driver to the ride
   onDriverNeededClick() {
+    //if user is already rider, remove them from ride before adding as driver
+    if (!this.userCanJoin) {
+      this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
+        (response) => {
+        },
+        (error) => {
+          console.error("Error removing rider from ride:", error);
+        }
+      );
+    }
+
     this.rideService
       .registerDriverToRide(this.ride?._id, this.user?._id)
       .subscribe(
@@ -264,6 +297,16 @@ export class RideCardComponent implements OnInit {
     const pickupLocation = this.puLocation;
     console.log(pickupLocation);
 
+    //if user is already driver, remove them from driver before adding as rider
+    if (this.userIsDriver) {
+      this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
+        (response) => {
+        },
+        (error) => {
+          console.error("Error removing driver from ride:", error);
+        }
+      );
+    }
     this.rideService
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
@@ -305,11 +348,6 @@ export class RideCardComponent implements OnInit {
           console.log("❗");
         }
       );
-    /*
-    alert(
-      `✅ You have joined the ride to '${this.ride?.dropoffLocation?.address}'`
-    );
-    */
     this.reInit();
   }
 
