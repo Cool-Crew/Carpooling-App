@@ -125,6 +125,7 @@ export class RidesComponent implements OnInit {
         puLocation: result,
         valid: this.rideForm.controls.pickupLocation.valid
       }
+      this.ridesListComponent.refreshRides();
     });
 
     this.autocomplete2?.addListener("place_changed", () => {

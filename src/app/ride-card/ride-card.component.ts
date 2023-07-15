@@ -42,9 +42,9 @@ import { PickupLocationInfo, PlaceResult } from "../rides/rides.component";
         >
           Join Ride
         </button>
-        <!-- button that is disabled and says Join Ride if puLocation.valid is false -->
+        <!-- Button solely for communicating w/ user to input p/u location -->
         <button
-          *ngIf="!puLocation?.valid"
+          *ngIf="!puLocation?.valid && userCanJoin"
           disabled
           >
           Enter a valid pickup location to join ride

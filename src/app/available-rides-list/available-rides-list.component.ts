@@ -79,6 +79,25 @@ export class AvailableRidesListComponent implements OnInit{
 
       });
     }
+
+    //sort this.rides by date
+    this.rides = this.rides?.sort((a, b) => {
+      let aDateStr = a?.dateTime;
+      let bDateStr = b?.dateTime;
+      var aDate: Date | undefined;
+      var bDate: Date | undefined;
+      if (typeof aDateStr === 'string') {
+        aDate = new Date(aDateStr);
+      }
+      if (typeof bDateStr === 'string') {
+        bDate = new Date(bDateStr);
+      }
+      if (aDate && bDate) {
+        return aDate?.getTime() - bDate?.getTime();
+      }
+      //possible fail-point, no issues in testing so far
+      return 0;
+    });
   }
 
 
