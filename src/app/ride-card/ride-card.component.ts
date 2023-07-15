@@ -75,6 +75,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
           class="leave"
           *ngIf="userIsDriver"
           (click)="onCancelDriveOfferClick()"
+          [disabled]="userLeftRide"
         >
           Cancel Drive Offer
         </button>
@@ -106,6 +107,7 @@ export class RideCardComponent implements OnInit {
   userIsRider: boolean = false;
   userBecameRider: boolean = false;
   userBecameDriver: boolean = false;
+  userLeftRide: boolean = false;
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
@@ -401,7 +403,7 @@ export class RideCardComponent implements OnInit {
       }
     );
 
-    this.reInit();
+    this.userLeftRide = true;
   }
 
   onCancelDriveOfferClick() {
