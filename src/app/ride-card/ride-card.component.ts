@@ -56,12 +56,14 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         </button>    
 
         <!-- Button solely for communicating w/ user to input p/u location -->
-        <button
-          *ngIf="!puLocation?.valid && userCanJoin && roomAvailable"
-          disabled
-          >
-          Enter a valid pickup location to join ride
-        </button>
+        <div class=userCommButtonSpace *ngIf="!puLocation?.valid && userCanJoin && roomAvailable">
+          <button
+            disabled
+            >
+            Join Ride
+          </button>
+          <p class="warning">Please enter a valid pickup location to join</p>
+        </div>
 
         <button
           class="leave"
