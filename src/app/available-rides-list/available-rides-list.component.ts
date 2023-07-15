@@ -67,14 +67,19 @@ export class AvailableRidesListComponent implements OnInit{
         }
 
 
-        //filter the rides by date and within 2hr before or 1hr after the search datetime
+        //filter the rides by date and within 2hr before or 1hr after the search datetime, but only if the search time is not null
+        //if the search time is null, then the search is for all rides on the search date
+
         if (rideDate && this.searchParams?.date) {
           return rideDate?.getFullYear() === this.searchParams?.date?.getFullYear() &&
           rideDate?.getMonth() === this.searchParams?.date?.getMonth() &&
-          rideDate?.getDate() === this.searchParams?.date?.getDate() &&
+          rideDate?.getDate() === this.searchParams?.date?.getDate()
+        }
+        if(rideDate && this.searchParams?.date && this.searchParams?.date?.getHours() !== null){
           rideDate?.getHours() >= this.searchParams?.date?.getHours() - 2 &&
           rideDate?.getHours() <= this.searchParams?.date?.getHours() + 1;
         }
+
         //possible fail-point, no issues in testing so far
         return false;
 

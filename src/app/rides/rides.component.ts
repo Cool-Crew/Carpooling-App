@@ -186,6 +186,9 @@ export class RidesComponent implements OnInit {
     if (dateParts) {
       fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
     }
+    if (isNaN(fullDate?.getTime() as number)) {
+      fullDate = new Date(`${dateParts![0]}T00:00:00`);
+    }
 
     //send the date to the available-rides-list component
     //this.searchParams = {date: fullDate, dropLocation: this.dropoffLocation?.location};
