@@ -23,6 +23,7 @@
     padding-left: .5em;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    padding-bottom: .5em;
 }
 
 .card button.leave {
