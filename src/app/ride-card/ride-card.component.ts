@@ -36,6 +36,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         <button
           *ngIf="needsDriver && userCanDrive"
           (click)="onDriverNeededClick()"
+          [disabled]="userBecameDriver"
         >
           Offer To Drive
         </button>
@@ -49,7 +50,8 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
         <button
           *ngIf="roomAvailable && userCanJoin && puLocation?.valid"
-          (click)="onJoinRideClick()">
+          (click)="onJoinRideClick()"
+          [disabled]="userBecameRider">
           Join Ride
         </button>    
 
@@ -80,7 +82,8 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         <button
           class="leave"
           *ngIf="userIsDriver && userCanJoin && puLocation?.valid && roomAvailable"
-          (click)="onJoinRideClick()">
+          (click)="onJoinRideClick()"
+          [disabled]="userBecameRider">
           Cancel Drive Offer & Switch to Rider 
         </button>
 
@@ -101,6 +104,8 @@ export class RideCardComponent implements OnInit {
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
   userIsRider: boolean = false;
+  userBecameRider: boolean = false;
+  userBecameDriver: boolean = false;
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
@@ -288,8 +293,7 @@ export class RideCardComponent implements OnInit {
           console.log("❗");
         }
       );
-
-    this.reInit();
+      this.userBecameDriver = true;
   }
 
   //Add a rider to the ride PlaceHolder for now
@@ -348,7 +352,7 @@ export class RideCardComponent implements OnInit {
           console.log("❗");
         }
       );
-    this.reInit();
+    this.userBecameRider = true;
   }
 
   onRideClick() {
