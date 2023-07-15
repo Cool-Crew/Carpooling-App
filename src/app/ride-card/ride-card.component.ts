@@ -65,7 +65,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
         <button
           class="leave"
-          *ngIf="userIsRider"
+          *ngIf="userIsRider && !userIsCreator"
           (click)="onLeaveRideClick()"
         >
           Leave Ride
@@ -108,6 +108,7 @@ export class RideCardComponent implements OnInit {
   userBecameRider: boolean = false;
   userBecameDriver: boolean = false;
   userLeftRide: boolean = false;
+  userIsCreator: boolean = false;
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
@@ -230,6 +231,11 @@ export class RideCardComponent implements OnInit {
       if (this.ride?.driver === this.user._id) {
         this.userIsDriver = true;
       }
+    }
+
+    //checks if user is creator of ride
+    if (this.ride?.creator === this.user._id) {
+      this.userIsCreator = true;
     }
 
     this.endLocation = this.ride?.dropoffLocation;
