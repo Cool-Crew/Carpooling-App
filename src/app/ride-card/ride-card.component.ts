@@ -47,9 +47,17 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
           disabled>
           You are already the driver of this ride
         </button>
+        <button
+          class="leave"
+          *ngIf="userIsDriver || userBecameDriver"
+          (click)="onCancelDriveOfferClick()"
+          [disabled]="userLeftRide"
+        >
+          Cancel Drive Offer
+        </button>
 
         <button
-          *ngIf="roomAvailable && userCanJoin && puLocation?.valid"
+          *ngIf="(roomAvailable && userCanJoin && puLocation?.valid) && !userBecameRider"
           (click)="onJoinRideClick()"
           [disabled]="userBecameRider">
           Join Ride
@@ -67,27 +75,19 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
         <button
           class="leave"
-          *ngIf="userIsRider && !userIsCreator"
+          *ngIf="(userIsRider && !userIsCreator) || userBecameRider"
           (click)="onLeaveRideClick()"
         >
           Leave Ride
         </button>
 
-        <button
-          class="leave"
-          *ngIf="userIsDriver"
-          (click)="onCancelDriveOfferClick()"
-          [disabled]="userLeftRide"
-        >
-          Cancel Drive Offer
-        </button>
         <!-- Button for user to switch from driver to rider -->
         <button
           class="leave"
           *ngIf="userIsDriver && userCanJoin && puLocation?.valid && roomAvailable"
           (click)="onJoinRideClick()"
           [disabled]="userBecameRider">
-          Cancel Drive Offer & Switch to Rider 
+          Cancel Drive Offer & Become Rider 
         </button>
 
       </div>
@@ -303,7 +303,7 @@ export class RideCardComponent implements OnInit {
           console.log("❗");
         }
       );
-      this.userBecameDriver = true;
+    this.userBecameDriver = true;
   }
 
   //Add a rider to the ride PlaceHolder for now
@@ -362,7 +362,9 @@ export class RideCardComponent implements OnInit {
           console.log("❗");
         }
       );
-    this.userBecameRider = true;
+      this.userBecameRider = true;
+      console.log('user became rider ' + this.userBecameRider)
+      this.reInit();
   }
 
   onRideClick() {
@@ -410,8 +412,8 @@ export class RideCardComponent implements OnInit {
         console.log("❗");
       }
     );
-
     this.userLeftRide = true;
+    console.log('user left ride: ' + this.userLeftRide);
   }
 
   onCancelDriveOfferClick() {
