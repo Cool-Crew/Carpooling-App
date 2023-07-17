@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
 import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-ride-list",
   templateUrl: "./ride-list.component.html",
   styleUrls: ["./ride-list.component.css"],
 })
-
 export class RideListComponent implements OnInit {
   user: any;
   color: string | undefined;
@@ -18,7 +18,9 @@ export class RideListComponent implements OnInit {
   constructor(
     private rideService: RideService,
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -57,13 +59,12 @@ export class RideListComponent implements OnInit {
         this.reloadRideList(rideId);
       },
       (error) => {
-        if (error.status === 422)
-        {
+        if (error.status === 422) {
           alert(`❗${error.error.message}`);
         }
         console.error(error);
       }
-    );   
+    );
   }
 
   onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
@@ -109,5 +110,6 @@ export class RideListComponent implements OnInit {
     this.cardLoading = rideId;
     await this.ngOnInit();
     this.cardLoading = "";
+    this.changeDetectorRef.detectChanges(); // Trigger change detection
   }
 }
