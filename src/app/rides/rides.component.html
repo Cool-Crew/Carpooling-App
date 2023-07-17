@@ -79,7 +79,21 @@
               rideForm.get('selectedTime').invalid &&
               (rideForm.get('selectedTime').dirty || rideForm.get('selectedTime').touched)
             "
-            class="form-error-msg">Please enter a valid future time</div>
+            class="form-error-msg">Please enter a valid future time
+          </div>
+          <!-- <br /> -->
+
+          <!-- <label for="search-range">Search Range:</label>
+          <select
+            id="search-range"
+            name="search-range"
+            formControlName = "searchRange"
+          >
+            <option value="1 kilometer">1 kilometer</option>
+            <option value="2.5 kilometers">2.5 kilometers</option>
+            <option value="5 kilometers">5 kilometers</option>
+            <option value="10 kilometers">10 kilometers</option></select
+          > -->
           <br /><br />
 
           <!-- Temporary Removal - waiting for further functionality -->
@@ -90,24 +104,13 @@
             name="rider-driver"
             formControlName = "riderDriver"
           /><br /><br />
+          -->
 
-          <label for="search-range">Search Range:</label>
-          <select
-            id="search-range"
-            name="search-range"
-            formControlName = "searchRange"
-          >
-            <option value="2.5 kilometers">2.5 kilometers</option>
-            <option value="5 kilometers">5 kilometers</option>
-            <option value="10 kilometers">10 kilometers</option>
-            <option value="20 kilometers">20 kilometers</option></select
-          ><br /><br /> -->
-
-          <!-- <button type="submit" value="Submit">Submit</button> -->
           <div class="button-container">
-            <!-- <button type="submit" class="search-button" value="Search">
+            <!-- Trigger onSearch when clicked -->
+            <button type="button" class="search-button" value="Search" (click)="onSearch()">
               Search
-            </button> -->
+            </button>
             <button
               type="submit"
               class="create-button"
@@ -118,7 +121,13 @@
           <!-- Buttons to be combined, new ride only present for dev -->
         </form>
 
-        <app-available-rides-list (passLocation)="recvLocation($event)"></app-available-rides-list>
+        <app-available-rides-list #ridesListComponent 
+          [puLocation]="puLocationInfo" 
+          [doLocation]="doLocationInfo"
+          [searchParams]="searchParams" 
+          (passLocation)="recvLocation($event)">
+        </app-available-rides-list>
+
       </div>
 
       <div class="map-container">

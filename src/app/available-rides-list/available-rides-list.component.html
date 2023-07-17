@@ -3,6 +3,11 @@
     <div class='form-error-msg'*ngIf="rides?.length == 0">
         <h2>No rides available</h2>
     </div>
-    <app-ride-card *ngFor="let ride of rides" [ride]="ride" (newRideEvent)="rideSelected($event)"></app-ride-card>
+    <app-ride-card 
+        *ngFor="let ride of rides" 
+        [puLocation]="puLocation" 
+        [doLocation]="doLocation"
+        [ride]="ride" (newRideEvent)="rideSelected($event)">
+    </app-ride-card>
     
 </div>

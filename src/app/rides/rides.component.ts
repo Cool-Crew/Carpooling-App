@@ -13,11 +13,17 @@ import { NotificationsService } from "../notifications.service";
 import { Router } from "@angular/router";
 
 import { MapComponent } from "../map/map.component";
+import { AvailableRidesListComponent } from "../available-rides-list/available-rides-list.component";
 
-interface PlaceResult {
+export interface PlaceResult {
   address?: string;
   location?: google.maps.LatLng;
   name?: string;
+}
+
+export interface StopLocationInfo {
+  puLocation: PlaceResult;
+  valid: boolean; 
 }
 
 @Component({
@@ -35,6 +41,16 @@ export class RidesComponent implements OnInit {
   riderDriver: string = "";
   searchRange: string = "";
   currPinLocation: { lat: number; lng: number } | undefined;
+  puLocationInfo: StopLocationInfo | undefined;
+  doLocationInfo: StopLocationInfo | undefined;
+
+  //searchParams are passed to the available-rides-list component
+  searchParams: { 
+    date: Date | undefined, 
+
+    } 
+  | undefined;
+
 
   @ViewChild("puLocation", { static: false })
   puLocation!: ElementRef;
@@ -42,6 +58,8 @@ export class RidesComponent implements OnInit {
   doLocation!: ElementRef;
   @ViewChild("map", { static: false })
   map!: MapComponent;
+  @ViewChild('ridesListComponent', {static: false})
+  ridesListComponent!: AvailableRidesListComponent;
 
   autocomplete: google.maps.places.Autocomplete | undefined;
   autocomplete2: google.maps.places.Autocomplete | undefined;
@@ -65,7 +83,6 @@ export class RidesComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.readToken();
-    
 
     this.rideForm = new FormGroup({
       pickupLocation: new FormControl(null, [
@@ -106,6 +123,11 @@ export class RidesComponent implements OnInit {
       };
       this.pickupLocation = result;
       this.rideForm.controls.pickupLocation.patchValue(result.address);
+      this.puLocationInfo = {
+        puLocation: result,
+        valid: this.rideForm.controls.pickupLocation.valid
+      }
+      this.ridesListComponent.refreshRides();
     });
 
     this.autocomplete2?.addListener("place_changed", () => {
@@ -151,6 +173,33 @@ export class RidesComponent implements OnInit {
     return null;
   };
 
+
+
+  // searching for a ride
+  //Pass the date to the available-rides-list component
+  async onSearch() {
+    console.log("🚗");
+    const dateNoTime: string | undefined = this.selectedDate?.toISOString();
+    const dateParts = dateNoTime?.split("T");
+    let fullDate: Date | undefined;
+
+    if (dateParts) {
+      fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
+    }
+    if (isNaN(fullDate?.getTime() as number)) {
+      fullDate = new Date(`${dateParts![0]}T00:00:00`);
+    }
+
+    //send the date to the available-rides-list component
+    //this.searchParams = {date: fullDate, dropLocation: this.dropoffLocation?.location};
+    this.searchParams = { date: fullDate };
+    console.log(this.searchParams);
+
+    //re initioalize the available-rides-list component
+    await this.ridesListComponent.refreshRides();
+  }
+
+  // creating a new ride
   async onSubmit() {
     const dateNoTime: string | undefined = this.selectedDate?.toISOString();
     const dateParts = dateNoTime?.split("T");
@@ -181,15 +230,12 @@ export class RidesComponent implements OnInit {
 
     if (this.rideForm.invalid) {
       this.toastr.error("❗ Invalid ride requested ❗");
-      //alert("❗ Invalid ride requested ❗");
       return;
     }
 
     this.rideService.registerRide(rideData).subscribe(
       (response) => {
         this.toastr.success("Ride Registered!");
-        //alert("✅ Your ride has been registered");
-        //window.location.reload();
 
         const notificationData = {
           msg: "New ride has been registered",
@@ -206,12 +252,7 @@ export class RidesComponent implements OnInit {
               this.authService.refreshToken().subscribe(
                 (refreshSuccess) => {
                   this.authService.setToken(refreshSuccess.token);
-                  //this.router.navigate(["/acc-info"]);
-                   // Refresh the page
-                //this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['/router']);
-                
-              //});
+                  this.router.navigate(['/router']);
                 },
                 (refreshError) => {
                   console.error("Error refreshing token:", refreshError);
@@ -230,9 +271,7 @@ export class RidesComponent implements OnInit {
       },
       (err) => {
         this.toastr.error("Issue Registering Ride")
-        // alert(
-        //   "❗ There was an issue registering the ride" + JSON.stringify(err)
-        // );
+        
       }
     );
   }
