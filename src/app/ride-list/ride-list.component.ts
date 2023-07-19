@@ -112,4 +112,9 @@ export class RideListComponent implements OnInit {
     this.cardLoading = "";
     this.changeDetectorRef.detectChanges(); // Trigger change detection
   }
+  onChatting(rideId:string,ride:any){
+    console.log(this.rides)
+    const encodedRide = encodeURIComponent(JSON.stringify(ride));
+    this.router.navigate(['/chat'],{ queryParams: {id:rideId,ride:encodedRide}});
+  }
 }

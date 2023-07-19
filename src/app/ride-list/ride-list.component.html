@@ -67,7 +67,7 @@
       >
         Provide Feedback
       </button> -->
-      <button class="ride-button" [routerLink]="'/chat'">Messages</button>
+      <button class="ride-button" (click)="onChatting(ride.rideId,ride)">Messages</button>
       <button
         class="ride-button"
         *ngIf="ride.pickupLocation && !ride.driverName"
