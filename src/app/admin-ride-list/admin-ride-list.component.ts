@@ -25,9 +25,7 @@ export class AdminRideListComponent {
   
   cancelRide(rideId: string): void {
     this.rideService.cancelRide(rideId).subscribe((response: any) => {
-      // Handle cancellation success or display a notification to the user
     }, (error: any) => {
-      // Handle cancellation error or display an error message to the user
     });
   }
 }
