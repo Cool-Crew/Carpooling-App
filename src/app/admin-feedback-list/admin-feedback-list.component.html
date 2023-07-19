@@ -1,0 +1,90 @@
+<h2>All Feedback</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Driver</th>
+      <th>Creator</th>
+      <th>Rider</th>
+      <th>Feedback</th>
+      <th>Rating</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let feedback of displayedFeedbacks">
+    <td>{{ feedback.dateTime | date}}</td>
+      <td>{{ feedback.pickupLocation }}</td>
+      <td>{{ feedback.dropoffLocation }}</td>
+      <td>{{ feedback.driver }}</td>
+      <td>{{ feedback.creator }}</td>
+      <td>{{ feedback.rider }}</td>
+      <td>{{ feedback.feedback }}</td>
+      <td>
+        <div class="rating">
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+          <mat-icon class="star-icon"
+            [ngClass]="{
+              'star-filled': star <= feedback.rating,
+              'star-empty': star > feedback.rating
+            }"
+          >
+            star
+          </mat-icon>
+        </ng-container>
+      </div>
+    </td>
+   </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+        <td colspan="8">
+        <ul class="pagination">
+          <div class="items-per-page page-item">
+            <span>Items per page: </span>
+            <select [(ngModel)]="itemsPerPage" (change)="updateItemsPerPage()">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+
+            <li class="page-item">
+                <button class="page-link" [disabled]="currentPage === 1" (click)="onPageChange(1)">
+                  <mat-icon>first_page</mat-icon>
+                </button>
+              </li>
+
+            <li class="page-item">
+              <button class="page-link" [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+            </li>
+            
+            <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+              <button class="page-link" (click)="onPageChange(page)" [ngClass]="{ 'enable': currentPage === page }" [disabled]="page === currentPage">
+                {{ page }}
+              </button>
+            </li>
+            
+            <li class="page-item">
+              <button class="page-link" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </li>
+            
+            <li class="page-item">
+              <button class="page-link" [disabled]="currentPage === totalPages" (click)="onPageChange(totalPages)">
+                <mat-icon>last_page</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </td> 
+    </tr>
+  </tfoot>
+</table>
+

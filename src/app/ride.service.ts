@@ -22,6 +22,7 @@ export class RideService {
     }
     return;
   }
+
   async getUserRides(
     riderId: any
   ): Promise<{ message: String; _rides: [RideList] } | undefined> {
@@ -155,6 +156,18 @@ export class RideService {
         {
           headers,
         }
+      );
+    }
+    return new Observable();
+  }
+
+  getFeedback(): Observable<{ message: string; feedbacks: any[] }> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.get<{ message: string; feedbacks: any[] }>(
+        `${environment.userAPIBase}/feedbacks`,
+        { headers }
       );
     }
     return new Observable();

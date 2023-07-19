@@ -1,0 +1,27 @@
+<h2>All Rides</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Driver</th>
+      <th>Creator</th>
+      <th>Start Location</th>
+      <th>Dropoff Location</th>
+      <th>Date/Time</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ride of rides">
+      <td>{{ ride.driver }}</td>
+      <td>{{ ride.creator }}</td>
+      <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td>
+      <td>{{ ride.dropoffLocation?.name}}</td>
+      <td>{{ ride.dateTime | date }}</td>
+      <td>{{ ride.status }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="cancelRide(ride._id)">Cancel</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

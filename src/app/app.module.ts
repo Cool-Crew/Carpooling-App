@@ -49,6 +49,8 @@ import { RideCardComponent } from "./ride-card/ride-card.component";
 import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
+import { AdminRideListComponent } from './admin-ride-list/admin-ride-list.component';
+import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback-list.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { ChatComponent } from "./chat/chat.component";
     RatingComponent,
     RideListComponent,
     ChatComponent,
+    AdminRideListComponent,
+    AdminFeedbackListComponent,
   ],
   imports: [
     BrowserModule,

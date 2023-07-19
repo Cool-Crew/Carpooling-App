@@ -1,6 +1,6 @@
 export class Rider {
   riderID: string = "";
-  pickupLocation: string = "";
+  pickupLocation: StopLocation | undefined;
 }
 
 export class Message {

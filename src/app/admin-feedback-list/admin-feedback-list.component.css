@@ -1,0 +1,100 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .table thead {
+    background-color: rgb(110, 93, 225);
+    color: white;
+  }
+
+  .table td {
+    text-align: center;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .table td:first-child {
+    width: 10%;
+  }
+
+  .table td:nth-child(2),
+  .table td:nth-child(3) {
+    width: 15%;
+  }
+
+  .table td:nth-child(4),
+  .table td:nth-child(5),
+  .table td:nth-child(6) {
+    width: 12%;
+  }
+
+  .table td:nth-child(7) {
+    width: 30%;
+  }
+
+  .table td:nth-child(8) {
+    width: 6%;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .star-empty {
+    color: grey;
+  }
+
+  .star-filled {
+    color: #ff9800;
+  }
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    justify-content: end;
+    align-items: center;
+  }
+
+  .page-item {
+    margin-left: 5px;
+  }
+
+  .page-link {
+    border: 1px solid;
+    border-radius: 50%; 
+    width: 36px; 
+    height: 36px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .items-per-page span {
+    margin-right: 5px;
+  }
+  
+  .items-per-page select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .enable {
+    background-color: rgb(114, 114, 205);
+    color: white; 
+  }
+  
+ 
+
+  
