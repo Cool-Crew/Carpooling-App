@@ -95,7 +95,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
       <!-- Ouputs ride and buttonVars to console on press -->
       <!-- Switch *nfIf='true' to use -->
       <button class="dev-only"
-        *ngIf='true'
+        *ngIf='false'
         (click)="outputButtonVars()">
         check ride & btn vars
       </button>
