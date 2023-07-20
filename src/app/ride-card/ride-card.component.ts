@@ -60,13 +60,25 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
         <!-- Join Ride -->
         <div *ngIf='userCanJoin && roomAvailable && !userBecameRider'>
+
           <button
+            *ngIf="!userIsDriver"
             (click)="onJoinRideClick()"
             [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
             Join Ride
           </button>
+
+          <!-- Button for if user is driver -->
+          <button
+            *ngIf="userIsDriver"
+            (click)="onJoinRideClick()"
+            [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
+            Switch to Rider
+          </button>
+
           <p *ngIf="!puLocation?.valid && userCanJoin && roomAvailable" class="warning">Please enter a valid pickup location to join</p>
-          <p *ngIf="userIsRider || userBecameRider" class="warning">You are already a rider</p>    
+          <p *ngIf="userIsRider || userBecameRider" class="warning">You are already a rider</p>
+          <!-- <p *ngIf="userIsDriver" class="warning">Swap from driver to rider</p>     -->
         </div>
 
         <!-- Leave Ride -->
@@ -83,7 +95,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
       <!-- Ouputs ride and buttonVars to console on press -->
       <!-- Switch *nfIf='true' to use -->
       <button class="dev-only"
-        *ngIf='true'
+        *ngIf='false'
         (click)="outputButtonVars()">
         check ride & btn vars
       </button>
@@ -305,12 +317,16 @@ export class RideCardComponent implements OnInit {
         (response) => {
           this.userIsDriver = false;
           this.userBecameDriver = false;
+          this.needsDriver = true;
+          this.userCanDrive = true;
         },
         (error) => {
           console.error("Error removing driver from ride:", error);
         }
       );
     }
+
+
     this.rideService
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
@@ -419,6 +435,8 @@ export class RideCardComponent implements OnInit {
       this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
         (response) => {
           this.userIsRider = false;
+          this.userBecameRider = false;
+          this.userCanJoin = true;
         },
         (error) => {
           console.error("Error removing rider from ride:", error);
