@@ -84,7 +84,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         <!-- Leave Ride -->
         <button
           class="leave"
-          *ngIf="(userIsRider && !userIsCreator && !userLeftRide) || userBecameRider && !userLeftRide"
+          *ngIf="(userIsRider && !userIsCreator && !userLeftRide) || userBecameRider && !userLeftRide && !userIsCreator"
           (click)="onLeaveRideClick()"
         >
           Leave Ride
@@ -95,7 +95,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
       <!-- Ouputs ride and buttonVars to console on press -->
       <!-- Switch *nfIf='true' to use -->
       <button class="dev-only"
-        *ngIf='false'
+        *ngIf='true'
         (click)="outputButtonVars()">
         check ride & btn vars
       </button>
@@ -319,6 +319,7 @@ export class RideCardComponent implements OnInit {
           this.userBecameDriver = false;
           this.needsDriver = true;
           this.userCanDrive = true;
+
         },
         (error) => {
           console.error("Error removing driver from ride:", error);
@@ -368,6 +369,9 @@ export class RideCardComponent implements OnInit {
           this.userIsRider = true;
           this.userCanJoin = false;
           this.userLeftRide = false;
+
+          //update rider count
+          this.riderCount = this.ride?.riders?.length;
         },
         (err) => {
           console.log("❗");
@@ -437,6 +441,7 @@ export class RideCardComponent implements OnInit {
           this.userIsRider = false;
           this.userBecameRider = false;
           this.userCanJoin = true;
+          
         },
         (error) => {
           console.error("Error removing rider from ride:", error);
