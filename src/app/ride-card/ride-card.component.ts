@@ -51,9 +51,9 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         <!-- Cancel Drive Offer -->
         <button
           class="leave"
-          *ngIf="(userIsDriver || userBecameDriver) && !userCancelledDriveOffer"
+          *ngIf="(userIsDriver || userBecameDriver) && !userCancelledDriveOffer && !userIsCreator"
           (click)="onCancelDriveOfferClick()"
-          [disabled]="userCancelledDriveOffer"
+          [disabled]="userCancelledDriveOffer || userIsCreator"
         >
           Cancel Drive Offer
         </button>
