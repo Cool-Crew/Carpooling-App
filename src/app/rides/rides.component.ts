@@ -268,6 +268,8 @@ export class RidesComponent implements OnInit {
               this.loading = false;
             }
           );
+        //refresh the available-rides-list component
+        this.ridesListComponent.refreshRides();
       },
       (err) => {
         this.toastr.error("Issue Registering Ride")
