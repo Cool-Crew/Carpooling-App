@@ -304,6 +304,7 @@ export class RideCardComponent implements OnInit {
         }
       );
     this.userBecameDriver = true;
+    
   }
 
   //Add a rider to the ride PlaceHolder for now

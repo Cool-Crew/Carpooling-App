@@ -4,6 +4,8 @@ import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { NotificationsService } from "../notifications.service";
 
 @Component({
   selector: "app-ride-list",
@@ -15,11 +17,17 @@ export class RideListComponent implements OnInit {
   color: string | undefined;
   rides: RideList[] | undefined;
   cardLoading: string = "";
+  warning = "";
+  success = false;
+  loading = false;
+
   constructor(
     private rideService: RideService,
     private authService: AuthService,
     private http: HttpClient,
     private router: Router,
+    private toastr: ToastrService,
+    private notificationService: NotificationsService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -55,7 +63,38 @@ export class RideListComponent implements OnInit {
   cancelRide(rideId: string) {
     this.rideService.cancelRide(rideId).subscribe(
       (response) => {
-        console.log("✅");
+        this.toastr.error("Ride Cancelled");
+        const notificationData = {
+          msg: `You have cancelled your ride.`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+            .addNotification(this.user._id, notificationData)
+            .subscribe(
+              () => {
+                this.warning = "";
+                this.loading = false;
+
+                this.authService.refreshToken().subscribe(
+                  (refreshSuccess) => {
+                    this.authService.setToken(refreshSuccess.token);
+                    this.router.navigate(["/router"]);
+                  },
+                  (refreshError) => {
+                    console.error("Error refreshing token:", refreshError);
+                  }
+                );                  
+              },
+              (notificationError) => {
+                console.error(
+                  "Error adding notification:",
+                  notificationError
+                );
+                this.warning = "Error adding notification";
+                this.loading = false;
+              }
+            );
         this.reloadRideList(rideId);
       },
       (error) => {
@@ -71,14 +110,45 @@ export class RideListComponent implements OnInit {
     this.user = this.authService.readToken();
     this.rideService.registerDriverToRide(rideId, this.user?._id).subscribe(
       (response) => {
-        console.log("✅");
+        this.toastr.success("Drive Offered!");
+        const notificationData = {
+          msg: `You have offered to drive to:\n ${dropoffLocation}\n`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+            .addNotification(this.user._id, notificationData)
+            .subscribe(
+              () => {
+                this.warning = "";
+                this.loading = false;
+
+                this.authService.refreshToken().subscribe(
+                  (refreshSuccess) => {
+                    this.authService.setToken(refreshSuccess.token);
+                    this.router.navigate(["/router"]);
+                  },
+                  (refreshError) => {
+                    console.error("Error refreshing token:", refreshError);
+                  }
+                );                  
+              },
+              (notificationError) => {
+                console.error(
+                  "Error adding notification:",
+                  notificationError
+                );
+                this.warning = "Error adding notification";
+                this.loading = false;
+              }
+            );
       },
       (err) => {
         console.log("❗");
       }
     );
 
-    alert(`✅ You have offered to drive to:\n ${dropoffLocation}\n` + ``);
+    //alert(`✅ You have offered to drive to:\n ${dropoffLocation}\n` + ``);
     this.reloadRideList(rideId);
   }
 
@@ -86,7 +156,39 @@ export class RideListComponent implements OnInit {
     console.log("👋");
     this.rideService.rmRiderFromRide(rideId, this.user?._id).subscribe(
       (response) => {
-        console.log("✅");
+        this.toastr.error("Ride left");
+        const notificationData = {
+          msg: `You left the ride.`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+            .addNotification(this.user._id, notificationData)
+            .subscribe(
+              () => {
+                this.warning = "";
+                this.loading = false;
+
+                this.authService.refreshToken().subscribe(
+                  (refreshSuccess) => {
+                    this.authService.setToken(refreshSuccess.token);
+                    this.router.navigate(["/router"]);
+                  },
+                  (refreshError) => {
+                    console.error("Error refreshing token:", refreshError);
+                  }
+                );                  
+              },
+              (notificationError) => {
+                console.error(
+                  "Error adding notification:",
+                  notificationError
+                );
+                this.warning = "Error adding notification";
+                this.loading = false;
+              }
+            );
+            this.reloadRideList(rideId);
       },
       (err) => {
         console.log("❗");

@@ -39,6 +39,7 @@ p {
 }
 
 .notification-item {
+  cursor: pointer;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -46,6 +47,7 @@ p {
 }
 
 .notification-icon {
+  cursor: pointer;
   margin-right: 10px;
   font-size: 13px;
   color: #333;
@@ -74,15 +76,58 @@ p {
   color:antiquewhite;
 }
 
-/* .clear-notifications-button {  
-  font-size: 14px;  
-  color: #fff;
-  background-color: #0078d4;
-  border-radius: 4px;
-  padding: 10px 20px;
-  border: none;
+/* *********************************************************************** */
+
+/* Add a pointer cursor to indicate the clickable area */
+.notification-icon, .notification-item {
+  cursor: pointer;
 }
-*/
+
+/* Remove default focus outline */
+.notification-icon:focus, .notification-item:focus {
+  outline: none;
+}
+
+/* Add a subtle hover effect */
+.notification-icon:hover, .notification-item:hover {
+  /* box-shadow: none; */  
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the icons as buttons */
+.notification-icon {
+  padding: 5px;
+  border-radius: 100%; /* Make the icon container circular */
+  transition: background-color 0.3s ease;
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); */
+}
+
+/* Adjust the cross icon style to make it more button-like */
+.notification-icon .faTimes {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Make the bell icon and cross icon in the notification item smaller to fit the design */
+.notification-item .faTimes {
+  font-size: 12px;
+}
+
+/* Style the "Clear All" button */
+.clear-notifications-button {
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  color: #0078d4;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* *********************************************************************** */
+
+
 .clear-notifications-button:hover {
   color:#fff; 
   background-color: #e61728;
