@@ -374,7 +374,7 @@ export class RideCardComponent implements OnInit {
         }
       );
       
-      this.reInit();
+    this.reInit();
   }
 
   //Remove a rider from the ride (if they are a driver, they can't leave)
