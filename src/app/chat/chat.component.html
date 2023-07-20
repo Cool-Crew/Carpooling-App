@@ -14,16 +14,6 @@
             (click)="switchUser(roomDetails, 'group')"
           >
             <span class="m-2">{{ rideDetails?.dropoffLocation }} Group</span>
-          </li>
-          <ng-container *ngFor="let users of userList">
-            <li
-              class="border border-bottom justify-content-evenly p-2 rounded text-center"
-              *ngIf="users._id != user._id"
-              (click)="switchUser(users)"
-            >
-              <span class="m-2">{{ users.username }}</span>
-            </li>
-          </ng-container>
         </ul>
       </div>
       <div class="col-8">

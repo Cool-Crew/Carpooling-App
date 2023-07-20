@@ -15,6 +15,7 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
 
 import { CreateRideComponent } from "./create-ride/create-ride.component";
 import { ChatComponent } from "./chat/chat.component";
+import { DmComponent } from "./dm/dm.component";
 
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
@@ -59,9 +60,13 @@ const routes: Routes = [
     canActivate: [GuardAuthService],
   },
   {
-    path: "chat",
-    component: ChatComponent,
+    path: "dm",
+    component: DmComponent,
   },
+  {
+    path: "chat",
+    component: ChatComponent
+  }
 ];
 
 @NgModule({

@@ -12,10 +12,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 
 import { TranslateModule } from "@ngx-translate/core";
-import {
-  StreamChatModule,
-  StreamAutocompleteTextareaModule,
-} from "stream-chat-angular";
 
 import { NotificationsService } from "./notifications.service";
 
@@ -49,6 +45,7 @@ import { RideCardComponent } from "./ride-card/ride-card.component";
 import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
+import { DmComponent } from './dm/dm.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +69,7 @@ import { ChatComponent } from "./chat/chat.component";
     RatingComponent,
     RideListComponent,
     ChatComponent,
+    DmComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,8 +94,6 @@ import { ChatComponent } from "./chat/chat.component";
     MatSnackBarModule,
     BrowserModule,
     TranslateModule.forRoot(),
-    StreamAutocompleteTextareaModule,
-    StreamChatModule,
   ],
   providers: [NotificationsService],
   bootstrap: [AppComponent],
