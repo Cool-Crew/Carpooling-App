@@ -13,6 +13,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
   template: `
     <div class="card">
       <div class="card-header">
+        <p *ngIf="userIsCreator"><b>Your Ride</b></p>
         <p><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
         <!-- <p class="info" *ngIf="userIsDriver"><b>Driver:</b> You</p>
         <p class="info" *ngIf="userIsRider"><b>You are a rider</b></p> -->
@@ -81,8 +82,8 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
       <!-- Ouputs ride and buttonVars to console on press -->
       <!-- Switch *nfIf='true' to use -->
-      <button
-        *ngIf='false'
+      <button class="dev-only"
+        *ngIf='true'
         (click)="outputButtonVars()">
         check ride & btn vars
       </button>
@@ -263,6 +264,34 @@ export class RideCardComponent implements OnInit {
     console.log("userIsCreator: " + this.userIsCreator);
     console.log("userCancelledDriveOffer: " + this.userCancelledDriveOffer);
     console.log("needsDriver: " + this.needsDriver);
+
+    //have above also appear in an aler
+    alert(
+      "userCanJoin: " +
+        this.userCanJoin +
+        "\nuserCanDrive: " +
+        this.userCanDrive +
+        "\nuserIsDriver: " +
+        this.userIsDriver +
+        "\nuserIsRider: " +
+        this.userIsRider +
+        "\nuserBecameRider: " +
+        this.userBecameRider +
+        "\nuserBecameDriver: " +
+        this.userBecameDriver +
+        "\nuserLeftRide: " +
+        this.userLeftRide +
+        "\nuserIsCreator: " +
+        this.userIsCreator +
+        "\nuserCancelledDriveOffer: " +
+        this.userCancelledDriveOffer +
+        "\nneedsDriver: " +
+        this.needsDriver
+    );
+  }
+
+  onRideClick() {
+    this.emitLocation();
   }
 
   //Add a rider to the ride
@@ -274,6 +303,8 @@ export class RideCardComponent implements OnInit {
     if (this.userIsDriver) {
       this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
         (response) => {
+          this.userIsDriver = false;
+          this.userBecameDriver = false;
         },
         (error) => {
           console.error("Error removing driver from ride:", error);
@@ -316,18 +347,18 @@ export class RideCardComponent implements OnInit {
                   this.loading = false;
                 }
               );
+          //update button availability values
+          this.userBecameRider = true;
+          this.userIsRider = true;
+          this.userCanJoin = false;
+          this.userLeftRide = false;
         },
         (err) => {
           console.log("❗");
         }
       );
-      this.userBecameRider = true;
-      console.log('user became rider ' + this.userBecameRider)
+      
       this.reInit();
-  }
-
-  onRideClick() {
-    this.emitLocation();
   }
 
   //Remove a rider from the ride (if they are a driver, they can't leave)
@@ -366,7 +397,13 @@ export class RideCardComponent implements OnInit {
                 this.loading = false;
               }
             );
+
+        //update button availability values
         this.userLeftRide = true;
+        this.userIsRider = false;
+        this.userBecameRider = false;
+        this.userCanJoin = true;
+  
       },
       (err) => {
         console.log("❗");
