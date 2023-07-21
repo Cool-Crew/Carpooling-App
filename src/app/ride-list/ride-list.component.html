@@ -38,11 +38,7 @@
         <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
       </div>
       <app-rating
-        *ngIf="
-          !ride.rating &&
-          (ride.statusString === 'Complete' ||
-            ride.statusString === 'Cancelled')
-        "
+        *ngIf="!ride.rating && ride.statusString === 'Complete'"
         [rideId]="ride.rideId"
         (feedbackSubmitted)="reloadRideList(ride.rideId)"
       ></app-rating>
