@@ -54,7 +54,6 @@ export class RideListComponent implements OnInit {
           r.color = "red";
           break;
         default:
-          r.color = "yellow";
           break;
       }
     });
@@ -70,31 +69,28 @@ export class RideListComponent implements OnInit {
           category: "Ride",
         };
         this.notificationService
-            .addNotification(this.user._id, notificationData)
-            .subscribe(
-              () => {
-                this.warning = "";
-                this.loading = false;
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
 
-                this.authService.refreshToken().subscribe(
-                  (refreshSuccess) => {
-                    this.authService.setToken(refreshSuccess.token);
-                    this.router.navigate(["/router"]);
-                  },
-                  (refreshError) => {
-                    console.error("Error refreshing token:", refreshError);
-                  }
-                );                  
-              },
-              (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
-                this.warning = "Error adding notification";
-                this.loading = false;
-              }
-            );
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
         this.reloadRideList(rideId);
       },
       (error) => {
@@ -117,31 +113,28 @@ export class RideListComponent implements OnInit {
           category: "Ride",
         };
         this.notificationService
-            .addNotification(this.user._id, notificationData)
-            .subscribe(
-              () => {
-                this.warning = "";
-                this.loading = false;
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
 
-                this.authService.refreshToken().subscribe(
-                  (refreshSuccess) => {
-                    this.authService.setToken(refreshSuccess.token);
-                    this.router.navigate(["/router"]);
-                  },
-                  (refreshError) => {
-                    console.error("Error refreshing token:", refreshError);
-                  }
-                );                  
-              },
-              (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
-                this.warning = "Error adding notification";
-                this.loading = false;
-              }
-            );
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
       },
       (err) => {
         console.log("❗");
@@ -163,32 +156,29 @@ export class RideListComponent implements OnInit {
           category: "Ride",
         };
         this.notificationService
-            .addNotification(this.user._id, notificationData)
-            .subscribe(
-              () => {
-                this.warning = "";
-                this.loading = false;
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
 
-                this.authService.refreshToken().subscribe(
-                  (refreshSuccess) => {
-                    this.authService.setToken(refreshSuccess.token);
-                    this.router.navigate(["/router"]);
-                  },
-                  (refreshError) => {
-                    console.error("Error refreshing token:", refreshError);
-                  }
-                );                  
-              },
-              (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
-                this.warning = "Error adding notification";
-                this.loading = false;
-              }
-            );
-            this.reloadRideList(rideId);
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
+        this.reloadRideList(rideId);
       },
       (err) => {
         console.log("❗");
@@ -206,6 +196,48 @@ export class RideListComponent implements OnInit {
     }
     this.reloadRideList(rideId);
   }
+  completeRide(rideId: string) {
+    this.rideService.completeRide(rideId).subscribe(
+      (response) => {
+        this.toastr.success("Ride Completed");
+        const notificationData = {
+          msg: `This ride has been marked as completed`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
+
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
+        this.reloadRideList(rideId);
+      },
+      (error) => {
+        if (error.status === 422) {
+          alert(`❗${error.error.message}`);
+        }
+        console.error(error);
+      }
+    );
+  }
 
   async reloadRideList(rideId: string) {
     console.log("This is ride id", rideId);
@@ -214,9 +246,11 @@ export class RideListComponent implements OnInit {
     this.cardLoading = "";
     this.changeDetectorRef.detectChanges(); // Trigger change detection
   }
-  onChatting(rideId:string,ride:any){
-    console.log(this.rides)
+  onChatting(rideId: string, ride: any) {
+    console.log(this.rides);
     const encodedRide = encodeURIComponent(JSON.stringify(ride));
-    this.router.navigate(['/chat'],{ queryParams: {id:rideId,ride:encodedRide}});
+    this.router.navigate(["/chat"], {
+      queryParams: { id: rideId, ride: encodedRide },
+    });
   }
 }
