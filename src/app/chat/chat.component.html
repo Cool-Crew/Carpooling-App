@@ -1,3 +1,9 @@
+<head>
+  <title>Chat Component</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <div class="container">
   <div class="card">
     <div class="card-body row">
@@ -8,16 +14,6 @@
             (click)="switchUser(roomDetails, 'group')"
           >
             <span class="m-2">{{ rideDetails?.dropoffLocation }} Group</span>
-          </li>
-          <ng-container *ngFor="let users of userList">
-            <li
-              class="border border-bottom justify-content-evenly p-2 rounded text-center"
-              *ngIf="users._id != user._id"
-              (click)="switchUser(users)"
-            >
-              <span class="m-2">{{ users.username }}</span>
-            </li>
-          </ng-container>
         </ul>
       </div>
       <div class="col-8">

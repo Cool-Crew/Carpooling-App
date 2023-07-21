@@ -116,6 +116,21 @@ export class MessageService {
     return;
   }
 
+  async createRoomById(userId: string) {
+    const token = this.authService.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this._http
+        .post<{ message: String; _room: [] }>(
+          `${environment.userAPIBase}/room`,
+          { userId },
+          { headers }
+        )
+        .toPromise();
+    }
+    return;
+  }
+
   async createRoomByApi(rideId: string, userId: string) {
     const token = this.authService.getToken();
     if (token) {

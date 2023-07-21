@@ -38,6 +38,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "dayjs",
+              "pretty-bytes"
+            ],
             "outputPath": "dist/carpooling-app",
             "index": "src/index.html",
             "main": "src/main.ts",

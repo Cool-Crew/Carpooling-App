@@ -38,7 +38,11 @@
         <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
       </div>
       <app-rating
-        *ngIf="!ride.rating"
+        *ngIf="
+          !ride.rating &&
+          (ride.statusString === 'Complete' ||
+            ride.statusString === 'Cancelled')
+        "
         [rideId]="ride.rideId"
         (feedbackSubmitted)="reloadRideList(ride.rideId)"
       ></app-rating>
@@ -54,23 +58,17 @@
     </div>
 
     <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
-    <!-- Add the buttons and divider here -->
     <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
-      <!-- <button
-        class="ride-button"
-        [routerLink]="'/rating/' + ride.rideId"
-        [queryParams]="{
-          date: ride.dateTime,
-          startLocation: ride.pickupLocation,
-          endLocation: ride.dropoffLocation
-        }"
-      >
-        Provide Feedback
-      </button> -->
-      <button class="ride-button" (click)="onChatting(ride.rideId,ride)">Messages</button>
+      <button class="ride-button" (click)="onChatting(ride.rideId, ride)">
+        Messages
+      </button>
       <button
         class="ride-button"
-        *ngIf="ride.pickupLocation && !ride.driverName"
+        *ngIf="
+          ride.pickupLocation &&
+          !ride.driverName &&
+          ride.statusString === 'Not Started'
+        "
         (click)="onDriverNeededClick(ride.rideId, ride.dropoffLocation)"
       >
         Offer to Drive
@@ -78,15 +76,33 @@
       <button
         class="ride-button"
         (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
+        *ngIf="
+          ride.statusString === 'Not Started' ||
+          ride.statusString === 'Cencelled'
+        "
       >
         Leave Ride
       </button>
-      <button 
-        class="ride-button"  
-        *ngIf="ride.statusString !== 'Cancelled'"
+      <button
+        class="ride-button"
+        *ngIf="
+          ride.statusString === 'Not Started' ||
+          ride.statusString === 'In Progress'
+        "
         (click)="cancelRide(ride.rideId)"
       >
         Cancel Ride
+      </button>
+      <button
+        class="ride-button"
+        *ngIf="
+          ride.statusString !== 'Complete' &&
+          ride.statusString !== 'Cancelled' &&
+          (user._id === ride.creator || user._id === ride.driver)
+        "
+        (click)="completeRide(ride.rideId)"
+      >
+        Mark as completed
       </button>
     </div>
     <div *ngIf="cardLoading === ride.rideId">
