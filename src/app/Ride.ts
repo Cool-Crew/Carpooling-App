@@ -57,6 +57,7 @@ export class RideList {
   driverName: string | undefined;
   rating: number | undefined;
   feedback: string | undefined;
+  feedbackCategory: string | undefined;
   creator: string | undefined;
   driver: string | undefined;
 }

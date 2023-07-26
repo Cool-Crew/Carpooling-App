@@ -23,7 +23,20 @@
           <p>Pickup Locations</p>
           <ul class="custom-list">
             <li *ngFor="let r of ride.riders" class="custom-list-item">
-              {{ r.riderId }}: {{ r.pickupLocation }}
+              <span
+                *ngIf="
+                  ride.statusString !== 'Complete' &&
+                  ride.statusString !== 'Cancelled'
+                "
+                >{{ r.riderId }}: {{ r.pickupLocation }}</span
+              >
+              <span
+                *ngIf="
+                  ride.statusString === 'Complete' ||
+                  ride.statusString === 'Cancelled'
+                "
+                >{{ r.riderId }}</span
+              >
             </li>
           </ul>
         </span>
@@ -45,6 +58,7 @@
       <div *ngIf="ride.rating" class="ride-review">
         <strong><h3>Your review of this ride:</h3></strong>
         <p>Rating:{{ ride.rating }}</p>
+        <p *ngIf="ride.feedbackCategory">{{ ride.feedbackCategory }} :</p>
         <p *ngIf="ride.feedback">{{ ride.feedback }}</p>
       </div>
     </div>
