@@ -20,13 +20,22 @@ export class RatingComponent {
     private rideService: RideService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private notificationService: NotificationsService,
-
+    private notificationService: NotificationsService
   ) {}
   @Input() rideId: string = "";
   user: any;
   textFeedback: string = "";
   errorMessage: string = "";
+  errorType: string = "";
+  options: string[] = [
+    "",
+    "General Feedback",
+    "Ride Feedback",
+    "Driver Feedback",
+    "Issue During Ride",
+    "Riders Feedback",
+  ];
+  selectedOption: string = ""; // This will store the selected option
   @Input() ratingValue: number = 0;
   @Output() ratingChange = new EventEmitter<number>();
   @Output() feedbackSubmitted = new EventEmitter<void>();
@@ -53,22 +62,41 @@ export class RatingComponent {
   submitFeedback(rideId: string | null): void {
     if (this.selectedStar === 0) {
       // A star rating has not been selected, show error message
+      this.errorType = "ratingStar";
       this.errorMessage = "Please select a star rating.";
+      return;
+    }
+    if (this.textFeedback && !this.selectedOption) {
+      // A star rating has not been selected, show error message
+      this.errorType = "option";
+      this.errorMessage = "Please select a feedback category.";
+      return;
+    }
+    if (!this.textFeedback && this.selectedOption) {
+      // A star rating has not been selected, show error message
+      this.errorType = "textarea";
+      this.errorMessage = "Please write a feedback.";
       return;
     }
     this.user = this.authService.readToken();
     this.rideService
-      .addFeedback(this.user._id, this.selectedStar, this.textFeedback, rideId)
+      .addFeedback(
+        this.user._id,
+        this.selectedStar,
+        this.textFeedback,
+        rideId,
+        this.selectedOption
+      )
       .subscribe(
         (response) => {
           //alert("✅ Your Feedback has been submitted");
           this.toastr.success("Feedback submitted!");
-        const notificationData = {
-          msg: `Your Feedback was submitted.`,
-          dateTime: Date.now(),
-          category: "General",
-        };
-        this.notificationService
+          const notificationData = {
+            msg: `Your Feedback was submitted.`,
+            dateTime: Date.now(),
+            category: "General",
+          };
+          this.notificationService
             .addNotification(this.user._id, notificationData)
             .subscribe(
               () => {
@@ -83,13 +111,10 @@ export class RatingComponent {
                   (refreshError) => {
                     console.error("Error refreshing token:", refreshError);
                   }
-                );                  
+                );
               },
               (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
+                console.error("Error adding notification:", notificationError);
                 this.warning = "Error adding notification";
                 this.loading = false;
               }
@@ -102,6 +127,7 @@ export class RatingComponent {
           this.feedbackSubmitted.emit();
         }
       );
+    console.log(this.selectedStar, this.selectedOption, this.textFeedback);
     this.errorMessage = "";
   }
 }

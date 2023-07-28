@@ -90,6 +90,7 @@ export class RideService {
         riderID: riderId,
         pickupLocation: pickupLocation,
       };
+      console.log("This is the riderData", riderData);
       return this.http.post<{ message: string }>(
         `${environment.userAPIBase}/rides/${rideId}/riders`,
         { ride: rideId, newRider: riderData },
@@ -126,7 +127,20 @@ export class RideService {
     }
     return new Observable();
   }
-  
+
+  completeRide(rideId: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.patch<{ message: String }>(
+        `${environment.userAPIBase}/rides/${rideId}/markAsCompleted`,
+        {},
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
   updateRide(rideId: any, updatedData: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
@@ -144,14 +158,20 @@ export class RideService {
     id: String,
     rating: Number,
     feedback: String,
-    rideId: String | null
+    rideId: String | null,
+    category: String
   ): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       return this.http.post<any>(
         `${environment.userAPIBase}/addFeedback/${rideId}`,
-        { riderId: id, rideRating: rating, rideFeedback: feedback },
+        {
+          riderId: id,
+          rideRating: rating,
+          rideFeedback: feedback,
+          feedbackCategory: category,
+        },
         {
           headers,
         }

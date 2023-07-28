@@ -23,7 +23,7 @@ export interface PlaceResult {
 
 export interface StopLocationInfo {
   puLocation: PlaceResult;
-  valid: boolean; 
+  valid: boolean;
 }
 
 @Component({
@@ -45,12 +45,11 @@ export class RidesComponent implements OnInit {
   doLocationInfo: StopLocationInfo | undefined;
 
   //searchParams are passed to the available-rides-list component
-  searchParams: { 
-    date: Date | undefined, 
-
-    } 
-  | undefined;
-
+  searchParams:
+    | {
+        date: Date | undefined;
+      }
+    | undefined;
 
   @ViewChild("puLocation", { static: false })
   puLocation!: ElementRef;
@@ -58,7 +57,7 @@ export class RidesComponent implements OnInit {
   doLocation!: ElementRef;
   @ViewChild("map", { static: false })
   map!: MapComponent;
-  @ViewChild('ridesListComponent', {static: false})
+  @ViewChild("ridesListComponent", { static: false })
   ridesListComponent!: AvailableRidesListComponent;
 
   autocomplete: google.maps.places.Autocomplete | undefined;
@@ -125,8 +124,8 @@ export class RidesComponent implements OnInit {
       this.rideForm.controls.pickupLocation.patchValue(result.address);
       this.puLocationInfo = {
         puLocation: result,
-        valid: this.rideForm.controls.pickupLocation.valid
-      }
+        valid: this.rideForm.controls.pickupLocation.valid,
+      };
       this.ridesListComponent.refreshRides();
     });
 
@@ -172,8 +171,6 @@ export class RidesComponent implements OnInit {
     this.selectedTime = ctrl.value;
     return null;
   };
-
-
 
   // searching for a ride
   //Pass the date to the available-rides-list component
@@ -226,6 +223,8 @@ export class RidesComponent implements OnInit {
         name: this.dropoffLocation?.name,
       },
       dateTime: fullDate,
+      riderClasses: ([] = this.user.classes),
+      riderInterests: ([] = this.user.interests),
     };
 
     if (this.rideForm.invalid) {
@@ -252,7 +251,7 @@ export class RidesComponent implements OnInit {
               this.authService.refreshToken().subscribe(
                 (refreshSuccess) => {
                   this.authService.setToken(refreshSuccess.token);
-                  this.router.navigate(['/router']);
+                  this.router.navigate(["/router"]);
                 },
                 (refreshError) => {
                   console.error("Error refreshing token:", refreshError);
@@ -260,10 +259,7 @@ export class RidesComponent implements OnInit {
               );
             },
             (notificationError) => {
-              console.error(
-                "Error adding notification:",
-                notificationError
-              );
+              console.error("Error adding notification:", notificationError);
               this.warning = "Error adding notification";
               this.loading = false;
             }
@@ -272,8 +268,7 @@ export class RidesComponent implements OnInit {
         this.ridesListComponent.refreshRides();
       },
       (err) => {
-        this.toastr.error("Issue Registering Ride")
-        
+        this.toastr.error("Issue Registering Ride");
       }
     );
   }
