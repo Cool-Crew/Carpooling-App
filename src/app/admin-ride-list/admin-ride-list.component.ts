@@ -10,6 +10,11 @@ interface Usernames {
   [key: string]: string;
 }
 
+enum ActionSelector {
+  Cancel = "Cancel",
+  View = "View",
+}
+
 @Component({
   selector: 'app-admin-ride-list',
   templateUrl: './admin-ride-list.component.html',
@@ -18,6 +23,8 @@ interface Usernames {
 
 export class AdminRideListComponent {
   rides:Ride[] | undefined = [];
+  action: ActionSelector = ActionSelector.View;
+  range: number = 0;
 
   constructor(private rideService: RideService) { }
 
@@ -26,6 +33,21 @@ export class AdminRideListComponent {
     this.rides = res?._rides;
     // replaced ids with usernames
     if (this.rides) {
+      // Sort rides by date
+      this.rides.sort((a, b) => {
+        const aDateTime = a.dateTime ?? ""; // Provide a default value if a.dateTime is undefined
+        const bDateTime = b.dateTime ?? ""; // Provide a default value if b.dateTime is undefined
+
+        if (aDateTime < bDateTime) {
+          return -1;
+        } else if (aDateTime > bDateTime) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+
       for (const ride of this.rides){
 
         // get username for creator
@@ -54,10 +76,10 @@ export class AdminRideListComponent {
         
       }
     }
+  }
 
-    
+  updateRange(): void {
 
-    console.log(res?._rides)
   }
   
   cancelRide(rideId: string): void {

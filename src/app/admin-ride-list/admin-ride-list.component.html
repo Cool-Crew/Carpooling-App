@@ -1,34 +1,73 @@
-<h2>All Rides</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Driver</th>
-      <th>Creator</th>
-      <th>Riders</th>
-      <!-- <th>Start Location</th> -->
-      <th>Dropoff Location</th>
-      <th>Date/Time</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let ride of rides">
-      <td>{{ ride.driver }}</td>
-      <td>{{ ride.creator }}</td>
-      <td>
-        <span *ngFor="let rider of ride.riders">
-          {{ rider.riderID }}
-          <br> <!-- Optional line break to separate riderIDs -->
-        </span>
-      </td>
-      <!-- <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td> -->
-      <td>{{ ride.dropoffLocation?.name}}</td>
-      <td>{{ ride.dateTime | date }}</td>
-      <td>{{ ride.status }}</td>
-      <td>
-        <button class="btn btn-danger" (click)="cancelRide(ride._id)">Cancel</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="rides-table">
+  <div class="table-topper">
+    <h2>All Rides</h2>
+    <div class="range-selector">
+      <h3>Show Rides From:</h3>
+      <select
+        id="range"
+        [(ngModel)]="range"
+        (change)="updateRange()"
+      >
+        <option value="0">Today</option>
+        <option value="7">Previous 7 Days</option>
+        <option value="30">Previous 30 Days</option>
+        <option value="180">Previous 6 Months</option>
+        <option value="365">Previous Year</option>
+        <option value="All">All</option>
+      </select>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Driver</th>
+        <th>Creator</th>
+        <th>Riders</th>
+        <!-- <th>Start Location</th> -->
+        <th>Dropoff Location</th>
+        <th>Date/Time</th>
+        <th>Status</th>
+        <th>Action:
+          <select 
+          id="action"
+          [(ngModel)]="action"
+          >
+            <option value="Cancel">Cancel</option>
+            <option value="View">View</option>
+        </select>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ride of rides">
+        <td>{{ ride.driver }}</td>
+        <td>{{ ride.creator }}</td>
+        <td>
+          <span *ngFor="let rider of ride.riders">
+            {{ rider.riderID }}
+            <br> <!-- Optional line break to separate riderIDs -->
+          </span>
+        </td>
+        <!-- <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td> -->
+        <td>{{ ride.dropoffLocation?.name}}</td>
+        <td>{{ ride.dateTime | date }}</td>
+        <td>{{ ride.status }}</td>
+        <td>
+          <button 
+          *ngIf="action == 'Cancel'"
+          class="btn btn-danger" 
+          (click)="cancelRide(ride._id)"
+          >Cancel</button>
+
+          <button
+          *ngIf="action == 'View'"
+          class="btn btn-primary"
+          [routerLink]="'/rating/' + ride._id"
+          >View
+        </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
