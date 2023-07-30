@@ -15,6 +15,7 @@ import { PreferenceMgmtComponent } from "./preference-mgmt/preference-mgmt.compo
 
 import { CreateRideComponent } from "./create-ride/create-ride.component";
 import { ChatComponent } from "./chat/chat.component";
+import { DmComponent } from "./dm/dm.component";
 import { AdminFeedbackListComponent } from "./admin-feedback-list/admin-feedback-list.component";
 import { AdminRideListComponent } from "./admin-ride-list/admin-ride-list.component";
 
@@ -61,9 +62,13 @@ const routes: Routes = [
     canActivate: [GuardAuthService],
   },
   {
-    path: "chat",
-    component: ChatComponent,
+    path: "dm",
+    component: DmComponent,
   },
+  {
+    path: "chat",
+    component: ChatComponent
+  }
   {
     path: "admin/feedbacks",
     component: AdminFeedbackListComponent,

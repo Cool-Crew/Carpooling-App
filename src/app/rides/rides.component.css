@@ -2,23 +2,50 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 50px;
+  padding-top: 1em;
+  flex-direction: row;
+  flex-grow: 1; /* Allow the container to grow and take up available space */
+  flex-wrap: wrap;
 }
 
 .form-container {
-  width: 350px;
-  margin-right: 20px;
   margin: 1em;
-  bord-color: #ccc;
+  margin-top: 0;
+  border-color: #ccc;
   border-radius: 5px;
   padding: 1em;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1; /* Allow the form-container to grow and take up available space */
+  flex: 1;
+  height: 57em;
+}
+
+.map-container {
+  width: 60%; 
+  height: 100%; /* Adjust the height as desired */
 }
 
 form {
   background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 1.5em;
+  border-radius: 5px;  
+  margin-right: 1em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: start;
+  /* max-height: 50%; */
+  min-width: 40%;
+  align-self: stretch;
+}
+
+app-available-rides-list {
+  align-self: stretch;
+  max-height: 100%;
+  overflow-y: auto;
+  max-width: 28em;
 }
 
 label {
@@ -48,10 +75,6 @@ button {
   cursor: pointer;
 }
 
-.map-container {
-  width: 70%; /* Adjust the width as desired */
-  height: 70%; /* Adjust the height as desired */
-}
 
 .button-container {
   display: flex;

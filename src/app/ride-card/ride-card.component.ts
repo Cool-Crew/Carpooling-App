@@ -13,7 +13,10 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
   template: `
     <div class="card">
       <div class="card-header">
+        <p *ngIf="userIsCreator"><b>Your Ride</b></p>
         <p><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
+        <!-- <p class="info" *ngIf="userIsDriver"><b>Driver:</b> You</p>
+        <p class="info" *ngIf="userIsRider"><b>You are a rider</b></p> -->
       </div>
 
       <div class="card-body" (click)="onRideClick()">
@@ -32,65 +35,70 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
 
 
         <!-- Ride card buttons -->
-        <!--  -->
-        <button
-          *ngIf="needsDriver && userCanDrive"
-          (click)="onDriverNeededClick()"
-          [disabled]="userBecameDriver"
-        >
-          Offer To Drive
-        </button>
 
-        <!-- Button to communicate with user that they are the driver of this ride -->
-        <button
-          *ngIf="userIsDriver"
-          disabled>
-          You are already the driver of this ride
-        </button>
+        <!-- Offer to Drive -->
+        <div *ngIf="!userBecameDriver && !userIsDriver && needsDriver">
+          <button
+            *ngIf="needsDriver && userCanDrive"
+            (click)="onDriverNeededClick()"
+            [disabled]="userBecameDriver"
+          >
+            Offer To Drive
+          </button>
+          <p class="warning" *ngIf="userIsRider"> This will switch you from rider to driver</p>
+        </div>
+
+        <!-- Cancel Drive Offer -->
         <button
           class="leave"
-          *ngIf="userIsDriver || userBecameDriver"
+          *ngIf="(userIsDriver || userBecameDriver) && !userCancelledDriveOffer && !userIsCreator"
           (click)="onCancelDriveOfferClick()"
-          [disabled]="userLeftRide"
+          [disabled]="userCancelledDriveOffer || userIsCreator"
         >
           Cancel Drive Offer
         </button>
 
-        <button
-          *ngIf="(roomAvailable && userCanJoin && puLocation?.valid) && !userBecameRider"
-          (click)="onJoinRideClick()"
-          [disabled]="userBecameRider">
-          Join Ride
-        </button>    
+        <!-- Join Ride -->
+        <div *ngIf='userCanJoin && roomAvailable && !userBecameRider'>
 
-        <!-- Button solely for communicating w/ user to input p/u location -->
-        <div *ngIf="!puLocation?.valid && userCanJoin && roomAvailable">
           <button
-            disabled
-            >
+            *ngIf="!userIsDriver"
+            (click)="onJoinRideClick()"
+            [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
             Join Ride
           </button>
-          <p class="warning">Please enter a valid pickup location to join</p>
+
+          <!-- Button for if user is driver -->
+          <button
+            *ngIf="userIsDriver"
+            (click)="onJoinRideClick()"
+            [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
+            Switch to Rider
+          </button>
+
+          <p *ngIf="!puLocation?.valid && userCanJoin && roomAvailable" class="warning">Please enter a valid pickup location to join</p>
+          <p *ngIf="userIsRider || userBecameRider" class="warning">You are already a rider</p>
+          <!-- <p *ngIf="userIsDriver" class="warning">Swap from driver to rider</p>     -->
         </div>
 
+        <!-- Leave Ride -->
         <button
           class="leave"
-          *ngIf="(userIsRider && !userIsCreator) || userBecameRider"
+          *ngIf="(userIsRider && !userIsCreator && !userLeftRide) || userBecameRider && !userLeftRide && !userIsCreator"
           (click)="onLeaveRideClick()"
         >
           Leave Ride
         </button>
 
-        <!-- Button for user to switch from driver to rider -->
-        <button
-          class="leave"
-          *ngIf="userIsDriver && userCanJoin && puLocation?.valid && roomAvailable"
-          (click)="onJoinRideClick()"
-          [disabled]="userBecameRider">
-          Cancel Drive Offer & Become Rider 
-        </button>
-
       </div>
+
+      <!-- Ouputs ride and buttonVars to console on press -->
+      <!-- Switch *nfIf='true' to use -->
+      <button class="dev-only"
+        *ngIf='false'
+        (click)="outputButtonVars()">
+        check ride & btn vars
+      </button>
     </div>
   `,
 })
@@ -103,6 +111,8 @@ export class RideCardComponent implements OnInit {
   roomAvailable: boolean = true;
   endLocation: StopLocation | undefined;
   endLocationMarker: { lat: number; lng: number } | undefined;
+
+  //for determining button availability
   userCanJoin: boolean = true;
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
@@ -111,6 +121,8 @@ export class RideCardComponent implements OnInit {
   userBecameDriver: boolean = false;
   userLeftRide: boolean = false;
   userIsCreator: boolean = false;
+  userCancelledDriveOffer: boolean = false;
+
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
@@ -245,68 +257,56 @@ export class RideCardComponent implements OnInit {
 
   }
 
+  //For refreshing a ride card after a user action
   reInit() {
     this.ngOnInit();
   }
 
-  //Add a driver to the ride
-  onDriverNeededClick() {
-    //if user is already rider, remove them from ride before adding as driver
-    if (!this.userCanJoin) {
-      this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
-        (response) => {
-        },
-        (error) => {
-          console.error("Error removing rider from ride:", error);
-        }
-      );
-    }
+  //dev function to check button variables
+  outputButtonVars() {
+    console.log(this.ride)
 
-    this.rideService
-      .registerDriverToRide(this.ride?._id, this.user?._id)
-      .subscribe(
-        (response) => {
-          this.toastr.success("Get Ready to Drive");
-          const notificationData = {
-            msg: `You offered to drive to: ${this.ride?.dropoffLocation?.address}`,
-            dateTime: Date.now(),
-            category: "Ride",
-          };
-          this.notificationService
-              .addNotification(this.user._id, notificationData)
-              .subscribe(
-                () => {
-                  this.warning = "";
-                  this.loading = false;
+    console.log("userCanJoin: " + this.userCanJoin);
+    console.log("userCanDrive: " + this.userCanDrive);
+    console.log("userIsDriver: " + this.userIsDriver);
+    console.log("userIsRider: " + this.userIsRider);
+    console.log("userBecameRider: " + this.userBecameRider);
+    console.log("userBecameDriver: " + this.userBecameDriver);
+    console.log("userLeftRide: " + this.userLeftRide);
+    console.log("userIsCreator: " + this.userIsCreator);
+    console.log("userCancelledDriveOffer: " + this.userCancelledDriveOffer);
+    console.log("needsDriver: " + this.needsDriver);
 
-                  this.authService.refreshToken().subscribe(
-                    (refreshSuccess) => {
-                      this.authService.setToken(refreshSuccess.token);
-                      this.router.navigate(["/router"]);
-                    },
-                    (refreshError) => {
-                      console.error("Error refreshing token:", refreshError);
-                    }
-                  );                  
-                },
-                (notificationError) => {
-                  console.error(
-                    "Error adding notification:",
-                    notificationError
-                  );
-                  this.warning = "Error adding notification";
-                  this.loading = false;
-                }
-              );
-        },
-        (err) => {
-          console.log("❗");
-        }
-      );
-    this.userBecameDriver = true;
+    //have above also appear in an aler
+    alert(
+      "userCanJoin: " +
+        this.userCanJoin +
+        "\nuserCanDrive: " +
+        this.userCanDrive +
+        "\nuserIsDriver: " +
+        this.userIsDriver +
+        "\nuserIsRider: " +
+        this.userIsRider +
+        "\nuserBecameRider: " +
+        this.userBecameRider +
+        "\nuserBecameDriver: " +
+        this.userBecameDriver +
+        "\nuserLeftRide: " +
+        this.userLeftRide +
+        "\nuserIsCreator: " +
+        this.userIsCreator +
+        "\nuserCancelledDriveOffer: " +
+        this.userCancelledDriveOffer +
+        "\nneedsDriver: " +
+        this.needsDriver
+    );
   }
 
-  //Add a rider to the ride PlaceHolder for now
+  onRideClick() {
+    this.emitLocation();
+  }
+
+  //Add a rider to the ride
   onJoinRideClick() {
     const pickupLocation = this.puLocation;
     console.log(pickupLocation);
@@ -315,12 +315,19 @@ export class RideCardComponent implements OnInit {
     if (this.userIsDriver) {
       this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
         (response) => {
+          this.userIsDriver = false;
+          this.userBecameDriver = false;
+          this.needsDriver = true;
+          this.userCanDrive = true;
+
         },
         (error) => {
           console.error("Error removing driver from ride:", error);
         }
       );
     }
+
+
     this.rideService
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
@@ -357,18 +364,21 @@ export class RideCardComponent implements OnInit {
                   this.loading = false;
                 }
               );
+          //update button availability values
+          this.userBecameRider = true;
+          this.userIsRider = true;
+          this.userCanJoin = false;
+          this.userLeftRide = false;
+
+          //update rider count
+          this.riderCount = this.ride?.riders?.length;
         },
         (err) => {
           console.log("❗");
         }
       );
-      this.userBecameRider = true;
-      console.log('user became rider ' + this.userBecameRider)
-      this.reInit();
-  }
-
-  onRideClick() {
-    this.emitLocation();
+      
+    this.reInit();
   }
 
   //Remove a rider from the ride (if they are a driver, they can't leave)
@@ -407,15 +417,91 @@ export class RideCardComponent implements OnInit {
                 this.loading = false;
               }
             );
+
+        //update button availability values
+        this.userLeftRide = true;
+        this.userIsRider = false;
+        this.userBecameRider = false;
+        this.userCanJoin = true;
+  
       },
       (err) => {
         console.log("❗");
       }
     );
-    this.userLeftRide = true;
-    console.log('user left ride: ' + this.userLeftRide);
+    this.reInit();
   }
 
+  //Add a driver to the ride
+  onDriverNeededClick() {
+    //if user is already rider, remove them from ride before adding as driver
+    if (!this.userCanJoin) {
+      this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
+        (response) => {
+          this.userIsRider = false;
+          this.userBecameRider = false;
+          this.userCanJoin = true;
+          
+        },
+        (error) => {
+          console.error("Error removing rider from ride:", error);
+        }
+      );
+    }
+
+    this.rideService
+      .registerDriverToRide(this.ride?._id, this.user?._id)
+      .subscribe(
+        (response) => {
+          this.toastr.success("Get Ready to Drive");
+          const notificationData = {
+            msg: `You offered to drive to: ${this.ride?.dropoffLocation?.address}`,
+            dateTime: Date.now(),
+            category: "Ride",
+          };
+          
+          //update button availability values
+          this.userBecameDriver = true;
+          this.needsDriver = false;
+          this.userIsDriver = true;
+          this.userCancelledDriveOffer = false;
+
+          this.notificationService
+              .addNotification(this.user._id, notificationData)
+              .subscribe(
+                () => {
+                  this.warning = "";
+                  this.loading = false;
+
+                  this.authService.refreshToken().subscribe(
+                    (refreshSuccess) => {
+                      this.authService.setToken(refreshSuccess.token);
+                      this.router.navigate(["/router"]);
+                    },
+                    (refreshError) => {
+                      console.error("Error refreshing token:", refreshError);
+                    }
+                  );                  
+                },
+                (notificationError) => {
+                  console.error(
+                    "Error adding notification:",
+                    notificationError
+                  );
+                  this.warning = "Error adding notification";
+                  this.loading = false;
+                }
+              );
+        },
+        (err) => {
+          console.log("❗");
+        }
+      );
+
+    this.reInit();
+  }
+
+  //Remove driver from ride (Cancel Drive Offer)
   onCancelDriveOfferClick() {
     this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
       (response) => {
@@ -451,6 +537,31 @@ export class RideCardComponent implements OnInit {
                   this.loading = false;
                 }
               );
+        //reset button availability values
+        this.userCancelledDriveOffer = true;
+        this.needsDriver = true;
+        this.userIsDriver = false;
+        this.userBecameDriver = false;
+
+        //if user is creator, add them to the riders
+        if (this.userIsCreator) {
+          this.rideService
+            .registerRidertoRide(this.ride?._id, this.user?._id, this.puLocation)
+            .subscribe(
+              (response) => {
+                this.userBecameRider = true;
+                this.userIsRider = true;
+              },
+              (notificationError) => {
+                console.error(
+                  "Error adding notification:",
+                  notificationError
+                );
+                this.warning = "Error adding notification";
+                this.loading = false;
+              }
+            );
+        }    
       },
       (err) => {
         console.log("❗");

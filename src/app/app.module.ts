@@ -12,10 +12,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 
 import { TranslateModule } from "@ngx-translate/core";
-import {
-  StreamChatModule,
-  StreamAutocompleteTextareaModule,
-} from "stream-chat-angular";
 
 import { NotificationsService } from "./notifications.service";
 
@@ -51,6 +47,7 @@ import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
 import { AdminRideListComponent } from './admin-ride-list/admin-ride-list.component';
 import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback-list.component';
+import { DmComponent } from './dm/dm.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +73,7 @@ import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback
     ChatComponent,
     AdminRideListComponent,
     AdminFeedbackListComponent,
+    DmComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,8 +98,6 @@ import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback
     MatSnackBarModule,
     BrowserModule,
     TranslateModule.forRoot(),
-    StreamAutocompleteTextareaModule,
-    StreamChatModule,
   ],
   providers: [NotificationsService],
   bootstrap: [AppComponent],

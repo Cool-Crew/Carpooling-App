@@ -1,34 +1,166 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../services/message/message.service';
+import { Subscription, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
-  username: string;
+export class ChatComponent implements OnInit, OnDestroy {
+  TitleName: string = "Ride Group Chat";
   iframeUrl!: SafeResourceUrl;
+  messageList: any[] = [];
+  userList!: any[];
+  newMessage!: string;
+  user: any;
+  rideId!: string;
+  roomDetails: any;
+  chatMood: string = "group";
+  receiver!: any;
+  rideDetails: any;
+  privateRoom!: any;
+  isLoadingMessage: string = '';
+
+
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   constructor(
     private authService: AuthService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private _messageService: MessageService
   ) {
-    this.username = 'default-username'; // Set initial username value
+
+    this.user = this.authService.readToken();
+    // console.log(this.user)
     this.updateIframeUrl();
   }
 
   ngOnInit() {
-    const user = this.authService.readToken();
-    if (user) {
-      this.username = user.username;
-      this.updateIframeUrl();
-    }
+
+    this._messageService.getMessage();
+
+    this.route.queryParams.subscribe(params => {
+      const encodedRide = params['ride'];
+      const decodedRide = JSON.parse(decodeURIComponent(encodedRide))
+      this.rideDetails = decodedRide;
+      this.rideId = params?.['id'];
+      this.TitleName = this.rideDetails.dropoffLocation;
+    });
+    this._messageService.messages$.next(null);
+    this._messageService.messages$.asObservable().subscribe((list) => {
+      if (list) {
+        this.messageList.push(list);
+        this.scrollToBottom();
+      }
+    })
+
+    this._messageService.getUsersList()
+      .then((res) => {
+        this.userList = res._users; console.log(this.userList)
+      })
+      .catch((err) => console.log(err))
+    this.createRoomByApi(this.user._id, this.rideId);
+  }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+  private scrollToBottom(): void {
+    const messageContainer = this.messageContainer.nativeElement;
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+  ngOnDestroy() {
+
+    this._messageService.leaveRoom(this.roomDetails._id);
+    this._messageService.removeUserSocket();
+  }
+  updateIframeUrl() {
+    // const url = `https://deadsimplechat.com/qfQOGFiE8?username=${this.username}`;
+    // this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  updateIframeUrl() {
-    const url = `https://deadsimplechat.com/qfQOGFiE8?username=${this.username}`;
-    this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  sendMessage() {
+    const rideId = this.rideId;
+    const message = this.newMessage;
+    const senderName = this.user.username;
+    const senderId = this.user._id;
+    const roomId = this.roomDetails?._id;
+    if (this.chatMood == "group" && this.newMessage != '') {
+      this._messageService.createRoom(roomId);
+      this._messageService.SendMessage({ rideId, message, senderName, senderId, roomId })
+      // console.log("group chat")
+    } else if (this.newMessage != '') {
+      let receiverId = this.receiver._id;
+      let roomId = this.privateRoom?._id;
+      this._messageService.sendMessagePrivate({ message, senderId, senderName, receiverId, roomId })
+      // console.log("private chat")
+    }
+    this.newMessage = "";
+  }
+
+  switchUser(chatRoom: any, type?: string) {
+    // console.log("chat room Id ", chatRoom._id)
+    this._messageService.leaveRoom(this.roomDetails._id);
+    if (type == "group") {
+      this.roomDetails = chatRoom;
+      this.getHistoryRoom(chatRoom._id);
+      this._messageService.createRoom(chatRoom._id);
+      this.chatMood = "group";
+      this.TitleName = this.rideDetails.dropoffLocation;
+      // console.log("group")
+    } else {
+      this.chatMood = "private";
+      this._messageService.createPrivateRooms(this.user._id);
+      this.getPrivateChatHistory(this.user._id, chatRoom._id);
+      // console.log("private")
+      this.TitleName = chatRoom.username;
+      this.receiver = chatRoom;
+    }
+    // console.log("clear", chatRoom);
+  }
+
+  createRoomByApi(userId: string, rideId: string) {
+    this._messageService.createRoomByApi(rideId, userId,).then((res) => {
+      this.roomDetails = res?._room;
+      console.log("api ", res)
+      this.getHistoryRoom(this.roomDetails?._id);
+    }).catch(err => console.log(err))
+  }
+
+  getHistoryRoom(roomId: string) {
+    this.isLoadingMessage = "Chat Loading ........";
+    this.messageList = [];
+    this._messageService.getRoomHistory(roomId)
+      .then((res) => {
+        this.messageList = res?._messages;
+        if (this.messageList.length == 0) {
+          this.isLoadingMessage = "Get Started Chat"
+        }
+        console.log('total api length ', this.messageList.length)
+      })
+      .catch((err) => { console.log("error") })
+  }
+
+  getPrivateChatHistory(senderId: string, receiverId: string) {
+    console.log("sender id", senderId, "receiver id", receiverId)
+    this._messageService.getRoomDetails(senderId, receiverId)
+      .then((res) => {
+        // console.log("room details", res);
+        if (res?._room) {
+          this.getHistoryRoom(res?._room?._id);
+          this.privateRoom = res?._room;
+        }
+
+      }).catch((err) => console.log(err))
+  }
+
+  getRoomList() {
+    this._messageService.getRoomList()
+    .then((res) => console.log("room list", res))
+    .catch((err) => console.log(err))
   }
 }

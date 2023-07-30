@@ -37,7 +37,10 @@ export class AvailableRidesListComponent implements OnInit{
     //filter this.rides by ride.status === "Not_Started"
     this.rides = this.rides?.filter(ride => ride.status === "Not_Started");
 
-    //filter this.rides so that only future rides are shown
+    //filter this.rides to remove any rides that have 3
+    this.rides = this.rides?.filter(ride => ride.riders.length < 3);
+
+    //filter this.rides by date so that only future rides are shown
     this.rides = this.rides?.filter(ride => {
       let rideDateStr = ride?.dateTime;
       var rideDate: Date | undefined;
@@ -45,17 +48,11 @@ export class AvailableRidesListComponent implements OnInit{
         rideDate = new Date(rideDateStr);
       }
       if (rideDate) {
-        return rideDate?.getFullYear() > new Date().getFullYear() ||
-        rideDate?.getMonth() > new Date().getMonth() ||
-        rideDate?.getDate() > new Date().getDate() ||
-        rideDate?.getHours() > new Date().getHours();
-      }
+        return rideDate?.getTime() > Date.now();
+      } 
       //possible fail-point, no issues in testing so far
       return false;
     });
-
-    //filter this.rides to remove any rides that have 3 or more riders already or do not have drivers
-    this.rides = this.rides?.filter(ride => ride.riders.length < 3 || ride.driver !== null);
 
     //filter this.rides by date in searchParams, but not the time portion of the date
     if(this.searchParams?.date){
@@ -69,7 +66,6 @@ export class AvailableRidesListComponent implements OnInit{
 
         //filter the rides by date and within 2hr before or 1hr after the search datetime, but only if the search time is not null
         //if the search time is null, then the search is for all rides on the search date
-
         if (rideDate && this.searchParams?.date) {
           return rideDate?.getFullYear() === this.searchParams?.date?.getFullYear() &&
           rideDate?.getMonth() === this.searchParams?.date?.getMonth() &&

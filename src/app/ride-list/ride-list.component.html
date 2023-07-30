@@ -23,7 +23,20 @@
           <p>Pickup Locations</p>
           <ul class="custom-list">
             <li *ngFor="let r of ride.riders" class="custom-list-item">
-              {{ r.riderId }}: {{ r.pickupLocation }}
+              <span
+                *ngIf="
+                  ride.statusString !== 'Complete' &&
+                  ride.statusString !== 'Cancelled'
+                "
+                >{{ r.riderId }}: {{ r.pickupLocation }}</span
+              >
+              <span
+                *ngIf="
+                  ride.statusString === 'Complete' ||
+                  ride.statusString === 'Cancelled'
+                "
+                >{{ r.riderId }}</span
+              >
             </li>
           </ul>
         </span>
@@ -38,13 +51,14 @@
         <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
       </div>
       <app-rating
-        *ngIf="!ride.rating"
+        *ngIf="!ride.rating && ride.statusString === 'Complete'"
         [rideId]="ride.rideId"
         (feedbackSubmitted)="reloadRideList(ride.rideId)"
       ></app-rating>
       <div *ngIf="ride.rating" class="ride-review">
         <strong><h3>Your review of this ride:</h3></strong>
         <p>Rating:{{ ride.rating }}</p>
+        <p *ngIf="ride.feedbackCategory">{{ ride.feedbackCategory }} :</p>
         <p *ngIf="ride.feedback">{{ ride.feedback }}</p>
       </div>
     </div>
@@ -54,23 +68,17 @@
     </div>
 
     <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
-    <!-- Add the buttons and divider here -->
     <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
-      <!-- <button
-        class="ride-button"
-        [routerLink]="'/rating/' + ride.rideId"
-        [queryParams]="{
-          date: ride.dateTime,
-          startLocation: ride.pickupLocation,
-          endLocation: ride.dropoffLocation
-        }"
-      >
-        Provide Feedback
-      </button> -->
-      <button class="ride-button" [routerLink]="'/chat'">Messages</button>
+      <button class="ride-button" (click)="onChatting(ride.rideId, ride)">
+        Messages
+      </button>
       <button
         class="ride-button"
-        *ngIf="ride.pickupLocation && !ride.driverName"
+        *ngIf="
+          ride.pickupLocation &&
+          !ride.driverName &&
+          ride.statusString === 'Not Started'
+        "
         (click)="onDriverNeededClick(ride.rideId, ride.dropoffLocation)"
       >
         Offer to Drive
@@ -78,15 +86,33 @@
       <button
         class="ride-button"
         (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
+        *ngIf="
+          ride.statusString === 'Not Started' ||
+          ride.statusString === 'Cencelled'
+        "
       >
         Leave Ride
       </button>
-      <button 
-        class="ride-button"  
-        *ngIf="ride.statusString !== 'Cancelled'"
+      <button
+        class="ride-button"
+        *ngIf="
+          ride.statusString === 'Not Started' ||
+          ride.statusString === 'In Progress'
+        "
         (click)="cancelRide(ride.rideId)"
       >
         Cancel Ride
+      </button>
+      <button
+        class="ride-button"
+        *ngIf="
+          ride.statusString !== 'Complete' &&
+          ride.statusString !== 'Cancelled' &&
+          (user._id === ride.creator || user._id === ride.driver)
+        "
+        (click)="completeRide(ride.rideId)"
+      >
+        Mark as completed
       </button>
     </div>
     <div *ngIf="cardLoading === ride.rideId">

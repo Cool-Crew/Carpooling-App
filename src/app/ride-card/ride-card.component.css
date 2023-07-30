@@ -1,3 +1,8 @@
+app-ride-card {
+  margin: 0;
+  padding-top: 0;
+}
+
 .card {
     background-color: inherit;
     padding: .5em;
@@ -103,6 +108,22 @@ p.warning {
     font-weight: thin;
     font-size: .8em;
     text-align: center;
-    margin-left: -3em;
     margin-top: -.7em;
+    margin-bottom: .1em;
+}
+
+/* button.dev-only should look windows 95 */
+button.dev-only{
+  font-family:"MS Sans Serif";
+  font-size:11px;
+  outline:1px solid #000000;
+  background:#C0C0C0;
+  border-width:1px;
+  border-style:solid;
+  border-color:#FFFFFF #808080 #808080 #FFFFFF;
+  padding:4px 10px;
+  margin:20px auto 3px;
+  display:block;
+  position:relative;
+  bottom:0px;
 }
