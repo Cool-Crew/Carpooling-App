@@ -173,14 +173,20 @@ export class RideService {
     id: String,
     rating: Number,
     feedback: String,
-    rideId: String | null
+    rideId: String | null,
+    category: String
   ): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       return this.http.post<any>(
         `${environment.userAPIBase}/addFeedback/${rideId}`,
-        { riderId: id, rideRating: rating, rideFeedback: feedback },
+        {
+          riderId: id,
+          rideRating: rating,
+          rideFeedback: feedback,
+          feedbackCategory: category,
+        },
         {
           headers,
         }

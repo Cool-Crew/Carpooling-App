@@ -36,6 +36,8 @@ export class Ride {
   riders: Rider[] = [];
   dropoffLocation: StopLocation | undefined;
   dateTime: Date | undefined;
+  riderClasses: [] = [];
+  riderInterests: [] = [];
   chat: Message[] = [];
   feedback: Feedback[] = [];
   status: Status = Status.Not_Started;
@@ -57,6 +59,7 @@ export class RideList {
   driverName: string | undefined;
   rating: number | undefined;
   feedback: string | undefined;
+  feedbackCategory: string | undefined;
   creator: string | undefined;
   driver: string | undefined;
 }

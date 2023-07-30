@@ -13,7 +13,20 @@
       >&#9733;</span
     >
   </div>
-  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="error-message" *ngIf="errorType === 'ratingStar'">
+    {{ errorMessage }}
+  </div>
+  <label for="dropdown">Feedback Category: </label>
+  <div class="options-container">
+    <select id="dropdown" name="selectedOption" [(ngModel)]="selectedOption">
+      <option *ngFor="let option of options" [value]="option">
+        {{ option || "--- Select a Feedback Category ---" }}
+      </option>
+    </select>
+  </div>
+  <div class="error-message" *ngIf="errorType === 'option'">
+    {{ errorMessage }}
+  </div>
   <div class="textarea-container">
     <textarea
       style="margin-bottom: 2%"
@@ -23,6 +36,9 @@
       [(ngModel)]="textFeedback"
     ></textarea>
     <br />
+  </div>
+  <div class="error-message" *ngIf="errorType === 'textarea'">
+    {{ errorMessage }}
   </div>
   <div class="button-container">
     <button

@@ -31,7 +31,11 @@ div {
   font-size: x-large;
   align-items: baseline;
 }
-
+.options-container {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 .textarea-container {
   justify-content: center;
   display: flex;
@@ -57,4 +61,35 @@ div {
   display: flex;
   justify-content: center;
   color: #f52828;
+}
+select {
+  margin-top: 2%;
+  margin-bottom: 5%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+label {
+  font-size: 14px;
+}
+
+/* Style the selected option */
+select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Style the dropdown options */
+option {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Style the dropdown arrow */
+select::-ms-expand {
+  display: none;
 }
