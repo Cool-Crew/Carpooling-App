@@ -5,6 +5,10 @@ import { environment } from "../environments/environment";
 import { AuthService } from "./auth.service";
 import { Ride, RideList } from "./Ride";
 
+interface Usernames {
+  [key: string]: string;
+}
+
 @Injectable({ providedIn: "root" })
 export class RideService {
   constructor(private http: HttpClient, private auth: AuthService) {}
@@ -39,13 +43,13 @@ export class RideService {
     return;
   }
 
-  async getUsernames(userIds:string): Promise<{ message: String; _users: [String] } | undefined> {
+  async getUsernames(userIds:string): Promise<{ message: string; _usernames: Usernames } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       return this.http
-        .get<{ message: String; _users: [String] }>(
-          `${environment.userAPIBase}/username/userIds`,
+        .get<{ message: string; _usernames: Usernames }>(
+          `${environment.userAPIBase}/username/${userIds}`,
           { headers }
         )
         .toPromise();
