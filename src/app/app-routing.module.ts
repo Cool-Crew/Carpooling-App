@@ -68,7 +68,7 @@ const routes: Routes = [
   {
     path: "chat",
     component: ChatComponent
-  }
+  },
   {
     path: "admin/feedbacks",
     component: AdminFeedbackListComponent,
