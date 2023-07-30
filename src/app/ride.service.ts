@@ -22,6 +22,7 @@ export class RideService {
     }
     return;
   }
+
   async getUserRides(
     riderId: any
   ): Promise<{ message: String; _rides: [RideList] } | undefined> {
@@ -31,6 +32,20 @@ export class RideService {
       return this.http
         .get<{ message: String; _rides: [RideList] }>(
           `${environment.userAPIBase}/userRides/:${riderId}`,
+          { headers }
+        )
+        .toPromise();
+    }
+    return;
+  }
+
+  async getUsernames(userIds:string): Promise<{ message: String; _users: [String] } | undefined> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http
+        .get<{ message: String; _users: [String] }>(
+          `${environment.userAPIBase}/username/userIds`,
           { headers }
         )
         .toPromise();
