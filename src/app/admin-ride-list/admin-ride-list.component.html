@@ -4,7 +4,8 @@
     <tr>
       <th>Driver</th>
       <th>Creator</th>
-      <th>Start Location</th>
+      <th>Riders</th>
+      <!-- <th>Start Location</th> -->
       <th>Dropoff Location</th>
       <th>Date/Time</th>
       <th>Status</th>
@@ -15,7 +16,13 @@
     <tr *ngFor="let ride of rides">
       <td>{{ ride.driver }}</td>
       <td>{{ ride.creator }}</td>
-      <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td>
+      <td>
+        <span *ngFor="let rider of ride.riders">
+          {{ rider.riderID }}
+          <br> <!-- Optional line break to separate riderIDs -->
+        </span>
+      </td>
+      <!-- <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td> -->
       <td>{{ ride.dropoffLocation?.name}}</td>
       <td>{{ ride.dateTime | date }}</td>
       <td>{{ ride.status }}</td>

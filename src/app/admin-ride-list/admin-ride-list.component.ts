@@ -24,13 +24,34 @@ export class AdminRideListComponent {
   async ngOnInit(): Promise<void> {
     let res: {message: String, _rides: [Ride]} | undefined = await this.rideService.getRides(); 
     this.rides = res?._rides;
-    // replace creator id with username in each ride
+    // replaced ids with usernames
     if (this.rides) {
       for (const ride of this.rides){
+
+        // get username for creator
         let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(ride.creator);
         if (res){
           ride.creator = res._usernames[ride.creator];
         }
+
+        //get username for driver
+        if (ride.driver){
+          let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(ride.driver);
+          if (res){
+            ride.driver = res._usernames[ride.driver];
+          }
+        }
+
+        //get username for riders
+        if (ride.riders){
+          for (const rider of ride.riders){
+            let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(rider.riderID);
+            if (res){
+              rider.riderID = res._usernames[rider.riderID];
+            }
+          }
+        }
+        
       }
     }
 
