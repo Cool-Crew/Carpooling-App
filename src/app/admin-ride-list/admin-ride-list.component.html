@@ -22,21 +22,50 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Driver</th>
-        <th>Creator</th>
-        <th>Riders</th>
+        <th>Driver
+          <div class="th-filter-selector">
+            <input placeholder="Filter by driver">
+          </div>
+        </th>
+        <th>Creator
+          <div class="th-filter-selector">
+            <input placeholder="Filter by creator">
+          </div>
+        </th>
+        <th>Riders
+          <div class="th-filter-selector">
+            <input placeholder="Filter by rider">
+          </div>
+        </th>
         <!-- <th>Start Location</th> -->
-        <th>Dropoff Location</th>
+        <th>Dropoff Location
+        </th>
         <th>Date/Time</th>
-        <th>Status</th>
+        <th>Status
+          <div class="th-filter-selector">
+            <select 
+            id="status"
+            [(ngModel)]="status"
+            (change)="updateStatus()"
+            >
+              <option value="All">All</option>
+              <option value="Not_Started">Not_Started</option>
+              <option value="In_Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </th>
         <th>Action:
-          <select 
-          id="action"
-          [(ngModel)]="action"
-          >
-            <option value="Cancel">Cancel</option>
-            <option value="View">View</option>
-        </select>
+          <div class="th-filter-selector">
+            <select 
+            id="action"
+            [(ngModel)]="action"
+            >
+              <option value="Cancel">Cancel</option>
+              <option value="View">View</option>
+            </select>
+          </div>
         </th>
       </tr>
     </thead>

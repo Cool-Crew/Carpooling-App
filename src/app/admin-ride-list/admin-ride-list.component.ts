@@ -24,7 +24,8 @@ enum ActionSelector {
 export class AdminRideListComponent {
   rides:Ride[] | undefined = [];
   action: ActionSelector = ActionSelector.View;
-  range: number = 0;
+  range: number = -1;
+  status: string = "All";
 
   constructor(private rideService: RideService) { }
 
@@ -82,6 +83,18 @@ export class AdminRideListComponent {
 
   async ngOnInit(): Promise<void> {
     await this.getRides();
+  }
+
+  async updateStatus(): Promise<void> {
+    await this.getRides();
+
+    if (this.status == "All"){
+      //no filter
+    }
+    else {
+      this.rides = this.rides?.filter(ride => ride.status == this.status);
+    }
+
   }
 
   async updateRange(): Promise<void> {

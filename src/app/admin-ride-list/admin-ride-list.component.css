@@ -35,6 +35,13 @@ thead th {
     border-bottom: 1px solid #ccc;
 }
 
+.th-filter-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 td {
     padding: 8px;
     border-bottom: 1px solid #ccc;
