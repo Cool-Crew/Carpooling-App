@@ -26,6 +26,9 @@ export class AdminRideListComponent {
   action: ActionSelector = ActionSelector.View;
   range: number = -1;
   status: string = "All";
+  riderFilter: string = "";
+  creatorFilter: string = "";
+  driverFilter: string = "";
 
   constructor(private rideService: RideService) { }
 
@@ -85,8 +88,88 @@ export class AdminRideListComponent {
     await this.getRides();
   }
 
-  async updateStatus(): Promise<void> {
+  async updateFilters(): Promise<void> {
     await this.getRides();
+    if (this.driverFilter != ""){
+      this.updateDriver();
+    }
+
+    if (this.creatorFilter != ""){
+      this.updateCreator();
+    }
+
+    if (this.riderFilter != ""){
+      this.updateRiders();
+    }
+
+    if (this.status != "All"){
+      this.updateStatus();
+    }
+
+    if (this.range != 333){
+      this.updateRange();
+    }
+  }
+
+
+  async updateDriver(): Promise<void> {
+    console.log('updateDriver');
+    //regex matching this.driverFilter
+    if (this.driverFilter != ""){
+      let regex = new RegExp(this.driverFilter, 'i');
+
+      //filter this.rides by this.driverFilter
+      this.rides = this.rides?.filter(ride => ride.driver && ride.driver.match(regex));
+    }
+    else {
+      this.updateFilters();
+    }
+  }
+
+  async updateRiders(): Promise<void> {
+    console.log('updateRiders');
+   if (this.riderFilter != ""){
+      //filter this.rides riders in the ride
+      this.rides = this.rides?.filter(ride => ride.riders && ride.riders.length > 0);
+
+      //regex matching this.riderFilter
+      let regex = new RegExp(this.riderFilter, 'i');
+
+      //filter this.rides riders by this.riderFilter
+      this.rides = this.rides?.filter(ride => {
+        if (ride.riders){
+          for (const rider of ride.riders){
+            if (rider.riderID.match(regex)){
+              return true;
+            }
+          }
+        }
+        return false;
+      });
+    } else {
+      this.updateFilters();
+    }
+  }
+
+  async updateCreator(): Promise<void> {
+    console.log('updateCreator');
+    //regex matching this.creatorFilter
+
+    if (this.creatorFilter != ""){
+      let regex = new RegExp(this.creatorFilter, 'i');
+
+      //filter this.rides by this.creatorFilter
+      this.rides = this.rides?.filter(ride => ride.creator.match(regex));
+    }
+    else {
+      this.updateFilters();
+    }
+
+  }
+
+
+
+  async updateStatus(): Promise<void> {
 
     if (this.status == "All"){
       //no filter

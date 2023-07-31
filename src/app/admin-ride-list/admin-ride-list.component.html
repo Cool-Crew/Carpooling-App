@@ -24,17 +24,29 @@
       <tr>
         <th>Driver
           <div class="th-filter-selector">
-            <input placeholder="Filter by driver">
+            <input 
+              placeholder="Filter by driver"
+              [(ngModel)]="driverFilter"
+              (ngModelChange)="updateDriver()"
+            >
           </div>
         </th>
         <th>Creator
           <div class="th-filter-selector">
-            <input placeholder="Filter by creator">
+            <input 
+              placeholder="Filter by creator"
+              [(ngModel)]="creatorFilter"
+              (ngModelChange)="updateCreator()"
+            >
           </div>
         </th>
         <th>Riders
           <div class="th-filter-selector">
-            <input placeholder="Filter by rider">
+            <input 
+              [(ngModel)]="riderFilter"
+              (ngModelChange)="updateRiders()"
+              placeholder="Filter by rider"
+              >
           </div>
         </th>
         <!-- <th>Start Location</th> -->
