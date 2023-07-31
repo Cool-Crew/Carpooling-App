@@ -24,9 +24,11 @@ export class AdminRideDetailsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     //get ride with rideId
-    this.getRide();
+    await this.getRide();
     //set feedback
-    this.setFeedback();
+    await this.setFeedback();
+
+    console.log(this.ride);
   }
 
   async getRide(): Promise<void> {
@@ -122,6 +124,7 @@ export class AdminRideDetailsComponent implements OnInit {
 
   async setFeedback(): Promise<void> {
     this.rideFeedbacks = this.ride?.feedback;
+    
   }
 
 }

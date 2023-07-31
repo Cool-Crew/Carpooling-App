@@ -1,1 +1,9 @@
-<p>admin-feedback-for-ride-details works!</p>
+<div>
+    <h2>Feedback from {{feedback?.riderId}}</h2>
+    <p><b>Rating:</b> {{feedback?.rating}}/5</p>
+    <p><b>Category:</b> {{feedback?.category}}</p>
+    <p><b>Feedback body:</b></p>
+    <div class="feedback-body">
+        <p>{{feedback?.feedback}}</p>
+    </div>
+</div>
