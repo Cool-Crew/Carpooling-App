@@ -7,7 +7,8 @@
         *ngFor="let ride of rides" 
         [puLocation]="puLocation" 
         [doLocation]="doLocation"
-        [ride]="ride" (newRideEvent)="rideSelected($event)">
+        [ride]="ride" 
+        (newRideEvent)="rideSelected($event)">
     </app-ride-card>
     
 </div>

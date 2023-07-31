@@ -13,6 +13,7 @@ export class Feedback {
   riderId: string = "";
   rating: number = 0;
   feedback: string = "";
+  feedbackCategory: string = "";
 }
 
 export enum Status {

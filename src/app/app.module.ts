@@ -48,6 +48,10 @@ import { ChatComponent } from "./chat/chat.component";
 import { AdminRideListComponent } from './admin-ride-list/admin-ride-list.component';
 import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback-list.component';
 import { DmComponent } from './dm/dm.component';
+import { AdminRideDetailsComponent } from './admin-ride-details/admin-ride-details.component';
+import { AdminRideCardComponent } from './admin-ride-card/admin-ride-card.component';
+import { AdminFeedbackForRideDetailsComponent } from './admin-feedback-for-ride-details/admin-feedback-for-ride-details.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +78,10 @@ import { DmComponent } from './dm/dm.component';
     AdminRideListComponent,
     AdminFeedbackListComponent,
     DmComponent,
+    AdminRideDetailsComponent,
+    AdminRideCardComponent,
+    AdminFeedbackForRideDetailsComponent,
+    AdminDashboardComponent,
   ],
   imports: [
     BrowserModule,

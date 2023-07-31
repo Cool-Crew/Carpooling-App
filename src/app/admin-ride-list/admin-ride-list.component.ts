@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
-import { Ride } from '../Ride';
+import { Ride, Status } from '../Ride';
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 
@@ -161,8 +161,25 @@ export class AdminRideListComponent {
   }
   
   cancelRide(rideId: string): void {
+
+    //check if ride is already cancelled
+    let ride = this.rides?.find(ride => ride._id == rideId);
+    if (ride?.status == "Cancelled"){
+      alert("Ride is already cancelled");
+      return;
+    }
+
     this.rideService.cancelRide(rideId).subscribe((response: any) => {
     }, (error: any) => {
     });
+
+    //update ride status in this.rides
+    if (this.rides){
+      for (const ride of this.rides){
+        if (ride._id == rideId){
+          ride.status = Status.Cancelled;
+        }
+      }
+    }
   }
 }

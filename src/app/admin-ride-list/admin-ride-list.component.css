@@ -65,3 +65,9 @@ td button.btn-primary {
     background-color: #0074d9;
     color: white;
 }
+
+td button:disabled {
+    background-color: #ccc;
+    color: white;
+    cursor: not-allowed;
+}

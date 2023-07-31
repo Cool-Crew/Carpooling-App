@@ -1,0 +1,50 @@
+.AdminRideCard {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: fit-content;
+  }
+  
+  .AdminRideCard h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .AdminRideCard p {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+  
+  .AdminRideCard b {
+    font-weight: 600;
+  }
+  
+  #creator-details,
+  #driver-details,
+  #riders-details {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+  }
+  
+  #creator-details h3,
+  #driver-details h3,
+  #riders-details h3 {
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  #riders-details div {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #ccc;
+  }
+  
+  /* Optional: If you want to add some spacing between rider details */
+  #riders-details p {
+    margin-bottom: 5px;
+  }

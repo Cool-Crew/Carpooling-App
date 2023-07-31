@@ -79,7 +79,6 @@
             <br> <!-- Optional line break to separate riderIDs -->
           </span>
         </td>
-        <!-- <td>{{ ride.riders && ride.riders.length > 0 ? ride.riders[0].pickupLocation?.name : "" }}</td> -->
         <td>{{ ride.dropoffLocation?.name}}</td>
         <td>{{ ride.dateTime | date }}</td>
         <td>{{ ride.status }}</td>
@@ -93,7 +92,7 @@
           <button
           *ngIf="action == 'View'"
           class="btn btn-primary"
-          [routerLink]="'/rating/' + ride._id"
+          [routerLink]="'/admin/rideDetails/' + ride._id"
           >View
         </button>
         </td>

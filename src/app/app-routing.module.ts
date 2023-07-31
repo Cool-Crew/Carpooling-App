@@ -18,6 +18,8 @@ import { ChatComponent } from "./chat/chat.component";
 import { DmComponent } from "./dm/dm.component";
 import { AdminFeedbackListComponent } from "./admin-feedback-list/admin-feedback-list.component";
 import { AdminRideListComponent } from "./admin-ride-list/admin-ride-list.component";
+import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.component";
+import { AdminRideDetailsComponent } from "./admin-ride-details/admin-ride-details.component";
 
 const routes: Routes = [
   { path: "about", component: AboutComponent, canActivate: [GuardAuthService] },
@@ -70,15 +72,15 @@ const routes: Routes = [
     component: ChatComponent
   },
   {
-    path: "admin/feedbacks",
-    component: AdminFeedbackListComponent,
+    path: "admin/dashboard",
+    component: AdminDashboardComponent,
     canActivate: [GuardAuthService],
   },
   {
-    path: "admin/rides",
-    component: AdminRideListComponent,
+    path: "admin/rideDetails/:id",
+    component: AdminRideDetailsComponent,
     canActivate: [GuardAuthService],
-  },
+  }
 ];
 
 @NgModule({
