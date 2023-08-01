@@ -18,7 +18,8 @@
         <h3>Riders: ({{riderCount}}/3)</h3>
         <div *ngFor="let rider of ride.riders">
             <p><b>Username:</b> {{ rider.riderID }}</p>
-            <p><b>Pickup Location:</b> {{ rider.pickupLocation?.name }} ({{rider.pickupLocation?.address}})</p>
+            <p><b>Pickup Location:</b> {{ rider.pickupLocation?.name }}</p>
+            <p>{{rider.pickupLocation?.address}}</p>
         </div>
 
     </div>
