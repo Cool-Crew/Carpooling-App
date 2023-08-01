@@ -35,7 +35,6 @@ export class AdminRideListComponent {
   constructor(private rideService: RideService) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getRides();
     await this.updateFilters();
   }
 
