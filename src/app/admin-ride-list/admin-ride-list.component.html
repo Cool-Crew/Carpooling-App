@@ -51,8 +51,28 @@
         </th>
         <!-- <th>Start Location</th> -->
         <th>Dropoff Location
+          <div class="th-filter-selector">
+            <input 
+              placeholder="Filter by dropoff location"
+              [(ngModel)]="doFilter"
+              (ngModelChange)="updateDropoffFilter()"
+            >
+          </div>
         </th>
-        <th>Date/Time</th>
+        <th>Date/Time 
+          <button
+              *ngIf="dateSortDirection === 0"
+              (click)="updateDateSort()"
+            >
+              🔽
+            </button>
+            <button
+              *ngIf="dateSortDirection === 1"
+              (click)="updateDateSort()"
+            >
+              🔼
+            </button>
+        </th>
         <th>Status
           <div class="th-filter-selector">
             <select 

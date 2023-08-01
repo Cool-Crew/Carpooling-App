@@ -29,16 +29,60 @@ export class AdminRideListComponent {
   riderFilter: string = "";
   creatorFilter: string = "";
   driverFilter: string = "";
+  dateSortDirection: number = 0; // 0 = ascending, 1 = descending
+  doFilter: string = "";
 
   constructor(private rideService: RideService) { }
 
+  async ngOnInit(): Promise<void> {
+    await this.getRides();
+  }
+
+  updateDateSort(): void {
+    console.log(this.dateSortDirection)
+    if (this.dateSortDirection === 0) {
+      this.dateSortDirection = 1;
+    } else {
+      this.dateSortDirection = 0;
+    }
+    
+    if (this.dateSortDirection === 0) {
+      this.rides?.sort((a, b) => {
+        const aDateTime = a.dateTime ?? ""; // Provide a default value if a.dateTime is undefined
+        const bDateTime = b.dateTime ?? ""; // Provide a default value if b.dateTime is undefined
+        
+        if (aDateTime < bDateTime) {
+          return -1;
+        } else if (aDateTime > bDateTime) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      this.rides?.sort((a, b) => {
+        const aDateTime = a.dateTime ?? ""; // Provide a default value if a.dateTime is undefined
+        const bDateTime = b.dateTime ?? ""; // Provide a default value if b.dateTime is undefined
+
+        if (aDateTime < bDateTime) {
+          return 1;
+        } else if (aDateTime > bDateTime) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+    }
+  }
+
   async getRides(): Promise<void> {
     let res: {message: String, _rides: [Ride]} | undefined = await this.rideService.getRides(); 
-    this.rides = res?._rides;
+    // this.rides = res?._rides;
+    let ridesHolder = res?._rides;
     // replaced ids with usernames
-    if (this.rides) {
+    if (ridesHolder) {
         // Sort rides by date
-        this.rides.sort((a, b) => {
+        ridesHolder.sort((a, b) => {
           const aDateTime = a.dateTime ?? ""; // Provide a default value if a.dateTime is undefined
           const bDateTime = b.dateTime ?? ""; // Provide a default value if b.dateTime is undefined
 
@@ -51,7 +95,7 @@ export class AdminRideListComponent {
           }
       });
 
-      for (const ride of this.rides){
+      for (const ride of ridesHolder){
         //convert dateTime to actual date object
         if (ride.dateTime){
           ride.dateTime = new Date(ride.dateTime);
@@ -81,12 +125,10 @@ export class AdminRideListComponent {
           }
         }
       }
-    }
-  }  
 
-  async ngOnInit(): Promise<void> {
-    await this.getRides();
-  }
+      this.rides = ridesHolder;
+    }
+  } 
 
   async updateFilters(): Promise<void> {
     await this.getRides();
@@ -109,7 +151,26 @@ export class AdminRideListComponent {
     if (this.range != 333){
       this.updateRange();
     }
+
+    if (this.doFilter != ""){
+      this.updateDropoffFilter();
+    }
   }
+
+  async updateDropoffFilter(): Promise<void> {
+    console.log('updateDo');
+    //regex matching this.doFilter
+    if (this.doFilter != ""){
+      let regex = new RegExp(this.doFilter, 'i');
+      
+      //filter this.rides by this.doFilter
+      this.rides = this.rides?.filter(ride => ride.dropoffLocation?.name && ride.dropoffLocation?.name.match(regex));
+    }
+    else {
+      this.updateFilters();
+    }
+  }
+
 
 
   async updateDriver(): Promise<void> {
@@ -172,7 +233,8 @@ export class AdminRideListComponent {
   async updateStatus(): Promise<void> {
 
     if (this.status == "All"){
-      //no filter
+      this.getRides();
+      this.updateFilters();
     }
     else {
       this.rides = this.rides?.filter(ride => ride.status == this.status);
