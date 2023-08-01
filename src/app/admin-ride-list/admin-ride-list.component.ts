@@ -95,35 +95,14 @@ export class AdminRideListComponent {
           }
       });
 
-      for (const ride of ridesHolder){
+      for (let ride of ridesHolder){
         //convert dateTime to actual date object
         if (ride.dateTime){
           ride.dateTime = new Date(ride.dateTime);
         }
 
-        // get username for creator
-        let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(ride.creator);
-        if (res){
-          ride.creator = res._usernames[ride.creator];
-        }
+        ride = await this.rideService.replaceIdsWithUsernames(ride);
 
-        //get username for driver
-        if (ride.driver){
-          let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(ride.driver);
-          if (res){
-            ride.driver = res._usernames[ride.driver];
-          }
-        }
-
-        //get username for riders
-        if (ride.riders){
-          for (const rider of ride.riders){
-            let res: {message: string, _usernames: Usernames} | undefined = await this.rideService.getUsernames(rider.riderID);
-            if (res){
-              rider.riderID = res._usernames[rider.riderID];
-            }
-          }
-        }
       }
 
       this.rides = ridesHolder;

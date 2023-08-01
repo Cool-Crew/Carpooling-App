@@ -1,11 +1,12 @@
 
-div {
+.feedback-card {
 border: 1px solid #ccc;
 padding: 15px;
 border-radius: 4px;
 background-color: #fff;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-max-width: fit-content;
+min-width: fit-content;
+width: 30em;
 }
 
 h2 {
@@ -31,4 +32,9 @@ margin-top: 10px;
 .feedback-body{
 min-width: 90%;
 background-color: #d8d8d8;
+padding-left: .5em;
+padding-right: .5em;
+padding-top: .35em;
+padding-bottom: .35em;
+border-radius: 5px;
 }

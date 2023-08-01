@@ -225,4 +225,44 @@ export class RideService {
     }
     return new Observable();
   }
+
+  async replaceIdsWithUsernames(ride:Ride): Promise<Ride> {
+
+    // get username for creator
+    let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.creator);
+    if (res){
+      ride.creator = res._usernames[ride.creator];
+    }
+
+    //get username for driver
+    if (ride.driver){
+      let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.driver);
+      if (res){
+        ride.driver = res._usernames[ride.driver];
+      }
+    }
+
+    //get username for riders
+    if (ride.riders){
+      for (const rider of ride.riders){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(rider.riderID);
+        if (res){
+          rider.riderID = res._usernames[rider.riderID];
+        }
+      }
+    }
+
+    //get username for feedbacks
+    if (ride.feedback){
+      for (const feedback of ride.feedback){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(feedback.riderId);
+        if (res){
+          feedback.riderId = res._usernames[feedback.riderId];
+        }
+      }
+    }
+
+
+    return ride;
+  }
 }

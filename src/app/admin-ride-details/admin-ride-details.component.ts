@@ -34,11 +34,12 @@ export class AdminRideDetailsComponent implements OnInit {
   async getRide(): Promise<void> {
     let holder = await this.rideService.getRide(this.rideId);
     if (holder) {
-      this.ride = holder._ride;
+      this.ride = await this.rideService.replaceIdsWithUsernames(holder._ride);
     }
 
     //cleaning date and time
     await this.cleanDateTime();
+    
   }
 
   async cleanDateTime(): Promise<void> {
