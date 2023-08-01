@@ -24,7 +24,7 @@ enum ActionSelector {
 export class AdminRideListComponent {
   rides:Ride[] | undefined = [];
   action: ActionSelector = ActionSelector.View;
-  range: number = -1;
+  range: number = -1; //-1 = all future rides, 0 = today, 7 = last 7 days, 30 = last 30 days, 180 = last 180 days, 365 = last 365 days
   status: string = "All";
   riderFilter: string = "";
   creatorFilter: string = "";
@@ -36,6 +36,7 @@ export class AdminRideListComponent {
 
   async ngOnInit(): Promise<void> {
     await this.getRides();
+    await this.updateFilters();
   }
 
   updateDateSort(): void {
