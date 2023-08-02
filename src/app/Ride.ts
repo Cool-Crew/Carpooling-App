@@ -20,6 +20,7 @@ export enum Status {
   In_Progress = "In_Progress",
   Complete = "Complete",
   Cancelled = "Cancelled",
+  Not_Completed = "Not_Completed",
 }
 
 export class StopLocation {
@@ -51,7 +52,8 @@ export class RideList {
   rideId: string = "";
   pickupLocation: String | undefined;
   dropoffLocation: String | undefined;
-  dateTime: String | undefined;
+  dateTime: string | undefined;
+  exactTime: string | undefined;
   status: Status = Status.Not_Started;
   statusString: String | undefined;
   color: string | undefined;

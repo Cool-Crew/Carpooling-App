@@ -14,6 +14,7 @@
     <div *ngIf="cardLoading !== ride.rideId" class="ride-details">
       <div>
         <p>Date: {{ ride.dateTime }}</p>
+        <p *ngIf="ride.exactTime">Arrival Time: {{ ride.exactTime }}</p>
         <p *ngIf="ride.pickupLocation">
           Start Location: {{ ride.pickupLocation }}
         </p>
@@ -88,7 +89,8 @@
         (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
         *ngIf="
           ride.statusString === 'Not Started' ||
-          ride.statusString === 'Cencelled'
+          ride.statusString === 'Cancelled' ||
+          ride.statusString === 'Not Completed'
         "
       >
         Leave Ride
