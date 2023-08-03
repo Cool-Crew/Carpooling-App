@@ -194,4 +194,15 @@ export class RideService {
     }
     return new Observable();
   }
+
+  reportIssue(rideId: string, issue: any): Observable<any> {    
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;
+      return this.http.post<any>(url, issue, { headers });
+    }
+    return new Observable();
+  }
+
 }

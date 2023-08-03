@@ -111,6 +111,11 @@ export class RideListComponent implements OnInit {
     );
   }
 
+  reportIssue(rideId: string): void {
+    // Redirect to the report issue page with the ride ID as a parameter
+    this.router.navigate(['/report-issue', rideId]);
+  }
+
   onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
     this.user = this.authService.readToken();
     this.rideService.registerDriverToRide(rideId, this.user?._id).subscribe(
@@ -241,7 +246,7 @@ export class RideListComponent implements OnInit {
       },
       (error) => {
         if (error.status === 422) {
-          alert(`❗${error.error.message}`);
+          this.toastr.error(`❗${error.error.message}`);
         }
         console.error(error);
       }
