@@ -12,7 +12,7 @@
             <ng-container *ngFor="let users of userList">
               <li class="border border-bottom justify-content-evenly p-2 rounded text-center"
                 *ngIf="users._id != user._id" (click)="switchUser(users)">
-                <span class="m-2">{{ users.username }}</span>
+                <span class="m-2">{{ users.username }} <span style="color: grey; font-size: xx-small;">{{ users.firstName }}</span></span>
               </li>
             </ng-container>
           </ul>
@@ -34,9 +34,9 @@
                 <div class="row" *ngFor="let message of messageList">
                   <ng-container *ngIf="message?.senderId == user._id">
                     <div class="d-flex justify-content-end text-end">
-                      <div class="bg-info-subtle rounded m-2" style="min-width: 200px; min-height: 100px">
+                      <div class="rounded" style="min-width: 200px; min-height: 100px">
                         <span class="title-name d-grid p-3">{{ "You" }}</span>
-                        <p class="d-inline p-3">
+                        <p class="d-inline right">
                           {{ message?.message }}
                         </p>
                       </div>
@@ -45,11 +45,11 @@
   
                   <ng-container *ngIf="message?.senderId != user._id">
                     <div class="d-flex justify-content-start text-start">
-                      <div class="bg-light rounded m-2" style="min-width: 200px; min-height: 100px">
+                      <div class="rounded" style="min-width: 200px; min-height: 100px">
                         <span class="title-name d-grid p-3">{{
                           message?.senderName
                           }}</span>
-                        <p class="d-inline p-3">
+                        <p class="d-inline left p-3">
                           {{ message?.message }}
                         </p>
                       </div>
@@ -60,8 +60,8 @@
             </div>
   
             <div class="d-flex justify-content-end mx-5">
-              <input class="col-10" [(ngModel)]="newMessage" placeholder="Enter Message....." />
-              <span class="bg-dark-subtle p-3" (click)="sendMessage()"><i class="fa fa-send"></i></span>
+              <input class="col-10" [(ngModel)]="newMessage" placeholder="Enter Message....." (keydown.enter)="sendMessage()"/>
+              <span class="p-3" (click)="sendMessage()"><i class="fa fa-send" style="color: #3f51b5; font-size: large;"></i></span>
             </div>
           </div>
         </ng-container>
