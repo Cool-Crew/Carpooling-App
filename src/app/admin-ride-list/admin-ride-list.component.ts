@@ -24,18 +24,22 @@ enum ActionSelector {
 export class AdminRideListComponent {
   rides:Ride[] | undefined = [];
   action: ActionSelector = ActionSelector.View;
-  range: number = -1; //-1 = all future rides, 0 = today, 7 = last 7 days, 30 = last 30 days, 180 = last 180 days, 365 = last 365 days
+  range: number = 7; //-1 = all future rides, 0 = today, 7 = last 7 days, 30 = last 30 days, 180 = last 180 days, 365 = last 365 days
   status: string = "All";
   riderFilter: string = "";
   creatorFilter: string = "";
   driverFilter: string = "";
   dateSortDirection: number = 0; // 0 = ascending, 1 = descending
   doFilter: string = "";
+  ratingFilter: number = -1;
+  initialized: boolean = false;
+  loading: boolean = false;
 
   constructor(private rideService: RideService) { }
 
   async ngOnInit(): Promise<void> {
     await this.updateFilters();
+    this.initialized = true;
   }
 
   updateDateSort(): void {
@@ -101,6 +105,9 @@ export class AdminRideListComponent {
           ride.dateTime = new Date(ride.dateTime);
         }
 
+        //get avg rating
+        this.setAvgRating(ride);
+
         ride = await this.rideService.replaceIdsWithUsernames(ride);
 
       }
@@ -108,6 +115,24 @@ export class AdminRideListComponent {
       this.rides = ridesHolder;
     }
   } 
+
+  setAvgRating(ride: Ride): void {
+    let sum = 0;
+    let count = 0;
+    if (ride.feedback) {
+      for (let feedback of ride.feedback) {
+        sum += feedback.rating;
+        count++;
+      }
+    }
+
+    if (count > 0) {
+      ride.avgFeedbackRating = sum / count;
+    }
+    
+    return;
+  }
+
 
   async updateFilters(): Promise<void> {
     await this.getRides();
@@ -137,17 +162,19 @@ export class AdminRideListComponent {
   }
 
   async updateDropoffFilter(): Promise<void> {
-    console.log('updateDo');
     //regex matching this.doFilter
     if (this.doFilter != ""){
+      console.log('updateDropoffFilter');
       let regex = new RegExp(this.doFilter, 'i');
       
       //filter this.rides by this.doFilter
       this.rides = this.rides?.filter(ride => ride.dropoffLocation?.name && ride.dropoffLocation?.name.match(regex));
     }
-    else {
+    else if (this.initialized){
       this.updateFilters();
     }
+
+    return;
   }
 
 
@@ -161,7 +188,7 @@ export class AdminRideListComponent {
       //filter this.rides by this.driverFilter
       this.rides = this.rides?.filter(ride => ride.driver && ride.driver.match(regex));
     }
-    else {
+    else if (this.initialized){
       this.updateFilters();
     }
   }
@@ -186,7 +213,7 @@ export class AdminRideListComponent {
         }
         return false;
       });
-    } else {
+    } else if (this.initialized){
       this.updateFilters();
     }
   }
@@ -201,7 +228,7 @@ export class AdminRideListComponent {
       //filter this.rides by this.creatorFilter
       this.rides = this.rides?.filter(ride => ride.creator.match(regex));
     }
-    else {
+    else if (this.initialized){
       this.updateFilters();
     }
 
@@ -211,14 +238,17 @@ export class AdminRideListComponent {
 
   async updateStatus(): Promise<void> {
 
-    if (this.status == "All"){
-      this.getRides();
+    if (this.status == "All" && !this.initialized){
       this.updateFilters();
     }
     else {
       this.rides = this.rides?.filter(ride => ride.status == this.status);
     }
 
+  }
+
+  async updateRating(): Promise<void> {
+    console.log('updateRating');
   }
 
   async updateRange(): Promise<void> {

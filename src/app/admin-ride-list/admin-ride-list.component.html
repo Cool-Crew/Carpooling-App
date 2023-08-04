@@ -88,6 +88,36 @@
             </select>
           </div>
         </th>
+        <th>Avg Rating
+          <div class="th-filter-selector">
+            <select 
+            id="rating"
+            [(ngModel)]="ratingFilter"
+            (change)="updateRating()"
+            >
+              <option value="-1">All</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>          
+        </th>
+        <th>Issues Reported
+          <div class="th-filter-selector">
+            <select 
+            id="issue"
+            >
+              <option value="All">All</option>
+              <option value="Driver_Behavior">Driver Behavior</option>
+              <option value="Vehicle_Condition">Vehicle Condition</option>
+              <option value="Travel_Delay">Travel Delay</option>
+              <option value="Technical_Issues">Technical Issue</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </th>
         <th>Action:
           <div class="th-filter-selector">
             <select 
@@ -114,6 +144,12 @@
         <td>{{ ride.dropoffLocation?.name}}</td>
         <td>{{ ride.dateTime | date }}</td>
         <td>{{ ride.status }}</td>
+        <td class="avg-rating">{{ ride.avgFeedbackRating }}</td>
+        <td>
+          <span>
+            <!-- For holding array of issue categories -->
+          </span>
+        </td>
         <td>
           <button 
           *ngIf="action == 'Cancel'"

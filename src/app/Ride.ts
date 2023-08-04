@@ -3,6 +3,18 @@ export class Rider {
   pickupLocation: StopLocation | undefined;
 }
 
+
+export class Issue {
+  description: string = "";
+  openedBy: string = "";
+  priority: string = "";
+  category: string = "";
+  issueDate: string = "";
+  issueTime: string = "";
+  amPmOption: string = "";
+  affectedPassengers: boolean = false;
+}
+
 export class Message {
   msgID: string = "";
   content: string = "";
@@ -40,6 +52,7 @@ export class Ride {
   riderClasses: [] = [];
   riderInterests: [] = [];
   chat: Message[] = [];
+  avgFeedbackRating: number = 0;
   feedback: Feedback[] = [];
   status: Status = Status.Not_Started;
 }
