@@ -100,6 +100,7 @@ export class RidesComponent implements OnInit {
         Validators.required,
         this.validateTime,
       ]),
+      useMatching: new FormControl(null),
       riderDriver: new FormControl(null),
       searchRange: new FormControl(null),
     });
@@ -175,7 +176,6 @@ export class RidesComponent implements OnInit {
   // searching for a ride
   //Pass the date to the available-rides-list component
   async onSearch() {
-    console.log("🚗");
     const dateNoTime: string | undefined = this.selectedDate?.toISOString();
     const dateParts = dateNoTime?.split("T");
     let fullDate: Date | undefined;

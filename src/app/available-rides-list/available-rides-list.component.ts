@@ -15,7 +15,7 @@ export class AvailableRidesListComponent implements OnInit{
   selectedRide: Ride | undefined;
   selectedRideEnd: {lat: number, lng: number} | undefined;
 
-
+  @Input() useMatching: boolean | undefined;
   @Input() searchParams: {date: Date | undefined} | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;

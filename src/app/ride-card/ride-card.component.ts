@@ -102,6 +102,9 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
     </div>
   `,
 })
+
+
+
 export class RideCardComponent implements OnInit {
   user: any;
 
@@ -130,6 +133,7 @@ export class RideCardComponent implements OnInit {
   @Input() ride: Ride | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;
+  @Input() useMatching: boolean | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);
@@ -255,6 +259,18 @@ export class RideCardComponent implements OnInit {
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
 
+    this.getAllMatchingValues();
+  }
+
+  async getAllMatchingValues() {
+    if (this.ride?.riders){
+      let interests = [];
+      console.log('getting all matching values')
+      for (const rider of this.ride?.riders) {
+        interests.push(this.rideService.getMatchingValues(rider.riderID));
+      }
+      console.log(interests)
+    }
   }
 
   //For refreshing a ride card after a user action

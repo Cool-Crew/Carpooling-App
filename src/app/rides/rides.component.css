@@ -71,6 +71,17 @@ button {
   margin-bottom: 0;
 }
 
+.selector-holder {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: left;
+  margin-bottom: .2em;
+}
+.selector-holder label{
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
 button.search-button {
   background-color: #ff3333;
 }

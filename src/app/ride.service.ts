@@ -179,4 +179,19 @@ export class RideService {
     }
     return new Observable();
   }
+
+  getMatchingValues(userId:string): Observable<any> {
+    console.log(`${environment.userAPIBase}/users/${userId}/matchingInfo`)
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.get<any>(
+        `${environment.userAPIBase}/users/${userId}/matchingInfo`,
+        {
+          headers,
+        }
+      );
+    }
+    return new Observable();
+  }
 }
