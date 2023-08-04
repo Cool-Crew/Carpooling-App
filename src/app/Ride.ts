@@ -64,4 +64,5 @@ export class RideList {
   feedbackCategory: string | undefined;
   creator: string | undefined;
   driver: string | undefined;
+  canStartRide: boolean | undefined;
 }

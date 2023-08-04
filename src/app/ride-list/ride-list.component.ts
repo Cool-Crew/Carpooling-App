@@ -46,6 +46,7 @@ export class RideListComponent implements OnInit {
           })
         : undefined;
       r.dateTime = r?.dateTime?.split("T")[0];
+      r.canStartRide = r.dateTime === new Date().toISOString().split("T")[0];
       switch (r.statusString) {
         case "Not Started":
           r.color = "yellow";
@@ -113,7 +114,7 @@ export class RideListComponent implements OnInit {
 
   reportIssue(rideId: string): void {
     // Redirect to the report issue page with the ride ID as a parameter
-    this.router.navigate(['/report-issue', rideId]);
+    this.router.navigate(["/report-issue", rideId]);
   }
 
   onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
@@ -252,7 +253,48 @@ export class RideListComponent implements OnInit {
       }
     );
   }
+  startRide(rideId: string) {
+    this.rideService.startRide(rideId).subscribe(
+      (response) => {
+        this.toastr.success("Ride Started");
+        const notificationData = {
+          msg: `This ride has been marked as started`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
 
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
+        this.reloadRideList(rideId);
+      },
+      (error) => {
+        if (error.status === 422) {
+          this.toastr.error(`❗${error.error.message}`);
+        }
+        console.error(error);
+      }
+    );
+  }
   async reloadRideList(rideId: string) {
     console.log("This is ride id", rideId);
     this.cardLoading = rideId;

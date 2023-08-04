@@ -98,6 +98,17 @@
       <button
         class="ride-button"
         *ngIf="
+          ride.statusString === 'Not Started' &&
+          user._id === ride.driver &&
+          ride.canStartRide
+        "
+        (click)="startRide(ride.rideId)"
+      >
+        Start Ride
+      </button>
+      <button
+        class="ride-button"
+        *ngIf="
           ride.statusString === 'Not Started' ||
           ride.statusString === 'In Progress'
         "
@@ -110,20 +121,24 @@
         *ngIf="
           ride.statusString !== 'Complete' &&
           ride.statusString !== 'Cancelled' &&
+          ride.statusString !== 'Not Started' &&
           (user._id === ride.creator || user._id === ride.driver)
         "
         (click)="completeRide(ride.rideId)"
       >
         Mark as completed
       </button>
-      
-<!-- <button (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
 
-<button class="report-issue-button" *ngIf="ride.statusString === 'Complete'" (click)="reportIssue(ride.rideId)">
-  <img src="../../assets/images/issue.png" alt="Report Issue">
-  <span>Report Issue</span>
-</button>
+      <!-- <button (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
 
+      <button
+        class="report-issue-button"
+        *ngIf="ride.statusString === 'Complete'"
+        (click)="reportIssue(ride.rideId)"
+      >
+        <img src="../../assets/images/issue.png" alt="Report Issue" />
+        <span>Report Issue</span>
+      </button>
     </div>
     <div *ngIf="cardLoading === ride.rideId">
       <div class="loader"></div>

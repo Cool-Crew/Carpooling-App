@@ -39,7 +39,9 @@ export class RideService {
     return;
   }
 
-  async getUsernames(userIds:string): Promise<{ message: String; _users: [String] } | undefined> {
+  async getUsernames(
+    userIds: string
+  ): Promise<{ message: String; _users: [String] } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
@@ -156,6 +158,19 @@ export class RideService {
     return new Observable();
   }
 
+  startRide(rideId: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.patch<{ message: String }>(
+        `${environment.userAPIBase}/rides/${rideId}/startRide`,
+        {},
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
   updateRide(rideId: any, updatedData: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
@@ -195,7 +210,7 @@ export class RideService {
     return new Observable();
   }
 
-  reportIssue(rideId: string, issue: any): Observable<any> {    
+  reportIssue(rideId: string, issue: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
@@ -204,5 +219,4 @@ export class RideService {
     }
     return new Observable();
   }
-
 }
