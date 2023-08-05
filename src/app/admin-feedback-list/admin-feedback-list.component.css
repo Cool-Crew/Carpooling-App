@@ -1,7 +1,7 @@
 
 .feedbacks-table {
   margin-top: 20px;
-  width: 90%;
+  width: 95%;
   border-collapse: collapse;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -42,6 +42,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  
 }
 
 .table th,
@@ -49,13 +50,24 @@
   text-align: left;
   padding: 8px;
   border: 1px solid #ccc;
-  width: auto
+  width: auto;
+  overflow: hidden;
 }
 
 .rating {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (min-width: 901px) and (max-width: 1200px) {
+  .rating{
+    max-width: 50px;
+  }
+  .th-filter-selector
+  {
+    max-width: 110px;
+  }
 }
 
 .star-empty {
