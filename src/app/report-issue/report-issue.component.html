@@ -46,11 +46,12 @@
 
 <h2 id="heading">Report Issue</h2>
 
-<form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
-    
+
+  <form [formGroup]="issueForm" (ngSubmit)="onSubmit()"> 
   <label>
    Select Issue Category:
-    <select [(ngModel)]="issue.category" formControlName="category" name="category" placeholder="Select" required>    
+    <select [(ngModel)]="issue.category" formControlName="category" name="category" placeholder="Select" required>  
+   
       <option value="" selected>Select</option>
       <option value="Driver_Behavior">Driver Behavior</option>
       <option value="Vehicle_Condition">Vehicle Condition</option>
@@ -66,22 +67,17 @@
   <label>
     Issue Description:
     <textarea [(ngModel)]="issue.description" formControlName="description" name="description" placeholder="Enter a brief description of your problem." required></textarea>
+   
     <mat-error *ngIf="issueForm.get('description')?.invalid && issueForm.get('description')?.touched">
         Please provide a description of the issue.
     </mat-error>
   </label>
-
-  <label>
-    Opened By:
-    <input type="text" [(ngModel)]="issue.openedBy" formControlName="openedBy" name="openedBy" placeholder="your name" required>
-    <mat-error *ngIf="issueForm.get('openedBy')?.invalid && issueForm.get('openedBy')?.touched">
-        Please enter your name as "Opened By".
-    </mat-error>
-  </label>
+  
 
   <label>
     Priority:
-    <select [(ngModel)]="issue.priority" formControlName="priority" name="priority" required>      
+    <select [(ngModel)]="issue.priority" formControlName="priority" name="priority" required>  
+    
       <option value="" selected>Select</option>
       <option value="High">High</option>
       <option value="Medium">Medium</option>
@@ -95,6 +91,7 @@
   <label>
     Issue Date:
     <input type="date" [(ngModel)]="issue.issueDate" formControlName="issueDate" name="issueDate" required>
+   
     <mat-error *ngIf="issueForm.get('issueDate')?.invalid && issueForm.get('issueDate')?.touched">
         Please select the issue date.
     </mat-error>
@@ -103,16 +100,19 @@
   <label>
     Issue Time:
     <input type="time" [(ngModel)]="issue.issueTime" formControlName="issueTime" name="issueTime" required>
+  
     <mat-error *ngIf="issueForm.get('issueTime')?.invalid && issueForm.get('issueTime')?.touched">
         Please select the issue time.
     </mat-error>
   </label>
   
 <br>
+
   <label>
     Was this issue faced by other passengers as well?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="Yes" required> Yes
-    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="No" required> No
+    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers"  name="affectedPassengers" value="true" required> Yes
+    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="false" required> No
+
     <mat-error *ngIf="issueForm.get('affectedPassengers')?.invalid && issueForm.get('affectedPassengers')?.touched">
         Please select if the issue was faced by other passengers.
     </mat-error>

@@ -162,11 +162,10 @@
         Mark as completed
       </button>
 
-      <!-- <button (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
+      <!-- <button *ngIf="ride.statusString === 'Complete'" (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
 
       <button
-        class="report-issue-button"
-        *ngIf="ride.statusString === 'Complete'"
+        class="report-issue-button"        
         (click)="reportIssue(ride.rideId)"
       >
         <img src="../../assets/images/issue.png" alt="Report Issue" />

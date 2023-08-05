@@ -31,9 +31,9 @@
 
 /* Style the image inside the button */
 .report-issue-button img {
-  width: 50px; /* Adjust the width to your preferred size */
-  height: 50px; /* Adjust the height to your preferred size */
-  border-radius: 50%; /* To make the image circular, if needed */
+  width: 30px; /* Adjust the width to your preferred size */
+  height: 30px; /* Adjust the height to your preferred size */
+  /* border-radius: 50%;  */
   transition: transform 0.3s ease-in-out; /* Add a transition effect */
 }
 
@@ -49,7 +49,7 @@
   position: absolute; /* Position the text absolutely */
   /* width: 100%; Make the text width same as the button */
   bottom: -40px; /* Adjust the vertical position as needed */
-  left: 0;
+  left: 2;
   opacity: 0; /* Hide the text by default */
 }
 
