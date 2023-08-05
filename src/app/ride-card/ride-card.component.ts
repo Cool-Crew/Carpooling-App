@@ -31,7 +31,17 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
             {{ rideDateStr }}
           </p>
         </div>
-        <p></p>
+        
+        <div *ngIf="useMatching" class="interests&classes-container">
+          <div  class="interests">
+            <label><b>Interests:</b></label>
+            <p *ngFor="let interest of interests">{{ interest }}</p>
+          </div>
+          <div *ngIf="classes.length > 0" class="classes">
+            <label><b>Classes:</b></label>
+            <p *ngFor="let class of classes">{{ class }}</p>
+          </div>
+        </div>
 
 
         <!-- Ride card buttons -->
@@ -129,6 +139,10 @@ export class RideCardComponent implements OnInit {
   //for displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
+
+  //for holding rider/driver interests/classes
+  interests: string[] = [];
+  classes: string[] = [];
 
   @Input() ride: Ride | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
@@ -260,18 +274,35 @@ export class RideCardComponent implements OnInit {
     this.endLocationMarker = this.endLocation?.location;
 
     this.getAllMatchingValues();
+    console.log(this.interests)
   }
 
   async getAllMatchingValues() {
-    if (this.ride?.riders){
-      let interests = [];
-      console.log('getting all matching values')
+    if (this.ride?.riders) {
       for (const rider of this.ride?.riders) {
-        interests.push(this.rideService.getMatchingValues(rider.riderID));
+        this.rideService.getMatchingValues(rider.riderID).subscribe(
+          matchingInfo => {
+            //any interests or classes that match the users interests or classes will be added to their respective arrays
+
+            for (const interest of matchingInfo._matchingInfo.interests) {
+                if (this.user.interests.includes(interest) ){
+                  this.interests.push(interest);
+                }
+            }
+
+            for (const _class of matchingInfo._matchingInfo.classes) {
+              if (this.user.classes.includes(_class) ){
+                this.classes.push(_class);
+              }
+            }
+          },
+          error => {
+            console.error('Error fetching matching info:', error);
+          }
+        );
       }
-      console.log(interests)
     }
-  }
+  }  
 
   //For refreshing a ride card after a user action
   reInit() {

@@ -99,7 +99,8 @@
                 type="checkbox"
                 id="match-selector"
                 name="match-selector"
-                formControlName = "useMatching" 
+                formControlName = "useMatching"
+                (click)="this.ridesListComponent.ngOnInit()" 
               />
             </div>
             <div class="button-container">

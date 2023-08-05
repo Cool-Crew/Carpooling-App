@@ -22,6 +22,7 @@ export class RideService {
     }
     return;
   }
+  
   async getUserRides(
     riderId: any
   ): Promise<{ message: String; _rides: [RideList] } | undefined> {
@@ -181,7 +182,6 @@ export class RideService {
   }
 
   getMatchingValues(userId:string): Observable<any> {
-    console.log(`${environment.userAPIBase}/users/${userId}/matchingInfo`)
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
