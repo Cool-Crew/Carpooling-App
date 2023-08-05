@@ -63,9 +63,7 @@
   transform: scale(1.1); /* Increase the scale to create a pop-out effect */
 }
 
-
 /***************************************************************************************************/
-
 
 @keyframes spin {
   0% {
@@ -228,4 +226,9 @@
 h3 {
   margin: 0px 0px 8px;
   font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
