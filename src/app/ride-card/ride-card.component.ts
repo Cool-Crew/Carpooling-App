@@ -32,13 +32,14 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
           </p>
         </div>
         
-        <div *ngIf="useMatching" class="interests&classes-container">
+        <div *ngIf="useMatching" class="ic-container">
+          <label *ngIf="interests.length < 1 && classes.length < 1">No matching interests or classes</label>
           <div  class="interests">
-            <label><b>Interests:</b></label>
+            <label *ngIf="interests.length > 0"><b>Matching Interests:</b></label>
             <p *ngFor="let interest of interests">{{ interest }}</p>
           </div>
           <div *ngIf="classes.length > 0" class="classes">
-            <label><b>Classes:</b></label>
+            <label><b>Matching Classes:</b></label>
             <p *ngFor="let class of classes">{{ class }}</p>
           </div>
         </div>
@@ -57,7 +58,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
           </button>
           <p class="warning" *ngIf="userIsRider"> This will switch you from rider to driver</p>
         </div>
-
+        
         <!-- Cancel Drive Offer -->
         <button
           class="leave"
@@ -166,6 +167,8 @@ export class RideCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('use matching is: ' + this.useMatching)
+
     this.user = this.authService.readToken();
 
     let dateTimeStr = this.ride?.dateTime;
@@ -274,7 +277,6 @@ export class RideCardComponent implements OnInit {
     this.endLocationMarker = this.endLocation?.location;
 
     this.getAllMatchingValues();
-    console.log(this.interests)
   }
 
   async getAllMatchingValues() {
@@ -295,6 +297,10 @@ export class RideCardComponent implements OnInit {
                 this.classes.push(_class);
               }
             }
+
+            // clean up any duplicates in the arrays
+            this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
+            this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
           },
           error => {
             console.error('Error fetching matching info:', error);

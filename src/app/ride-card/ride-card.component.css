@@ -97,6 +97,14 @@ margin-right: 5px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
+.ic-container{
+    background-color: #adbcd3;
+    border-radius: 5px;
+    padding: .7em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
 
 p.warning {
     color: red;

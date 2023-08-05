@@ -44,6 +44,8 @@ export class RidesComponent implements OnInit {
   puLocationInfo: StopLocationInfo | undefined;
   doLocationInfo: StopLocationInfo | undefined;
 
+  useMatchingCheck: boolean = false;
+
   //searchParams are passed to the available-rides-list component
   searchParams:
     | {

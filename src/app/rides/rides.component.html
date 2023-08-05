@@ -99,6 +99,7 @@
                 type="checkbox"
                 id="match-selector"
                 name="match-selector"
+                [(ngModel)]="this.useMatchingCheck"
                 formControlName = "useMatching"
                 (click)="this.ridesListComponent.ngOnInit()" 
               />
@@ -119,7 +120,7 @@
         </form>
 
         <app-available-rides-list #ridesListComponent
-          [useMatching]="rideForm.useMatching" 
+          [useMatching]="useMatchingCheck" 
           [puLocation]="puLocationInfo" 
           [doLocation]="doLocationInfo"
           [searchParams]="searchParams" 
