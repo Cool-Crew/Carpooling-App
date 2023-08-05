@@ -1,3 +1,8 @@
+app-ride-card {
+  margin: 0;
+  padding-top: 0;
+}
+
 .card {
     background-color: inherit;
     padding: .5em;

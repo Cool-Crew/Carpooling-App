@@ -16,6 +16,57 @@
   animation: spin 2s linear infinite;
 }
 
+/***************************************************************************************************/
+
+/* report-issue-button.css */
+
+/* Style the button */
+.report-issue-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative; /* Add this to make text positioning relative to the button */
+}
+
+/* Style the image inside the button */
+.report-issue-button img {
+  width: 50px; /* Adjust the width to your preferred size */
+  height: 50px; /* Adjust the height to your preferred size */
+  border-radius: 50%; /* To make the image circular, if needed */
+  transition: transform 0.3s ease-in-out; /* Add a transition effect */
+}
+
+/* Style the text (hidden by default) */
+.report-issue-button span {
+  display: block; /* Change from "none" to "block" */
+  text-align: center; /* Center the text below the image */
+  margin-top: 15px; /* Add a little margin to separate the image and text */
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  position: absolute; /* Position the text absolutely */
+  /* width: 100%; Make the text width same as the button */
+  bottom: -40px; /* Adjust the vertical position as needed */
+  left: 0;
+  opacity: 0; /* Hide the text by default */
+}
+
+/* Show the text on hover */
+.report-issue-button:hover span {
+  opacity: 1; /* Show the text on hover */
+}
+
+/* Button-like effect on hover */
+.report-issue-button:hover img {
+  transform: scale(1.1); /* Increase the scale to create a pop-out effect */
+}
+
+
+/***************************************************************************************************/
+
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -146,7 +197,9 @@
 .red {
   background-color: red;
 }
-
+.blue {
+  background-color: blue;
+}
 .orange {
   background-color: orange;
 }
