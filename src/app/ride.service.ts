@@ -210,6 +210,21 @@ export class RideService {
     return new Observable();
   }
 
+
+  getMatchingValues(userId:string): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.get<any>(
+        `${environment.userAPIBase}/users/${userId}/matchingInfo`,
+        {
+          headers,
+        }
+      );
+    }
+    return new Observable();
+  }
+
   reportIssue(rideId: string, issue: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
@@ -219,4 +234,5 @@ export class RideService {
     }
     return new Observable();
   }
+  
 }
