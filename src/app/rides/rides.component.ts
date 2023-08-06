@@ -50,6 +50,7 @@ export class RidesComponent implements OnInit {
   searchParams:
     | {
         date: Date | undefined;
+        doLocation: PlaceResult | undefined;
       }
     | undefined;
 
@@ -178,20 +179,24 @@ export class RidesComponent implements OnInit {
   // searching for a ride
   //Pass the date to the available-rides-list component
   async onSearch() {
-    const dateNoTime: string | undefined = this.selectedDate?.toISOString();
-    const dateParts = dateNoTime?.split("T");
+    
     let fullDate: Date | undefined;
+    if (this.selectedDate){
+      const dateNoTime: string | undefined = this.selectedDate?.toISOString();
+      const dateParts = dateNoTime?.split("T");
 
-    if (dateParts) {
-      fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
-    }
-    if (isNaN(fullDate?.getTime() as number)) {
-      fullDate = new Date(`${dateParts![0]}T00:00:00`);
+      if (dateParts) {
+        fullDate = new Date(`${dateParts[0]}T${this.selectedTime}`);
+      }
+      if (isNaN(fullDate?.getTime() as number)) {
+        fullDate = new Date(`${dateParts![0]}T00:00:00`);
+      }
+      
     }
 
     //send the date to the available-rides-list component
-    //this.searchParams = {date: fullDate, dropLocation: this.dropoffLocation?.location};
-    this.searchParams = { date: fullDate };
+    this.searchParams = {date: fullDate, doLocation: this.dropoffLocation};
+    // this.searchParams = { date: fullDate };
     console.log(this.searchParams);
 
     //re initioalize the available-rides-list component

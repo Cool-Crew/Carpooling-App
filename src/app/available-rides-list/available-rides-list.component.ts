@@ -16,7 +16,11 @@ export class AvailableRidesListComponent implements OnInit{
   selectedRideEnd: {lat: number, lng: number} | undefined;
 
   @Input() useMatching: boolean | undefined;
-  @Input() searchParams: {date: Date | undefined} | undefined;
+  @Input() searchParams: {
+    date: Date | undefined;
+    doLocation: PlaceResult | undefined;
+  } 
+  | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;
   @Output() passLocation = new EventEmitter<{lat: number, lng: number}>
@@ -75,10 +79,31 @@ export class AvailableRidesListComponent implements OnInit{
           rideDate?.getHours() <= this.searchParams?.date?.getHours() + 1;
         }
 
-        //possible fail-point, no issues in testing so far
         return false;
 
       });
+    }
+
+    if (this.searchParams?.doLocation){
+      console.log("doLocation: ", this.searchParams?.doLocation);
+
+      //filter this.rides by doLocation
+      this.rides = this.rides?.filter(ride => {
+        let rideDoLocation = ride?.dropoffLocation;
+        if (rideDoLocation) {
+          // console.log(`filtering by doLocation: ${JSON.stringify(rideDoLocation)}`)
+          // console.log(`searchParams.doLocation: ${JSON.stringify(this.searchParams?.doLocation)}`)
+          
+          //would prefere to do this by lat/lng but was unable to make it work
+          let result = rideDoLocation?.name == this.searchParams?.doLocation?.name;
+
+          // console.log(`result: ${result}`)
+          return result;
+        }
+        //possible fail-point, no issues in testing so far
+        return false;
+      }
+      );
     }
 
     //sort this.rides by date
