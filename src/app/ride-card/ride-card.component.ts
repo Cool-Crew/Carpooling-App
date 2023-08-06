@@ -281,6 +281,7 @@ export class RideCardComponent implements OnInit {
 
   async getAllMatchingValues() {
     if (this.ride?.riders) {
+      //get the riders' matching info
       for (const rider of this.ride?.riders) {
         this.rideService.getMatchingValues(rider.riderID).subscribe(
           matchingInfo => {
@@ -298,15 +299,36 @@ export class RideCardComponent implements OnInit {
               }
             }
 
-            // clean up any duplicates in the arrays
-            this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
-            this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
           },
           error => {
             console.error('Error fetching matching info:', error);
           }
         );
       }
+
+      //get the driver's matching info
+      this.rideService.getMatchingValues(this.ride?.driver).subscribe(
+        matchingInfo => {
+          //any interests or classes that match the users interests or classes will be added to their respective arrays
+
+          for (const interest of matchingInfo._matchingInfo.interests) {
+              if (this.user.interests.includes(interest) ){
+                this.interests.push(interest);
+              }
+          }
+
+          for (const _class of matchingInfo._matchingInfo.classes) {
+            if (this.user.classes.includes(_class) ){
+              this.classes.push(_class);
+            }
+          }
+
+          // clean up any duplicates in the arrays
+          this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
+          this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
+        }
+      );
+
     }
   }  
 
