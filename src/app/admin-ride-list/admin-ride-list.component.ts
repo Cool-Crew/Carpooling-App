@@ -32,8 +32,11 @@ export class AdminRideListComponent {
   dateSortDirection: number = 0; // 0 = ascending, 1 = descending
   doFilter: string = "";
   ratingFilter: number = -1;
+  issueFilter: string = "All";
+
+  filteredRides: Ride[] | undefined = [];
+
   initialized: boolean = false;
-  loading: boolean = false;
 
   constructor(private rideService: RideService) { }
 
@@ -159,6 +162,24 @@ export class AdminRideListComponent {
     if (this.doFilter != ""){
       this.updateDropoffFilter();
     }
+
+    if (this.issueFilter != "All"){
+      this.updateIssues();
+    }
+  }
+
+  async updateIssues(): Promise<void> {
+    //filter this.rides by this.issueFilter
+    //if ride.issue contains an issue with a category matching this.issueFilter, keep it
+    //else, remove it
+    console.log('updateIssues');
+    if (this.issueFilter != "All"){
+      let regex = new RegExp(this.issueFilter, 'i');
+      this.rides = this.rides?.filter(ride => ride.issue?.some(issue => issue.category.match(regex)));
+    }
+    else {
+      this.updateFilters();
+    }
   }
 
   async updateDropoffFilter(): Promise<void> {
@@ -176,8 +197,6 @@ export class AdminRideListComponent {
 
     return;
   }
-
-
 
   async updateDriver(): Promise<void> {
     console.log('updateDriver');
@@ -234,8 +253,6 @@ export class AdminRideListComponent {
 
   }
 
-
-
   async updateStatus(): Promise<void> {
 
     if (this.status == "All" && !this.initialized){
@@ -249,6 +266,21 @@ export class AdminRideListComponent {
 
   async updateRating(): Promise<void> {
     console.log('updateRating');
+    if (this.ratingFilter != -1){
+      this.updateFilters();
+      //filter this.rides by this.rating
+      //if ride.avgFeedbackRating has the same first digit as this.rating, keep it
+      //else, remove it
+      this.rides = this.rides?.filter(ride => {
+        if (ride.avgFeedbackRating){
+          let firstDigit = Math.floor(ride.avgFeedbackRating);
+          return firstDigit == this.ratingFilter;
+        }
+        return false;
+      });
+    } else {
+      this.updateFilters();
+    }
   }
 
   async updateRange(): Promise<void> {

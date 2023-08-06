@@ -108,6 +108,8 @@
           <div class="th-filter-selector">
             <select 
             id="issue"
+            [(ngModel)]="issueFilter"
+            (change)="updateIssues()"
             >
               <option value="All">All</option>
               <option value="Driver_Behavior">Driver Behavior</option>
@@ -145,9 +147,10 @@
         <td data-label="Date/Time">{{ ride.dateTime | date }}</td>
         <td data-label="Status">{{ ride.status }}</td>
         <td data-label="Average Rating" class="avg-rating">{{ ride.avgFeedbackRating }}</td>
-        <td>
+        <td data-label="Issues">
           <span>
             <!-- For holding array of issue categories -->
+            <p *ngFor="let issue of ride.issue">{{issue.category}}</p>
           </span>
         </td>
         <td>
