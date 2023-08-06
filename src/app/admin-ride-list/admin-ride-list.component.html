@@ -133,18 +133,18 @@
     </thead>
     <tbody>
       <tr *ngFor="let ride of rides">
-        <td>{{ ride.driver }}</td>
-        <td>{{ ride.creator }}</td>
-        <td>
+        <td data-label="Driver">{{ ride.driver }}</td>
+        <td data-label="Creator">{{ ride.creator }}</td>
+        <td data-label="Riders">
           <span *ngFor="let rider of ride.riders">
             {{ rider.riderID }}
             <br> <!-- Optional line break to separate riderIDs -->
           </span>
         </td>
-        <td>{{ ride.dropoffLocation?.name}}</td>
-        <td>{{ ride.dateTime | date }}</td>
-        <td>{{ ride.status }}</td>
-        <td class="avg-rating">{{ ride.avgFeedbackRating }}</td>
+        <td data-label="Dropoff Location">{{ ride.dropoffLocation?.name}}</td>
+        <td data-label="Date/Time">{{ ride.dateTime | date }}</td>
+        <td data-label="Status">{{ ride.status }}</td>
+        <td data-label="Average Rating" class="avg-rating">{{ ride.avgFeedbackRating }}</td>
         <td>
           <span>
             <!-- For holding array of issue categories -->
