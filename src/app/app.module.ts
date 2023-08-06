@@ -46,6 +46,7 @@ import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
 import { DmComponent } from './dm/dm.component';
+import { ReportIssueComponent } from './report-issue/report-issue.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { DmComponent } from './dm/dm.component';
     RideListComponent,
     ChatComponent,
     DmComponent,
+    ReportIssueComponent,
   ],
   imports: [
     BrowserModule,

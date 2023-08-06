@@ -31,8 +31,7 @@ export class RatingComponent {
     "",
     "General Feedback",
     "Ride Feedback",
-    "Driver Feedback",
-    "Issue During Ride",
+    "Driver Feedback",    
     "Riders Feedback",
   ];
   selectedOption: string = ""; // This will store the selected option

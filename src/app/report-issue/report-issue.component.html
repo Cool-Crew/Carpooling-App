@@ -1,0 +1,128 @@
+<!-- <div *ngFor="let ride of rides" class="ride-card">
+
+<div *ngIf="cardLoading !== ride.rideId" class="ride-details">
+    <div>
+      <p>Date: {{ ride.dateTime }}</p>
+      <p *ngIf="ride.exactTime">Arrival Time: {{ ride.exactTime }}</p>
+      <p *ngIf="ride.pickupLocation">
+        Start Location: {{ ride.pickupLocation }}
+      </p>
+      <span
+        *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
+      >
+        <p>Pickup Locations</p>
+        <ul class="custom-list">
+          <li *ngFor="let r of ride.riders" class="custom-list-item">
+            <span
+              *ngIf="
+                ride.statusString !== 'Complete' &&
+                ride.statusString !== 'Cancelled'
+              "
+              >{{ r.riderId }}: {{ r.pickupLocation }}</span
+            >
+            <span
+              *ngIf="
+                ride.statusString === 'Complete' ||
+                ride.statusString === 'Cancelled'
+              "
+              >{{ r.riderId }}</span
+            >
+          </li>
+        </ul>
+      </span>
+      <span
+        *ngIf="
+          !ride.pickupLocation && ride.riders && ride.riders.length === 0
+        "
+      >
+        <p>No Riders yet</p>
+      </span>
+      <p><strong>Ride to:</strong> {{ ride.dropoffLocation }}</p>
+      <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+    </div>
+</div>
+</div> -->
+
+
+<h2 id="heading">Report Issue</h2>
+
+<form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
+    
+  <label>
+   Select Issue Category:
+    <select [(ngModel)]="issue.category" formControlName="category" name="category" placeholder="Select" required>    
+      <option value="" selected>Select</option>
+      <option value="Driver_Behavior">Driver Behavior</option>
+      <option value="Vehicle_Condition">Vehicle Condition</option>
+      <option value="Travel_Delay">Travel Delay</option>
+      <option value="Technical_Issue">Technical Issue</option>
+      <option value="Other">Other</option>
+    </select>  
+    <mat-error *ngIf="issueForm.get('category')?.invalid && issueForm.get('category')?.touched">
+        Please select an issue category.
+    </mat-error>
+  </label>
+
+  <label>
+    Issue Description:
+    <textarea [(ngModel)]="issue.description" formControlName="description" name="description" placeholder="Enter a brief description of your problem." required></textarea>
+    <mat-error *ngIf="issueForm.get('description')?.invalid && issueForm.get('description')?.touched">
+        Please provide a description of the issue.
+    </mat-error>
+  </label>
+
+  <label>
+    Opened By:
+    <input type="text" [(ngModel)]="issue.openedBy" formControlName="openedBy" name="openedBy" placeholder="your name" required>
+    <mat-error *ngIf="issueForm.get('openedBy')?.invalid && issueForm.get('openedBy')?.touched">
+        Please enter your name as "Opened By".
+    </mat-error>
+  </label>
+
+  <label>
+    Priority:
+    <select [(ngModel)]="issue.priority" formControlName="priority" name="priority" required>      
+      <option value="" selected>Select</option>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+    <mat-error *ngIf="issueForm.get('priority')?.invalid && issueForm.get('priority')?.touched">
+        Please select the priority level for the issue.
+    </mat-error>
+  </label>
+  
+  <label>
+    Issue Date:
+    <input type="date" [(ngModel)]="issue.issueDate" formControlName="issueDate" name="issueDate" required>
+    <mat-error *ngIf="issueForm.get('issueDate')?.invalid && issueForm.get('issueDate')?.touched">
+        Please select the issue date.
+    </mat-error>
+  </label>
+
+  <label>
+    Issue Time:
+    <input type="time" [(ngModel)]="issue.issueTime" formControlName="issueTime" name="issueTime" required>
+    <mat-error *ngIf="issueForm.get('issueTime')?.invalid && issueForm.get('issueTime')?.touched">
+        Please select the issue time.
+    </mat-error>
+  </label>
+  
+<br>
+  <label>
+    Was this issue faced by other passengers as well?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="Yes" required> Yes
+    <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="No" required> No
+    <mat-error *ngIf="issueForm.get('affectedPassengers')?.invalid && issueForm.get('affectedPassengers')?.touched">
+        Please select if the issue was faced by other passengers.
+    </mat-error>
+  </label>
+
+  <button type="submit">Report</button>
+  <div *ngIf="submitted">
+    <p id="success">Thanks for submitting your problem. Our team will review this and contact if needed.</p>
+  </div>
+</form>
+
+
+ 

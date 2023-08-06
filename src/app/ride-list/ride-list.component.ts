@@ -33,13 +33,20 @@ export class RideListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.user = this.authService.readToken();
-    console.log("This is the id", this.user._id);
     let res: { message: String; _rides: [RideList] } | undefined =
       await this.rideService.getUserRides(this.user._id);
     this.rides = res?._rides;
     this.rides?.forEach((r) => {
       r.statusString = r.status.replace(/_/g, " ");
+      r.exactTime = r?.dateTime
+        ? new Date(r.dateTime).toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })
+        : undefined;
       r.dateTime = r?.dateTime?.split("T")[0];
+      r.canStartRide = r.dateTime === new Date().toISOString().split("T")[0];
       switch (r.statusString) {
         case "Not Started":
           r.color = "yellow";
@@ -52,6 +59,9 @@ export class RideListComponent implements OnInit {
           break;
         case "Cancelled":
           r.color = "red";
+          break;
+        case "Not Completed":
+          r.color = "blue";
           break;
         default:
           break;
@@ -100,6 +110,11 @@ export class RideListComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  reportIssue(rideId: string): void {
+    // Redirect to the report issue page with the ride ID as a parameter
+    this.router.navigate(["/report-issue", rideId]);
   }
 
   onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
@@ -232,13 +247,54 @@ export class RideListComponent implements OnInit {
       },
       (error) => {
         if (error.status === 422) {
-          alert(`❗${error.error.message}`);
+          this.toastr.error(`❗${error.error.message}`);
         }
         console.error(error);
       }
     );
   }
+  startRide(rideId: string) {
+    this.rideService.startRide(rideId).subscribe(
+      (response) => {
+        this.toastr.success("Ride Started");
+        const notificationData = {
+          msg: `This ride has been marked as started`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(this.user._id, notificationData)
+          .subscribe(
+            () => {
+              this.warning = "";
+              this.loading = false;
 
+              this.authService.refreshToken().subscribe(
+                (refreshSuccess) => {
+                  this.authService.setToken(refreshSuccess.token);
+                  this.router.navigate(["/router"]);
+                },
+                (refreshError) => {
+                  console.error("Error refreshing token:", refreshError);
+                }
+              );
+            },
+            (notificationError) => {
+              console.error("Error adding notification:", notificationError);
+              this.warning = "Error adding notification";
+              this.loading = false;
+            }
+          );
+        this.reloadRideList(rideId);
+      },
+      (error) => {
+        if (error.status === 422) {
+          this.toastr.error(`❗${error.error.message}`);
+        }
+        console.error(error);
+      }
+    );
+  }
   async reloadRideList(rideId: string) {
     console.log("This is ride id", rideId);
     this.cardLoading = rideId;
