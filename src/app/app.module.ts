@@ -52,6 +52,7 @@ import { AdminRideDetailsComponent } from './admin-ride-details/admin-ride-detai
 import { AdminRideCardComponent } from './admin-ride-card/admin-ride-card.component';
 import { AdminFeedbackForRideDetailsComponent } from './admin-feedback-for-ride-details/admin-feedback-for-ride-details.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminIssuesForRideDetailsComponent } from './admin-issues-for-ride-details/admin-issues-for-ride-details.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     AdminRideCardComponent,
     AdminFeedbackForRideDetailsComponent,
     AdminDashboardComponent,
+    AdminIssuesForRideDetailsComponent,
   ],
   imports: [
     BrowserModule,

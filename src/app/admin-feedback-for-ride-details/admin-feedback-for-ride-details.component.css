@@ -24,7 +24,6 @@ b {
 font-weight: 600;
 }
 
-/* Optional: Add some spacing between sections */
 p + p {
 margin-top: 10px;
 }

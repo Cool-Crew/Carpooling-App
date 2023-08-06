@@ -5,13 +5,13 @@ export class Rider {
 
 
 export class Issue {
-  description: string = "";
-  openedBy: string = "";
-  priority: string = "";
+  issueID: string = "";
+  // issue author: string = "";
   category: string = "";
+  description: string = "";
+  priority: string = "";
   issueDate: string = "";
   issueTime: string = "";
-  amPmOption: string = "";
   affectedPassengers: boolean = false;
 }
 
@@ -55,6 +55,7 @@ export class Ride {
   avgFeedbackRating: number = 0;
   feedback: Feedback[] = [];
   status: Status = Status.Not_Started;
+  issue: Issue[] = [];
 }
 
 export class RiderLocationMapping {

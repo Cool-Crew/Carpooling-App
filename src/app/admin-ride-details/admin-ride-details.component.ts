@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { RideService } from '../ride.service';
-import { Feedback, Ride } from '../Ride';
+import { Feedback, Issue, Ride } from '../Ride';
 
 @Component({
   selector: 'app-admin-ride-details',
@@ -16,6 +16,7 @@ export class AdminRideDetailsComponent implements OnInit {
   timeStr: string | undefined;
   riderCount: number = 0;
   rideFeedbacks: Feedback[] | undefined;
+  rideIssues: Issue[] | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class AdminRideDetailsComponent implements OnInit {
     await this.getRide();
     //set feedback
     await this.setFeedback();
+    await this.setIssues();
 
     console.log(this.ride);
   }
@@ -125,7 +127,10 @@ export class AdminRideDetailsComponent implements OnInit {
 
   async setFeedback(): Promise<void> {
     this.rideFeedbacks = this.ride?.feedback;
-    
+  }
+
+  async setIssues(): Promise<void> {
+    this.rideIssues = this.ride?.issue;
   }
 
 }
