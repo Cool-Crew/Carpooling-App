@@ -46,7 +46,6 @@ export class AdminRideListComponent {
   }
 
   updateDateSort(): void {
-    console.log(this.dateSortDirection)
     if (this.dateSortDirection === 0) {
       this.dateSortDirection = 1;
     } else {
@@ -139,43 +138,57 @@ export class AdminRideListComponent {
 
   async updateFilters(): Promise<void> {
     await this.getRides();
+
+    if (this.range != 333){
+      await this.updateRange();
+    }
+
     if (this.driverFilter != ""){
-      this.updateDriver();
+      console.log("updating driver from updateFilters()")
+      await this.updateDriver();
     }
 
     if (this.creatorFilter != ""){
-      this.updateCreator();
+      console.log("updating creator from updateFilters()")
+      await this.updateCreator();
     }
 
     if (this.riderFilter != ""){
-      this.updateRiders();
+      console.log("updating rider from updateFilters()")
+      await this.updateRiders();
     }
 
     if (this.status != "All"){
-      this.updateStatus();
-    }
-
-    if (this.range != 333){
-      this.updateRange();
+      console.log("updating status from updateFilters()")
+      await this.updateStatus();
     }
 
     if (this.doFilter != ""){
-      this.updateDropoffFilter();
+      console.log("updating dropoff from updateFilters()")
+      await this.updateDropoffFilter();
     }
 
     if (this.issueFilter != "All"){
-      this.updateIssues();
+      console.log("updating issues from updateFilters()")
+      await this.updateIssues();
     }
+
+    if (this.ratingFilter != -1){
+      console.log("updating rating from updateFilters()")
+      await this.updateRating();
+    }
+
+    this.filteredRides = this.rides;
   }
 
   async updateIssues(): Promise<void> {
     //filter this.rides by this.issueFilter
     //if ride.issue contains an issue with a category matching this.issueFilter, keep it
     //else, remove it
-    console.log('updateIssues');
     if (this.issueFilter != "All"){
       let regex = new RegExp(this.issueFilter, 'i');
       this.rides = this.rides?.filter(ride => ride.issue?.some(issue => issue.category.match(regex)));
+      this.filteredRides= this.rides;
     }
     else {
       this.updateFilters();
@@ -185,11 +198,11 @@ export class AdminRideListComponent {
   async updateDropoffFilter(): Promise<void> {
     //regex matching this.doFilter
     if (this.doFilter != ""){
-      console.log('updateDropoffFilter');
       let regex = new RegExp(this.doFilter, 'i');
       
       //filter this.rides by this.doFilter
       this.rides = this.rides?.filter(ride => ride.dropoffLocation?.name && ride.dropoffLocation?.name.match(regex));
+      this.filteredRides= this.rides;
     }
     else if (this.initialized){
       this.updateFilters();
@@ -199,13 +212,13 @@ export class AdminRideListComponent {
   }
 
   async updateDriver(): Promise<void> {
-    console.log('updateDriver');
     //regex matching this.driverFilter
     if (this.driverFilter != ""){
       let regex = new RegExp(this.driverFilter, 'i');
 
       //filter this.rides by this.driverFilter
       this.rides = this.rides?.filter(ride => ride.driver && ride.driver.match(regex));
+      this.filteredRides= this.rides;
     }
     else if (this.initialized){
       this.updateFilters();
@@ -213,11 +226,9 @@ export class AdminRideListComponent {
   }
 
   async updateRiders(): Promise<void> {
-    console.log('updateRiders');
    if (this.riderFilter != ""){
       //filter this.rides riders in the ride
       this.rides = this.rides?.filter(ride => ride.riders && ride.riders.length > 0);
-
       //regex matching this.riderFilter
       let regex = new RegExp(this.riderFilter, 'i');
 
@@ -232,13 +243,14 @@ export class AdminRideListComponent {
         }
         return false;
       });
+
+      this.filteredRides= this.rides;
     } else if (this.initialized){
       this.updateFilters();
     }
   }
 
   async updateCreator(): Promise<void> {
-    console.log('updateCreator');
     //regex matching this.creatorFilter
 
     if (this.creatorFilter != ""){
@@ -246,6 +258,7 @@ export class AdminRideListComponent {
 
       //filter this.rides by this.creatorFilter
       this.rides = this.rides?.filter(ride => ride.creator.match(regex));
+      this.filteredRides= this.rides;
     }
     else if (this.initialized){
       this.updateFilters();
@@ -260,12 +273,12 @@ export class AdminRideListComponent {
     }
     else {
       this.rides = this.rides?.filter(ride => ride.status == this.status);
+      this.filteredRides= this.rides;
     }
 
   }
 
   async updateRating(): Promise<void> {
-    console.log('updateRating');
     if (this.ratingFilter != -1){
       this.updateFilters();
       //filter this.rides by this.rating
@@ -278,6 +291,7 @@ export class AdminRideListComponent {
         }
         return false;
       });
+      this.filteredRides= this.rides;
     } else {
       this.updateFilters();
     }
@@ -286,7 +300,6 @@ export class AdminRideListComponent {
   async updateRange(): Promise<void> {
 
     await this.getRides();
-    console.log(this.range);
 
     //if range = -1, show all future rides
     if (this.range == -1){
@@ -296,8 +309,6 @@ export class AdminRideListComponent {
         return ride.dateTime && ride.dateTime > now
         
       });
-
-      console.log(this.rides);
     }
 
     //if range = 333, show all rides
@@ -344,6 +355,7 @@ export class AdminRideListComponent {
       let lastMonth = new Date(now.getFullYear()-1, now.getMonth(), now.getDate());
       this.rides = this.rides?.filter(ride => ride.dateTime && (ride.dateTime >= lastMonth) && (ride.dateTime < today));
     }
+    this.filteredRides= this.rides;
   }
   
   cancelRide(rideId: string): void {
