@@ -7,29 +7,31 @@
       <div class="form-container">
         
           <form (ngSubmit)="onSubmit()" [formGroup]="rideForm">
-            <label for="pickup-location">Pickup Location:</label>
-            <input
-              #puLocation
-              type="text"
-              class="place-autocomplete"
-              formControlName = "pickupLocation"
-            />
-            <!-- Error message -->
-            <div
-              *ngIf="
-                rideForm.get('pickupLocation').invalid &&
-                (rideForm.get('pickupLocation').dirty || rideForm.get('pickupLocation').touched)
-              "
-              class="form-error-msg"
-            >
+            
+              <label for="pickup-location">Pickup Location:</label>
+              <input
+                #puLocation
+                type="text"
+                class="place-autocomplete"
+                formControlName = "pickupLocation"
+              />
+              <!-- Error message -->
               <div
                 *ngIf="
-                  rideForm.get('pickupLocation').errors.required || rideForm.get('pickupLocation').errors.invalidPlace
+                  rideForm.get('pickupLocation').invalid &&
+                  (rideForm.get('pickupLocation').dirty || rideForm.get('pickupLocation').touched)
                 "
+                class="form-error-msg"
               >
-                Please enter a valid pickup location within Ontario.
+                <div
+                  *ngIf="
+                    rideForm.get('pickupLocation').errors.required || rideForm.get('pickupLocation').errors.invalidPlace
+                  "
+                >
+                  Please enter a valid pickup location within Ontario.
+                </div>
               </div>
-            </div>
+            <hr>
             <br />
 
             <label for="dropoff-location">Drop-off Location:</label>
