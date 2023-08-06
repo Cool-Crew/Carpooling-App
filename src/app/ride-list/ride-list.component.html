@@ -13,10 +13,10 @@
   <div *ngFor="let ride of rides" class="ride-card">
     <div *ngIf="cardLoading !== ride.rideId" class="ride-details">
       <div>
-        <p>Date: {{ ride.dateTime }}</p>
-        <p *ngIf="ride.exactTime">Arrival Time: {{ ride.exactTime }}</p>
+        <p><strong>Date:</strong> {{ ride.dateTime }}</p>
+        <p *ngIf="ride.exactTime"><strong>Arrival Time:</strong> {{ ride.exactTime }}</p>
         <p *ngIf="ride.pickupLocation">
-          Start Location:
+          <strong>Start Location:</strong>
           <a
             [href]="
               'https://www.google.com/maps?q=' +
@@ -31,7 +31,7 @@
         <span
           *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
         >
-          <p>Pickup Locations</p>
+          <p><strong>Pickup Locations</strong></p>
           <ul class="custom-list">
             <li *ngFor="let r of ride.riders" class="custom-list-item">
               <span
@@ -70,7 +70,7 @@
           <p>No Riders yet</p>
         </span>
         <p *ngIf="ride.dropoffLocation">
-          End Location:
+          <strong>End Location:</strong>
           <a
             [href]="
               'https://www.google.com/maps?q=' +
@@ -82,7 +82,7 @@
             >{{ ride?.dropoffLocation?.name }}</a
           >
         </p>
-        <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+        <p *ngIf="ride.driverName"><strong>Driver:</strong> {{ ride.driverName }}</p>
       </div>
       <app-rating
         *ngIf="!ride.rating && ride.statusString === 'Complete'"
@@ -103,7 +103,7 @@
 
     <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
     <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
-      <button class="ride-button" (click)="onChatting(ride.rideId, ride)">
+      <button id="mbut" class="ride-button" (click)="onChatting(ride.rideId, ride)">
         Messages
       </button>
       <button
@@ -118,7 +118,7 @@
         Offer to Drive
       </button>
       <button
-        class="ride-button"
+        class="ride-button" id="lbut"
         (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
         *ngIf="
           ride.statusString === 'Not Started' ||
@@ -129,7 +129,7 @@
         Leave Ride
       </button>
       <button
-        class="ride-button"
+        class="ride-button" id="sbut"
         *ngIf="
           ride.statusString === 'Not Started' &&
           user._id === ride.driver &&
@@ -140,7 +140,7 @@
         Start Ride
       </button>
       <button
-        class="ride-button"
+        class="ride-button" id="cbut"
         *ngIf="
           ride.statusString === 'Not Started' ||
           ride.statusString === 'In Progress'
@@ -150,7 +150,7 @@
         Cancel Ride
       </button>
       <button
-        class="ride-button"
+        class="ride-button" id="fbut"
         *ngIf="
           ride.statusString !== 'Complete' &&
           ride.statusString !== 'Cancelled' &&

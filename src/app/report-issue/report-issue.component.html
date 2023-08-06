@@ -105,20 +105,18 @@
         Please select the issue time.
     </mat-error>
   </label>
-  
-<br>
-
+  <br>
   <label>
-    Was this issue faced by other passengers as well?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Was this issue faced by other passengers as well?&nbsp;&nbsp;&nbsp;
     <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers"  name="affectedPassengers" value="true" required> Yes
     <input type="radio" [(ngModel)]="issue.affectedPassengers" formControlName="affectedPassengers" name="affectedPassengers" value="false" required> No
 
     <mat-error *ngIf="issueForm.get('affectedPassengers')?.invalid && issueForm.get('affectedPassengers')?.touched">
-        Please select if the issue was faced by other passengers.
+      &nbsp;&nbsp;&nbsp; Please select if the issue was faced by other passengers.
     </mat-error>
   </label>
-
-  <button type="submit">Report</button>
+<br>
+  <button id="repbut" type="submit">Report</button>
   <div *ngIf="submitted">
     <p id="success">Thanks for submitting your problem. Our team will review this and contact if needed.</p>
   </div>

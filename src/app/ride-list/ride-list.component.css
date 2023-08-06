@@ -26,7 +26,9 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  position: relative; /* Add this to make text positioning relative to the button */
+  position: absolute; /* Add this to make text positioning relative to the button */
+  bottom: 10px;
+  right: 10px;
 }
 
 /* Style the image inside the button */
@@ -39,18 +41,36 @@
 
 /* Style the text (hidden by default) */
 .report-issue-button span {
-  display: block; /* Change from "none" to "block" */
-  text-align: center; /* Center the text below the image */
-  margin-top: 15px; /* Add a little margin to separate the image and text */
+/* 
+  display: block;
+  text-align: center; 
+  margin-top: 15px; 
   background-color: rgba(0, 0, 0, 0.8);
   padding: 5px;
   border-radius: 5px;
   color: white;
-  position: absolute; /* Position the text absolutely */
-  /* width: 100%; Make the text width same as the button */
-  bottom: -40px; /* Adjust the vertical position as needed */
+  position: absolute;   
+  bottom: -40px; 
   left: 2;
-  opacity: 0; /* Hide the text by default */
+  opacity: 0;  */
+
+    /* Position the text to the left of the button */
+    display: block;
+    text-align: right; /* Align the text to the right */
+    margin-top: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    position: absolute;
+    /* Adjust the width and height as needed */
+    width: 80px;
+    height: auto;
+    /* Place the text on the left side */
+    bottom: 10px;
+    right: 50px;
+    opacity: 0;
+
 }
 
 /* Show the text on hover */
@@ -89,17 +109,53 @@
 .ride-card {
   width: 300px;
   margin: 10px;
-  padding: 20px;
-  border: 1px solid #ccc;
+  padding: 20px;  
+  border: 1px solid #ccc; 
   background-color: #f5f5f5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   position: relative;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px; /* Add rounded corners */
 }
 .ride-card {
   display: flex;
   width: 28%;
   overflow: auto;
 }
+
+/*******************************************************************************/
+
+/* Media query for iPhone 12 screen size (375px width) and below */
+@media (max-width: 375px) {
+  .ride-card {
+    width: 100%; /* Make the card take full width of the screen */
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+
+  .ride-details,
+  .ride-buttons {
+    flex-basis: 100%; /* Make the details and buttons take full width on smaller screens */
+  }
+
+  .ride-buttons {
+    flex-direction: row; /* Display buttons in a row for better spacing */
+    justify-content: space-between; /* Add space between buttons */
+  }
+
+  .ride-button {
+    margin-bottom: 5px; /* Reduce the button margin for better spacing */
+  }
+
+  /* Adjust font sizes or other styles as needed for better readability on smaller screens */
+  p,
+  a,
+  button {
+    font-size: 14px;
+  }
+}
+
+/*******************************************************************************/
+
 @media (max-width: 1280px) {
   .ride-card {
     flex-basis: auto;
@@ -149,6 +205,48 @@
   align-items: flex-end;
   margin-top: 10px;
 }
+
+/************************************************************************************************/
+
+
+/* Hover effect for Messages button */
+#mbut:hover {
+  background-color: #007bff;
+  transform: scale(1.05);
+}
+
+/* Hover effect for Offer to Drive button */
+#sbut:hover {
+  background-color: #ffc107;
+  transform: scale(1.05);
+}
+
+/* Hover effect for Leave Ride button */
+#lbut:hover {
+  background-color: #f15918;
+  transform: scale(1.05);
+}
+
+/* Hover effect for Start Ride button */
+#sbut:hover {
+  background-color: #28a745;
+  transform: scale(1.05);
+}
+
+/* Hover effect for Cancel Ride button */
+#cbut:hover {
+  background-color: #dc3545;
+  transform: scale(1.05);
+}
+
+/* Hover effect for Mark as completed button */
+#fbut:hover {
+  background-color: #007bff;
+  transform: scale(1.05);
+}
+
+
+/************************************************************************************************/
 
 .ride-button {
   padding: 10px 20px;

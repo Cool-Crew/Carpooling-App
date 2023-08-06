@@ -14,17 +14,19 @@ export class AppComponent implements OnInit {
   title = "web422-a4";
   public token: any | undefined;
   user: any;
+  highlightedNotification: number | null = null;
 
   faBell = faBell;
   faTimes = faTimes;
   fnotifs: string[] = this.notificationsService.notifications; // Array to store notifications
+  hnn = this.notificationsService.hasNewNotification;  
   //fnotifs: string[] = [];
   showNotifications = false;
 
   constructor(
     private router: Router,
     private aservice: AuthService,
-    private notificationsService: NotificationsService
+    public notificationsService: NotificationsService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -37,6 +39,19 @@ export class AppComponent implements OnInit {
   toggleNotifications() {
     //this.notificationsService.toggleNotifications();
     this.showNotifications = !this.showNotifications;
+   
+    //console.log(this.hnn);
+    if (this.showNotifications && this.notificationsService.hasNewNotification) {
+      // User clicked on the bell icon, highlight the first notification
+      const firstNotificationIndex = this.fnotifs.length - 1; // Index of the first notification (most recently added)
+      this.highlightedNotification = firstNotificationIndex;
+
+      // Remove the highlight after 2 seconds
+      setTimeout(() => {
+        this.highlightedNotification = null;
+      }, 2000);
+    }
+     this.notificationsService.hasNewNotification = false;
   }
 
   removeNotification(notificationId: string) {
@@ -63,6 +78,7 @@ export class AppComponent implements OnInit {
           if (index !== -1) {
             this.fnotifs.splice(index, 1);
           }
+          this.hnn = false;
           console.log("checking" + this.fnotifs);
         },
         (error) => {
@@ -78,6 +94,7 @@ export class AppComponent implements OnInit {
       (response) => {
         // Notifications cleared successfully
         this.fnotifs = [];
+        this.hnn = false;
         this.aservice.refreshToken().subscribe(
           (refreshSuccess) => {
             this.aservice.setToken(refreshSuccess.token);
@@ -116,7 +133,7 @@ export class AppComponent implements OnInit {
         // for (const notification of this.user.notifications) {
         //   this.fnotifs.push(notification.msg);
         // }
-
+        console.log(this.hnn);
         this.token = this.aservice.readToken();
         if (this.token) {
           this.fnotifs = this.token.notifications.map(
