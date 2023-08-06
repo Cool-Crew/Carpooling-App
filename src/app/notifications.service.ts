@@ -10,6 +10,7 @@ import { AuthService } from "./auth.service";
 export class NotificationsService {
   constructor(private http: HttpClient, private auth: AuthService) {}
   notifications: string[] = [];
+  hasNewNotification = false;
 
   addNotification(userId: any, notificationData: any): Observable<any> {
     const token = this.auth.getToken();
@@ -18,6 +19,8 @@ export class NotificationsService {
       const message = notificationData.msg;
       this.notifications.push(message);
       console.log(this.notifications);
+      this.hasNewNotification = true;
+      console.log(this.hasNewNotification);
       const headers = new HttpHeaders({
         "Content-Type": "application/json",
         Authorization: `JWT ${token}`,
