@@ -58,6 +58,7 @@ export class RideService {
     return;
   }
 
+
   async getUsernames(userIds:string): Promise<{ message: string; _usernames: Usernames } | undefined> {
     const token = this.auth.getToken();
     if (token) {
@@ -175,6 +176,19 @@ export class RideService {
     return new Observable();
   }
 
+  startRide(rideId: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.patch<{ message: String }>(
+        `${environment.userAPIBase}/rides/${rideId}/startRide`,
+        {},
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
   updateRide(rideId: any, updatedData: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
@@ -214,6 +228,7 @@ export class RideService {
     return new Observable();
   }
 
+
   getFeedback(): Observable<{ message: string; feedbacks: any[] }> {
     const token = this.auth.getToken();
     if (token) {
@@ -221,6 +236,21 @@ export class RideService {
       return this.http.get<{ message: string; feedbacks: any[] }>(
         `${environment.userAPIBase}/feedbacks`,
         { headers }
+      );
+    }
+    return new Observable();
+  }
+
+
+  getMatchingValues(userId:string): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.get<any>(
+        `${environment.userAPIBase}/users/${userId}/matchingInfo`,
+        {
+          headers,
+        }
       );
     }
     return new Observable();
@@ -264,5 +294,16 @@ export class RideService {
 
 
     return ride;
+  }
+  
+  
+  reportIssue(rideId: string, issue: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;
+      return this.http.post<any>(url, issue, { headers });
+    }
+    return new Observable();
   }
 }

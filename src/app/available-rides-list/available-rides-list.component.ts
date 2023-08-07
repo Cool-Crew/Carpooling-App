@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { RideService } from '../ride.service';
 import { Ride } from '../Ride';
 import { StopLocationInfo, PlaceResult } from '../rides/rides.component';
@@ -15,12 +15,11 @@ export class AvailableRidesListComponent implements OnInit{
   selectedRide: Ride | undefined;
   selectedRideEnd: {lat: number, lng: number} | undefined;
 
-
+  @Input() useMatching: boolean | undefined;
   @Input() searchParams: {date: Date | undefined} | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;
   @Output() passLocation = new EventEmitter<{lat: number, lng: number}>
-  
 
   constructor(
     private rideService: RideService,

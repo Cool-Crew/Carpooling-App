@@ -33,6 +33,7 @@ export enum Status {
   In_Progress = "In_Progress",
   Complete = "Complete",
   Cancelled = "Cancelled",
+  Not_Completed = "Not_Completed",
 }
 
 export class StopLocation {
@@ -60,13 +61,14 @@ export class Ride {
 
 export class RiderLocationMapping {
   riderId: String | undefined;
-  pickupLocation: String | undefined;
+  pickupLocation: StopLocation | undefined;
 }
 export class RideList {
   rideId: string = "";
-  pickupLocation: String | undefined;
-  dropoffLocation: String | undefined;
-  dateTime: String | undefined;
+  pickupLocation: StopLocation | undefined;
+  dropoffLocation: StopLocation | undefined;
+  dateTime: string | undefined;
+  exactTime: string | undefined;
   status: Status = Status.Not_Started;
   statusString: String | undefined;
   color: string | undefined;
@@ -77,4 +79,5 @@ export class RideList {
   feedbackCategory: string | undefined;
   creator: string | undefined;
   driver: string | undefined;
+  canStartRide: boolean | undefined;
 }

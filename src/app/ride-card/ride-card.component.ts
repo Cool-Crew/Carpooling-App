@@ -31,7 +31,18 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
             {{ rideDateStr }}
           </p>
         </div>
-        <p></p>
+        
+        <div *ngIf="useMatching" class="ic-container">
+          <label *ngIf="interests.length < 1 && classes.length < 1">No matching interests or classes</label>
+          <div  class="interests">
+            <label *ngIf="interests.length > 0"><b>Matching Interests:</b></label>
+            <p *ngFor="let interest of interests">{{ interest }}</p>
+          </div>
+          <div *ngIf="classes.length > 0" class="classes">
+            <label><b>Matching Classes:</b></label>
+            <p *ngFor="let class of classes">{{ class }}</p>
+          </div>
+        </div>
 
 
         <!-- Ride card buttons -->
@@ -47,7 +58,7 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
           </button>
           <p class="warning" *ngIf="userIsRider"> This will switch you from rider to driver</p>
         </div>
-
+        
         <!-- Cancel Drive Offer -->
         <button
           class="leave"
@@ -102,6 +113,9 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
     </div>
   `,
 })
+
+
+
 export class RideCardComponent implements OnInit {
   user: any;
 
@@ -127,9 +141,14 @@ export class RideCardComponent implements OnInit {
   rideDateStr: string | undefined;
   timeStr: string | undefined;
 
+  //for holding rider/driver interests/classes
+  interests: string[] = [];
+  classes: string[] = [];
+
   @Input() ride: Ride | undefined;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;
+  @Input() useMatching: boolean | undefined;
   @Output() newRideEvent = new EventEmitter<{ lat: number; lng: number }>();
   emitLocation() {
     this.newRideEvent.emit(this.endLocationMarker);
@@ -148,6 +167,8 @@ export class RideCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('use matching is: ' + this.useMatching)
+
     this.user = this.authService.readToken();
 
     let dateTimeStr = this.ride?.dateTime;
@@ -255,7 +276,61 @@ export class RideCardComponent implements OnInit {
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
 
+    this.getAllMatchingValues();
   }
+
+  async getAllMatchingValues() {
+    if (this.ride?.riders) {
+      //get the riders' matching info
+      for (const rider of this.ride?.riders) {
+        this.rideService.getMatchingValues(rider.riderID).subscribe(
+          matchingInfo => {
+            //any interests or classes that match the users interests or classes will be added to their respective arrays
+
+            for (const interest of matchingInfo._matchingInfo.interests) {
+                if (this.user.interests.includes(interest) ){
+                  this.interests.push(interest);
+                }
+            }
+
+            for (const _class of matchingInfo._matchingInfo.classes) {
+              if (this.user.classes.includes(_class) ){
+                this.classes.push(_class);
+              }
+            }
+
+          },
+          error => {
+            console.error('Error fetching matching info:', error);
+          }
+        );
+      }
+
+      //get the driver's matching info
+      this.rideService.getMatchingValues(this.ride?.driver).subscribe(
+        matchingInfo => {
+          //any interests or classes that match the users interests or classes will be added to their respective arrays
+
+          for (const interest of matchingInfo._matchingInfo.interests) {
+              if (this.user.interests.includes(interest) ){
+                this.interests.push(interest);
+              }
+          }
+
+          for (const _class of matchingInfo._matchingInfo.classes) {
+            if (this.user.classes.includes(_class) ){
+              this.classes.push(_class);
+            }
+          }
+
+          // clean up any duplicates in the arrays
+          this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
+          this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
+        }
+      );
+
+    }
+  }  
 
   //For refreshing a ride card after a user action
   reInit() {
