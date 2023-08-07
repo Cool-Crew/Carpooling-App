@@ -335,9 +335,6 @@ export class RideCardComponent implements OnInit {
         }
       );
     }
-
-    console.log(this.interests);
-    console.log(this.classes);
   }  
 
   //For refreshing a ride card after a user action
