@@ -299,13 +299,19 @@ export class RideCardComponent implements OnInit {
               }
             }
 
+            // clean up any duplicates in the arrays
+            this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
+            this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
+
           },
           error => {
             console.error('Error fetching matching info:', error);
           }
         );
       }
+    }
 
+    if (this.ride?.driver){          
       //get the driver's matching info
       this.rideService.getMatchingValues(this.ride?.driver).subscribe(
         matchingInfo => {
@@ -328,8 +334,10 @@ export class RideCardComponent implements OnInit {
           this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
         }
       );
-
     }
+
+    console.log(this.interests);
+    console.log(this.classes);
   }  
 
   //For refreshing a ride card after a user action
