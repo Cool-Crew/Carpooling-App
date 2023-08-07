@@ -119,6 +119,16 @@ export class RideListComponent implements OnInit {
 
   onDriverNeededClick(rideId: string, dropoffLocation: String | undefined) {
     this.user = this.authService.readToken();
+
+    this.rideService.rmRiderFromRide(rideId, this.user?._id).subscribe(
+      (response) => {
+        console.log("Removed from rider:");
+      },
+      (error) => {
+        console.error("Error removing rider from ride:", error);
+      }
+    );
+
     this.rideService.registerDriverToRide(rideId, this.user?._id).subscribe(
       (response) => {
         this.toastr.success("Drive Offered!");
