@@ -7,10 +7,8 @@
         *ngFor="let ride of rides" 
         [puLocation]="puLocation" 
         [doLocation]="doLocation"
-        [ride]="ride" 
         [useMatching]="useMatching"
         [ride]="ride" (newRideEvent)="rideSelected($event)">
-
     </app-ride-card>
     
 </div>
