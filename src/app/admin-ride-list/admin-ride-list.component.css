@@ -1,0 +1,141 @@
+body, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+.rides-table {
+    margin-top: 20px;
+    width: 95%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 2em;
+    max-width: fit-content;
+    overflow-x: auto;
+}
+
+.table {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-topper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.th-filter-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+th select {
+    width: 100px; /* Adjust the width as needed */
+}
+
+td button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+td button.btn-danger {
+    background-color: #ff4136;
+    color: white;
+}
+
+td button.btn-primary {
+    background-color: #0074d9;
+    color: white;
+
+}
+
+td button:disabled {
+    background-color: #ccc;
+    color: white;
+    cursor: not-allowed;
+}
+
+@media screen and (min-width: 901px) and (max-width: 1300px) {
+    
+    .th-filter-selector input
+    {
+      max-width: 110px;
+      overflow:auto;
+    }
+    th select {
+        width: 50px; /* Adjust the width as needed */
+    }
+}
+@media screen and (min-width: 901px) and (max-width: 1050px) {
+    .th-filter-selector input
+    {
+        max-width: 70px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .table {
+      display: block;
+      width: 100%;
+    }
+  
+    .table thead,
+    .table tbody,
+    .table tr,
+    .table th,
+    .table td {
+      display: block; 
+    }
+  
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 10px;
+      border: none;
+      overflow: hidden;
+      width: auto;
+    }
+  
+    .table thead {
+      /* display: none;  */
+    }
+  
+    .table tr {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+  
+    .table td:before {
+      content: attr(data-label); 
+      font-weight: bold;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .rides-table{
+        max-width: 100%;
+    }
+
+  }

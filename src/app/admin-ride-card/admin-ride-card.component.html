@@ -1,0 +1,26 @@
+<div class="AdminRideCard" *ngIf="ride">
+    <h2>Ride To: {{ ride.dropoffLocation?.name }}</h2>
+    <p><b>Status:</b> {{ ride.status }}</p>
+    <p><b>Date:</b> {{ dateStr }}</p>
+    <p><b>Time:</b> {{ timeStr }}</p>
+
+    <div id="creator-details">
+        <h3>Creator:</h3>
+        <p><b>Username:</b> {{ ride.creator }}</p>
+    </div>
+
+    <div id="driver-details">
+        <h3>Driver:</h3>
+        <p><b>Username:</b> {{ ride.driver }}</p>
+    </div>
+
+    <div id="riders-details">
+        <h3>Riders: ({{riderCount}}/3)</h3>
+        <div *ngFor="let rider of ride.riders">
+            <p><b>Username:</b> {{ rider.riderID }}</p>
+            <p><b>Pickup Location:</b> {{ rider.pickupLocation?.name }}</p>
+            <p>{{rider.pickupLocation?.address}}</p>
+        </div>
+
+    </div>
+</div>
