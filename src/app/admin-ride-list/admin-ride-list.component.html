@@ -59,7 +59,7 @@
             >
           </div>
         </th>
-        <th>Date/Time 
+        <th>Date 
           <button
               *ngIf="dateSortDirection === 0"
               (click)="updateDateSort()"
@@ -144,7 +144,7 @@
           </span>
         </td>
         <td data-label="Dropoff Location">{{ ride.dropoffLocation?.name}}</td>
-        <td data-label="Date/Time">{{ ride.dateTime | date }}</td>
+        <td data-label="Date">{{ ride.dateTime | date }}</td>
         <td data-label="Status">{{ ride.status }}</td>
         <td data-label="Average Rating" class="avg-rating">{{ ride.avgFeedbackRating }}</td>
         <td data-label="Issues">
