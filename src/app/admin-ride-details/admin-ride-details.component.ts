@@ -126,9 +126,10 @@ export class AdminRideDetailsComponent implements OnInit {
   }
 
   async setFeedback(): Promise<void> {
-    for (let fb of this.ride?.feedback ?? []) {
-      if (fb.feedback) this.rideFeedbacks?.push(fb);
-    }
+    // for (let fb of this.ride?.feedback ?? []) {
+    //   if (fb.feedback) this.rideFeedbacks?.push(fb);
+    // }
+    this.rideFeedbacks = this.ride?.feedback;
   }
 
   async setIssues(): Promise<void> {
