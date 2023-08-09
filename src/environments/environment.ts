@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  userAPIBase:"http://localhost:8080/api",
+  userAPIBase:"https://carpooling-api.onrender.com/api",
   googleMapsAPI:"AIzaSyBmbH4ulXRlnoBBW08l2ty7PiOUAgg6JU4",
 };
 
