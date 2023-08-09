@@ -33,9 +33,7 @@
             </div>
 
             <hr>
-
-            <br />
-
+            
             <label for="dropoff-location">Drop-off Location:</label>
             <input
               #doLocation
@@ -125,6 +123,7 @@
         </form>
 
         <app-available-rides-list #ridesListComponent
+          [user]="user"
           [useMatching]="useMatchingCheck" 
           [puLocation]="puLocationInfo" 
           [doLocation]="doLocationInfo"

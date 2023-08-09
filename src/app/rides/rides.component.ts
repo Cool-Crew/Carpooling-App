@@ -196,8 +196,6 @@ export class RidesComponent implements OnInit {
 
     //send the date to the available-rides-list component
     this.searchParams = {date: fullDate, doLocation: this.dropoffLocation};
-    // this.searchParams = { date: fullDate };
-    console.log(this.searchParams);
 
     //re initioalize the available-rides-list component
     await this.ridesListComponent.refreshRides();

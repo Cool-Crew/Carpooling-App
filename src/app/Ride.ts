@@ -37,8 +37,8 @@ export class Ride {
   riders: Rider[] = [];
   dropoffLocation: StopLocation | undefined;
   dateTime: Date | undefined;
-  riderClasses: [] = [];
-  riderInterests: [] = [];
+  riderClasses: string[] = [];
+  riderInterests: string[] = [];
   chat: Message[] = [];
   feedback: Feedback[] = [];
   status: Status = Status.Not_Started;

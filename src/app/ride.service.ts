@@ -211,18 +211,25 @@ export class RideService {
   }
 
 
-  getMatchingValues(userId:string): Observable<any> {
+  async getMatchingValues(userId: string): Promise<any> {
     const token = this.auth.getToken();
+    
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      return this.http.get<any>(
-        `${environment.userAPIBase}/users/${userId}/matchingInfo`,
-        {
-          headers,
-        }
-      );
+      try {
+        const response = await this.http.get<any>(
+          `${environment.userAPIBase}/users/${userId}/matchingInfo`,
+          {
+            headers,
+          }
+        ).toPromise();
+        return response;
+      } catch (error) {
+        throw error;
+      }
     }
-    return new Observable();
+    
+    throw new Error('Token not available.');
   }
 
   reportIssue(rideId: string, issue: any): Observable<any> {
