@@ -228,8 +228,6 @@ export class RideService {
     return new Observable();
   }
 
-
-  async getMatchingValues(userId: string): Promise<any> {
   getFeedback(): Observable<{ message: string; feedbacks: any[] }> {
     const token = this.auth.getToken();
     if (token) {
@@ -283,6 +281,27 @@ export class RideService {
 
 
     return ride;
+  }
+
+  async getMatchingValues(userId: string): Promise<any> {
+    const token = this.auth.getToken();
+    
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      try {
+        const response = await this.http.get<any>(
+          `${environment.userAPIBase}/users/${userId}/matchingInfo`,
+          {
+            headers,
+          }
+        ).toPromise();
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    }
+    
+    throw new Error('Token not available.');
   }
   
   
