@@ -111,8 +111,6 @@ export class AvailableRidesListComponent implements OnInit{
         ride.riderClasses = [];
         await this.getAllMatchingValues(ride);
       }
-      //modified rides to be displayed in ride-card components
-      this.ridesForCards = this.rides;
     }
 
     //sort this.rides by date
@@ -136,8 +134,13 @@ export class AvailableRidesListComponent implements OnInit{
     }
     else {
       //sort this.rides by the size of ride.riderInterests and ride.riderClasses
-
+      this.rides = this.rides?.sort((a, b) => {
+        return b.riderInterests.length + b.riderClasses.length - a.riderInterests.length - a.riderClasses.length;
+      }
+      );
     }
+    
+    this.ridesForCards = this.rides;
   }
 
 
