@@ -281,10 +281,15 @@ export class RideCardComponent implements OnInit {
   setMatchValues() {
     if (this.ride?.riderInterests){
       this.interests = this.ride?.riderInterests;
+      //sort this.interests alphabetically
+      this.interests.sort();
     }
     if (this.ride?.riderClasses){
       this.classes = this.ride?.riderClasses;
+      //sort this.classes alphabetically
+      this.classes.sort();
     }
+
   }
 
   //For refreshing a ride card after a user action

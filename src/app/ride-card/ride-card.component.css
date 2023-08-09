@@ -110,6 +110,12 @@ margin-right: 5px;
     margin-bottom: 1em;
 }
 
+.ic-container p {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
 
 p.warning {
     color: red;
