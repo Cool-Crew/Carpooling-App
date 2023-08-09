@@ -7,6 +7,7 @@
       <div class="form-container">
         
           <form (ngSubmit)="onSubmit()" [formGroup]="rideForm">
+            
             <label for="pickup-location">Pickup Location:</label>
             <input
               #puLocation
@@ -32,7 +33,7 @@
             </div>
 
             <hr>
-
+            
             <label for="dropoff-location">Drop-off Location:</label>
             <input
               #doLocation
@@ -122,6 +123,7 @@
         </form>
 
         <app-available-rides-list #ridesListComponent
+          [user]="user"
           [useMatching]="useMatchingCheck" 
           [puLocation]="puLocationInfo" 
           [doLocation]="doLocationInfo"

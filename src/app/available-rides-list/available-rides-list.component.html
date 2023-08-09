@@ -4,12 +4,12 @@
         <h2>No rides available</h2>
     </div>
     <app-ride-card 
-        *ngFor="let ride of rides" 
-        [puLocation]="puLocation" 
+        *ngFor="let ride of ridesForCards"
+        [puLocation]="puLocation"
         [doLocation]="doLocation"
         [ride]="ride" 
         [useMatching]="useMatching"
-        [ride]="ride" (newRideEvent)="rideSelected($event)">
+        (newRideEvent)="rideSelected($event)">
 
     </app-ride-card>
     

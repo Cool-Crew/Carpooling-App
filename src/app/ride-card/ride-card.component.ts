@@ -167,7 +167,6 @@ export class RideCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('use matching is: ' + this.useMatching)
 
     this.user = this.authService.readToken();
 
@@ -276,66 +275,24 @@ export class RideCardComponent implements OnInit {
     this.endLocation = this.ride?.dropoffLocation;
     this.endLocationMarker = this.endLocation?.location;
 
-    this.getAllMatchingValues();
+    this.setMatchValues();
   }
 
-  async getAllMatchingValues() {
-    if (this.ride?.riders) {
-      //get the riders' matching info
-      for (const rider of this.ride?.riders) {
-        this.rideService.getMatchingValues(rider.riderID).subscribe(
-          matchingInfo => {
-            //any interests or classes that match the users interests or classes will be added to their respective arrays
 
-            for (const interest of matchingInfo._matchingInfo.interests) {
-                if (this.user.interests.includes(interest) ){
-                  this.interests.push(interest);
-                }
-            }
-
-            for (const _class of matchingInfo._matchingInfo.classes) {
-              if (this.user.classes.includes(_class) ){
-                this.classes.push(_class);
-              }
-            }
-
-            // clean up any duplicates in the arrays
-            this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
-            this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
-
-          },
-          error => {
-            console.error('Error fetching matching info:', error);
-          }
-        );
-      }
+  setMatchValues() {
+    if (this.ride?.riderInterests){
+      this.interests = this.ride?.riderInterests;
+      //sort this.interests alphabetically
+      this.interests.sort();
+    }
+    if (this.ride?.riderClasses){
+      this.classes = this.ride?.riderClasses;
+      //sort this.classes alphabetically
+      this.classes.sort();
     }
 
-    if (this.ride?.driver){          
-      //get the driver's matching info
-      this.rideService.getMatchingValues(this.ride?.driver).subscribe(
-        matchingInfo => {
-          //any interests or classes that match the users interests or classes will be added to their respective arrays
+  }
 
-          for (const interest of matchingInfo._matchingInfo.interests) {
-              if (this.user.interests.includes(interest) ){
-                this.interests.push(interest);
-              }
-          }
-
-          for (const _class of matchingInfo._matchingInfo.classes) {
-            if (this.user.classes.includes(_class) ){
-              this.classes.push(_class);
-            }
-          }
-
-          // clean up any duplicates in the arrays
-          this.interests = this.interests.filter((v, i, a) => a.indexOf(v) === i);
-          this.classes = this.classes.filter((v, i, a) => a.indexOf(v) === i);
-        }
-      );
-    }
-  }  
 
   //For refreshing a ride card after a user action
   reInit() {
@@ -344,7 +301,6 @@ export class RideCardComponent implements OnInit {
 
   //dev function to check button variables
   outputButtonVars() {
-    console.log(this.ride)
 
     console.log("userCanJoin: " + this.userCanJoin);
     console.log("userCanDrive: " + this.userCanDrive);
@@ -389,7 +345,6 @@ export class RideCardComponent implements OnInit {
   //Add a rider to the ride
   onJoinRideClick() {
     const pickupLocation = this.puLocation;
-    console.log(pickupLocation);
 
     //if user is already driver, remove them from driver before adding as rider
     if (this.userIsDriver) {
