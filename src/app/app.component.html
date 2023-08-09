@@ -21,14 +21,16 @@
         (click)="toggleNotifications()"
         (document:click)="onDocumentClick($event)"
       ></fa-icon>
+       <!-- Add a red dot indicator using *ngIf -->
+  <div *ngIf="notificationsService.hasNewNotification" class="notification-dot"></div>
       <div class="notifications-menu" *ngIf="showNotifications">
         <ul class="notifications-list">
-          <li *ngFor="let not of fnotifs" class="notification-item">
+          <li  *ngFor="let not of fnotifs.reverse(); let i = index" [ngClass]="{ highlighted: i === 0 && highlightedNotification !== null }" class="notification-item">
             <fa-icon
-              class="notification-icon"
+              class="notification-cross"             
               [icon]="faTimes"
               (click)="removeNotification(not)"
-            ></fa-icon>
+            >&nbsp;&nbsp;</fa-icon>
             <div class="notification-details">
               <h4 class="notification-title">{{ not }}</h4>
               <!-- <p class="notification-message">Default notification message</p> -->
@@ -115,6 +117,12 @@
         </a>
 
         <mat-divider></mat-divider>
+
+        <a mat-list-item>
+          <p mat-line routerLink="/admin/dashboard" routerLinkActive="active">
+            Admin Dashboard
+          </p>
+        </a>
 
         <a id="push-bottom" mat-list-item>
           <p mat-line routerLink="/about" routerLinkActive="active">About</p>

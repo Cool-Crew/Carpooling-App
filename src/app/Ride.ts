@@ -1,6 +1,18 @@
 export class Rider {
   riderID: string = "";
-  pickupLocation: string = "";
+  pickupLocation: StopLocation | undefined;
+}
+
+
+export class Issue {
+  issueID: string = "";
+  // issue author: string = "";
+  category: string = "";
+  description: string = "";
+  priority: string = "";
+  issueDate: string = "";
+  issueTime: string = "";
+  affectedPassengers: boolean = false;
 }
 
 export class Message {
@@ -13,6 +25,7 @@ export class Feedback {
   riderId: string = "";
   rating: number = 0;
   feedback: string = "";
+  category: string = "";
 }
 
 export enum Status {
@@ -40,18 +53,20 @@ export class Ride {
   riderClasses: string[] = [];
   riderInterests: string[] = [];
   chat: Message[] = [];
+  avgFeedbackRating: number = 0;
   feedback: Feedback[] = [];
   status: Status = Status.Not_Started;
+  issue: Issue[] = [];
 }
 
 export class RiderLocationMapping {
   riderId: String | undefined;
-  pickupLocation: String | undefined;
+  pickupLocation: StopLocation | undefined;
 }
 export class RideList {
   rideId: string = "";
-  pickupLocation: String | undefined;
-  dropoffLocation: String | undefined;
+  pickupLocation: StopLocation | undefined;
+  dropoffLocation: StopLocation | undefined;
   dateTime: string | undefined;
   exactTime: string | undefined;
   status: Status = Status.Not_Started;

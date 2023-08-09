@@ -1,0 +1,34 @@
+<div class="admin-ride-view">    
+    <app-admin-ride-card
+        [ride]="ride"
+        [dateStr]="dateStr"
+        [timeStr]="timeStr"
+        [riderCount]="riderCount"
+    ></app-admin-ride-card>
+    
+    <div class="issues-area">
+        <h2>Reported Issues</h2>
+        <div id="no-issues"
+            *ngIf="!rideIssues"
+        >
+            <h3>No issues have been reported for this ride</h3>
+        </div>
+        <app-admin-issues-for-ride-details
+            *ngFor="let issue of rideIssues"
+            [issue]="issue"
+        ></app-admin-issues-for-ride-details>
+    </div>
+
+    <div class="feedback-area">
+        <h2>User Feedback</h2>
+        <div id="no-feedback"
+            *ngIf="!rideFeedbacks"
+        >
+            <h3>No feedback has been given for this ride</h3>
+        </div>
+        <app-admin-feedback-for-ride-details
+            *ngFor="let feedback of rideFeedbacks"
+            [feedback]="feedback"
+        ></app-admin-feedback-for-ride-details>
+    </div>
+</div>

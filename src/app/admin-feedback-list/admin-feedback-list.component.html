@@ -1,0 +1,98 @@
+<div class="feedbacks-table">
+  <div class="table-topper">
+    <h2>All Feedbacks</h2>
+    <div class="range-selector">
+      <h3>Show Feedbacks From:</h3>
+      <select
+        id="range"
+        [(ngModel)]="range"
+        (change)="updateRange()"
+      >
+        <option value="0">Today</option>
+        <option value="7">Previous 7 Days</option>
+        <option value="30">Previous 30 Days</option>
+        <option value="180">Previous 6 Months</option>
+        <option value="365">Previous Year</option>
+        <option value="666">All</option>
+      </select>
+    </div>
+  </div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Date
+
+      </th>
+      <th>Dropoff Location</th>
+      <th>Driver
+        <div class="th-filter-selector">
+          <input 
+            placeholder="Filter by driver"
+            [(ngModel)]="driverFilter"
+            (ngModelChange)="updateDriver()"
+          >
+        </div>
+      </th>
+      <th>Creator
+        <div class="th-filter-selector">
+          <input 
+            placeholder="Filter by creator"
+            [(ngModel)]="creatorFilter"
+            (ngModelChange)="updateCreator()"
+          >
+        </div>
+      </th>
+      <th>Submitter
+        <div class="th-filter-selector">
+          <input 
+            [(ngModel)]="submitterFilter"
+            (ngModelChange)="updateSubmitter()"
+            placeholder="Filter by Submitter"
+            >
+        </div>
+      </th>
+      <th>Feedback</th>
+      <th>Category
+        <div class="th-filter-selector">
+          <select
+            [(ngModel)]="selectedCategory"
+            (change)="updateCategoryFilter()"
+          >
+            <option name="option" *ngFor="let option of categoryOptions" [value]="option"
+              >{{ option }}</option
+            >
+          </select>
+        </div>
+      </th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let feedback of displayedFeedbacks">
+      <td data-label="Date">{{ feedback.dateTime | date}}</td>
+      <td data-label="Dropoff Location">{{ feedback.dropoffLocation }}</td>
+      <td data-label="Driver">{{ feedback.driver }}</td>
+      <td data-label="Creator">{{ feedback.creator }}</td>
+      <td data-label="Submitter">{{ feedback.rider }}</td>
+      <td data-label="Feedback">{{ feedback.feedback }}</td>
+      <td data-label="Category">{{ feedback.category }}</td>
+      <td data-label="Rating">
+        <div class="rating">
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+          <mat-icon class="star-icon"
+            [ngClass]="{
+              'star-filled': star <= feedback.rating,
+              'star-empty': star > feedback.rating
+            }"
+          >
+            star
+          </mat-icon>
+        </ng-container>
+      </div>
+    </td>
+   </tr>
+  </tbody>
+</table>
+</div>
+

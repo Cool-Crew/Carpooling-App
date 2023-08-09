@@ -45,7 +45,15 @@ import { RideCardComponent } from "./ride-card/ride-card.component";
 import { RideListComponent } from "./ride-list/ride-list.component";
 import { RatingComponent } from "./rating/rating.component";
 import { ChatComponent } from "./chat/chat.component";
+import { AdminRideListComponent } from './admin-ride-list/admin-ride-list.component';
+import { AdminFeedbackListComponent } from './admin-feedback-list/admin-feedback-list.component';
 import { DmComponent } from './dm/dm.component';
+
+import { AdminRideDetailsComponent } from './admin-ride-details/admin-ride-details.component';
+import { AdminRideCardComponent } from './admin-ride-card/admin-ride-card.component';
+import { AdminFeedbackForRideDetailsComponent } from './admin-feedback-for-ride-details/admin-feedback-for-ride-details.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminIssuesForRideDetailsComponent } from './admin-issues-for-ride-details/admin-issues-for-ride-details.component';
 import { ReportIssueComponent } from './report-issue/report-issue.component';
 
 @NgModule({
@@ -70,7 +78,14 @@ import { ReportIssueComponent } from './report-issue/report-issue.component';
     RatingComponent,
     RideListComponent,
     ChatComponent,
+    AdminRideListComponent,
+    AdminFeedbackListComponent,
     DmComponent,
+    AdminRideDetailsComponent,
+    AdminRideCardComponent,
+    AdminFeedbackForRideDetailsComponent,
+    AdminDashboardComponent,
+    AdminIssuesForRideDetailsComponent,
     ReportIssueComponent,
   ],
   imports: [

@@ -278,6 +278,7 @@ export class RideCardComponent implements OnInit {
     this.setMatchValues();
   }
 
+
   setMatchValues() {
     if (this.ride?.riderInterests){
       this.interests = this.ride?.riderInterests;
@@ -291,6 +292,7 @@ export class RideCardComponent implements OnInit {
     }
 
   }
+
 
   //For refreshing a ride card after a user action
   reInit() {

@@ -13,23 +13,46 @@
   <div *ngFor="let ride of rides" class="ride-card">
     <div *ngIf="cardLoading !== ride.rideId" class="ride-details">
       <div>
-        <p>Date: {{ ride.dateTime }}</p>
-        <p *ngIf="ride.exactTime">Arrival Time: {{ ride.exactTime }}</p>
+        <p><strong>Date:</strong> {{ ride.dateTime }}</p>
+        <p *ngIf="ride.exactTime">
+          <strong>Arrival Time:</strong> {{ ride.exactTime }}
+        </p>
         <p *ngIf="ride.pickupLocation">
-          Start Location: {{ ride.pickupLocation }}
+          <strong>Start Location:</strong>
+          <a
+            [href]="
+              'https://www.google.com/maps?q=' +
+              ride.pickupLocation?.location?.lat +
+              ',' +
+              ride.pickupLocation?.location?.lng
+            "
+            target="_blank"
+            >{{ ride.pickupLocation.name }}</a
+          >
         </p>
         <span
           *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
         >
-          <p>Pickup Locations</p>
+          <p><strong>Pickup Locations</strong></p>
           <ul class="custom-list">
             <li *ngFor="let r of ride.riders" class="custom-list-item">
               <span
                 *ngIf="
                   ride.statusString !== 'Complete' &&
-                  ride.statusString !== 'Cancelled'
+                  ride.statusString !== 'Cancelled' &&
+                  r.pickupLocation
                 "
-                >{{ r.riderId }}: {{ r.pickupLocation }}</span
+                >{{ r.riderId }}:
+                <a
+                  [href]="
+                    'https://www.google.com/maps?q=' +
+                    r.pickupLocation?.location?.lat +
+                    ',' +
+                    r.pickupLocation?.location?.lng
+                  "
+                  target="_blank"
+                  >{{ r?.pickupLocation?.name }}</a
+                ></span
               >
               <span
                 *ngIf="
@@ -48,8 +71,22 @@
         >
           <p>No Riders yet</p>
         </span>
-        <p>End Location: {{ ride.dropoffLocation }}</p>
-        <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
+        <p *ngIf="ride.dropoffLocation">
+          <strong>End Location:</strong>
+          <a
+            [href]="
+              'https://www.google.com/maps?q=' +
+              ride.dropoffLocation?.location?.lat +
+              ',' +
+              ride.dropoffLocation?.location?.lng
+            "
+            target="_blank"
+            >{{ ride?.dropoffLocation?.name }}</a
+          >
+        </p>
+        <p *ngIf="ride.driverName">
+          <strong>Driver:</strong> {{ ride.driverName }}
+        </p>
       </div>
       <app-rating
         *ngIf="!ride.rating && ride.statusString === 'Complete'"
@@ -70,7 +107,11 @@
 
     <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
     <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
-      <button class="ride-button" (click)="onChatting(ride.rideId, ride)">
+      <button
+        id="mbut"
+        class="ride-button"
+        (click)="onChatting(ride.rideId, ride)"
+      >
         Messages
       </button>
       <button
@@ -80,12 +121,13 @@
           !ride.driverName &&
           ride.statusString === 'Not Started'
         "
-        (click)="onDriverNeededClick(ride.rideId, ride.dropoffLocation)"
+        (click)="onDriverNeededClick(ride.rideId, ride?.dropoffLocation?.name)"
       >
         Offer to Drive
       </button>
       <button
         class="ride-button"
+        id="lbut"
         (click)="onLeaveRideClick(ride.rideId, ride.riders !== undefined)"
         *ngIf="
           ride.statusString === 'Not Started' ||
@@ -97,6 +139,7 @@
       </button>
       <button
         class="ride-button"
+        id="sbut"
         *ngIf="
           ride.statusString === 'Not Started' &&
           user._id === ride.driver &&
@@ -108,6 +151,7 @@
       </button>
       <button
         class="ride-button"
+        id="cbut"
         *ngIf="
           ride.statusString === 'Not Started' ||
           ride.statusString === 'In Progress'
@@ -118,6 +162,7 @@
       </button>
       <button
         class="ride-button"
+        id="fbut"
         *ngIf="
           ride.statusString !== 'Complete' &&
           ride.statusString !== 'Cancelled' &&
@@ -129,13 +174,9 @@
         Mark as completed
       </button>
 
-      <!-- <button (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
+      <!-- <button *ngIf="ride.statusString === 'Complete'" (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
 
-      <button
-        class="report-issue-button"
-        *ngIf="ride.statusString === 'Complete'"
-        (click)="reportIssue(ride.rideId)"
-      >
+      <button class="report-issue-button" (click)="reportIssue(ride.rideId)">
         <img src="../../assets/images/issue.png" alt="Report Issue" />
         <span>Report Issue</span>
       </button>

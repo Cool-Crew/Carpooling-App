@@ -1,24 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, share } from 'rxjs';
-import { io } from 'socket.io-client';
-import { AuthService } from 'src/app/auth.service';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, share } from "rxjs";
+import { io } from "socket.io-client";
+import { AuthService } from "src/app/auth.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class MessageService {
-
-  public messages$: BehaviorSubject<{ [key: string]: any } | null> = new BehaviorSubject<{ [key: string]: any } | null>(null);
+  public messages$: BehaviorSubject<{ [key: string]: any } | null> =
+    new BehaviorSubject<{ [key: string]: any } | null>(null);
   messages: string[] = [];
   room_id: any;
   isSubscribed = false;
-  socket = io('http://localhost:8080');
+  socket = io("https://carpooling-api.onrender.com");
 
   constructor(private _http: HttpClient, private authService: AuthService) {
-    this.socket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
+    this.socket.on("connect", () => {
+      console.log("Connected to Socket.IO server");
       this.socket.on("userJoined", (userId) => {
         console.log(`User ${userId} has joined the group chat`);
         // Handle user join logic, such as updating the user interface
@@ -34,7 +34,6 @@ export class MessageService {
     });
   }
   createRoom(roomId: string) {
-
     console.log("join room for chat ", roomId);
 
     // console.log("user id :", userId, "ride id :", rideId);
@@ -43,7 +42,7 @@ export class MessageService {
     this.socket.emit("joinGroupChat", roomId);
   }
   leaveRoom(roomId: string) {
-    console.log("leave room ", roomId)
+    console.log("leave room ", roomId);
 
     this.socket.emit("leaveGroupChat", roomId);
   }
@@ -54,31 +53,35 @@ export class MessageService {
   SendMessage(body: any) {
     // console.log("body send ", body)
     const { rideId, message, senderName, senderId, roomId } = body;
-    this.SendMessageByApi({ message, senderId, roomId })?.then((res) => { console.log("message res", res) }).catch((err) => console.log(err))
-    this.socket.emit('groupChatMessage', body);
+    this.SendMessageByApi({ message, senderId, roomId })
+      ?.then((res) => {
+        console.log("message res", res);
+      })
+      .catch((err) => console.log(err));
+    this.socket.emit("groupChatMessage", body);
   }
 
   createPrivateRooms(senderId: any) {
-    this.socket.emit('startChat', senderId);
+    this.socket.emit("startChat", senderId);
   }
   sendMessagePrivate(body: any) {
     const { senderId, receiverId, message, roomId } = body;
-    this.socket.emit('singleChatMessage', body);
+    this.socket.emit("singleChatMessage", body);
 
     this.SendMessageByApi({ senderId, message, roomId })
-      ?.then((res) => { console.log("private message", res) })
-      .catch((err) => console.log("error private ", err))
+      ?.then((res) => {
+        console.log("private message", res);
+      })
+      .catch((err) => console.log("error private ", err));
   }
 
   getMessage() {
-
     if (!this.isSubscribed) {
       this.isSubscribed = true;
-       this.socket.on('incomingMessage', (message: any) => {
+      this.socket.on("incomingMessage", (message: any) => {
         console.log("messages get: ", message);
         // this.messages.push(message);
-      return this.messages$.next(message);
-
+        return this.messages$.next(message);
       });
     }
     // this.socket.on('incomingMessage', (message: any) => {
@@ -175,8 +178,6 @@ export class MessageService {
     return;
   }
 
-
-
   async getRoomDetails(senderId: string, receiverId: string): Promise<any> {
     const token = this.authService.getToken();
     if (token) {
@@ -192,7 +193,7 @@ export class MessageService {
     return;
   }
 
-  // in future you want to see details of room 
+  // in future you want to see details of room
   async getRoomList(): Promise<any> {
     const token = this.authService.getToken();
     if (token) {
@@ -208,6 +209,6 @@ export class MessageService {
   }
 
   removeUserSocket() {
-    this.socket.emit('endChat')
+    this.socket.emit("endChat");
   }
 }

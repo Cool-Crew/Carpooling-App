@@ -22,18 +22,15 @@ export class ReportIssueComponent implements OnInit {
   //selectedRide: any;
   issue: any = {
     description: '',
-    category: 'Other',
-    openedBy: '',
+    category: 'Other',    
     priority: 'Low',
     issueDate: '',
-    issueTime: '',
-    amPmOption: 'AM',
-    affectedPassengers: 'No'
+    issueTime: '',   
+    affectedPassengers: false
   };
   issueForm = new FormGroup({   
     category: new FormControl("", Validators.required),
-    description: new FormControl("", Validators.required),
-    openedBy: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),   
     priority: new FormControl("", Validators.required),
     issueDate: new FormControl("", Validators.required),
     issueTime: new FormControl("", Validators.required),
@@ -81,8 +78,7 @@ export class ReportIssueComponent implements OnInit {
     // Call the API to report the issue
     if (this.rideId !== null) {
       this.rideService.reportIssue(this.rideId, this.issue).subscribe(
-        () => {
-          
+        () => {          
           this.toastr.success("Issue Reported!");
           this.submitted = true;
           const notificationData = {

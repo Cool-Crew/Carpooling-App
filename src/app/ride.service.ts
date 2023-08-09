@@ -5,6 +5,10 @@ import { environment } from "../environments/environment";
 import { AuthService } from "./auth.service";
 import { Ride, RideList } from "./Ride";
 
+interface Usernames {
+  [key: string]: string;
+}
+
 @Injectable({ providedIn: "root" })
 export class RideService {
   constructor(private http: HttpClient, private auth: AuthService) {}
@@ -23,6 +27,21 @@ export class RideService {
     return;
   }
 
+  async getRide(rideId: any): Promise<{message: String; _ride: Ride} | undefined> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http
+        .get<{message:String; _ride:Ride}>(
+          `${environment.userAPIBase}/ridedetails/${rideId}`,
+           { headers }
+        )
+        .toPromise();
+    }
+    return;
+  }
+
+
   async getUserRides(
     riderId: any
   ): Promise<{ message: String; _rides: [RideList] } | undefined> {
@@ -39,15 +58,14 @@ export class RideService {
     return;
   }
 
-  async getUsernames(
-    userIds: string
-  ): Promise<{ message: String; _users: [String] } | undefined> {
+
+  async getUsernames(userIds:string): Promise<{ message: string; _usernames: Usernames } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       return this.http
-        .get<{ message: String; _users: [String] }>(
-          `${environment.userAPIBase}/username/userIds`,
+        .get<{ message: string; _usernames: Usernames }>(
+          `${environment.userAPIBase}/username/${userIds}`,
           { headers }
         )
         .toPromise();
@@ -212,26 +230,62 @@ export class RideService {
 
 
   async getMatchingValues(userId: string): Promise<any> {
+  getFeedback(): Observable<{ message: string; feedbacks: any[] }> {
     const token = this.auth.getToken();
-    
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      try {
-        const response = await this.http.get<any>(
-          `${environment.userAPIBase}/users/${userId}/matchingInfo`,
-          {
-            headers,
-          }
-        ).toPromise();
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      return this.http.get<{ message: string; feedbacks: any[] }>(
+        `${environment.userAPIBase}/feedbacks`,
+        { headers }
+      );
     }
-    
-    throw new Error('Token not available.');
+    return new Observable();
   }
 
+
+ 
+
+  async replaceIdsWithUsernames(ride:Ride): Promise<Ride> {
+
+    // get username for creator
+    let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.creator);
+    if (res){
+      ride.creator = res._usernames[ride.creator];
+    }
+
+    //get username for driver
+    if (ride.driver){
+      let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.driver);
+      if (res){
+        ride.driver = res._usernames[ride.driver];
+      }
+    }
+
+    //get username for riders
+    if (ride.riders){
+      for (const rider of ride.riders){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(rider.riderID);
+        if (res){
+          rider.riderID = res._usernames[rider.riderID];
+        }
+      }
+    }
+
+    //get username for feedbacks
+    if (ride.feedback){
+      for (const feedback of ride.feedback){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(feedback.riderId);
+        if (res){
+          feedback.riderId = res._usernames[feedback.riderId];
+        }
+      }
+    }
+
+
+    return ride;
+  }
+  
+  
   reportIssue(rideId: string, issue: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
@@ -241,5 +295,4 @@ export class RideService {
     }
     return new Observable();
   }
-  
 }

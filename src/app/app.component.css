@@ -11,6 +11,46 @@ p {
   display: inline-block;
 }
 
+.notification-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 1; /* Ensure the red dot appears on top of the notification bell icon */
+}
+
+.highlighted {
+  background-color: rgb(248, 248, 93); /* Change the background color to yellow or any other color of your choice */
+  animation: highlight 2s linear; /* Apply the highlight animation for 2 seconds */
+}
+
+.notification-cross {
+  /* Add some styles to make it look like a button */
+  padding: 9px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Add transform transition */
+  background: none;
+}
+
+.notification-cross:hover {
+  /* Add a background color on hover (optional) */
+  background-color: #f5f5f5;
+  transform: scale(1.05);
+}
+
+@keyframes highlight {
+  from {
+    background-color: rgb(243, 243, 94); /* Start with the highlight color */
+  }
+  to {
+    background-color: transparent; /* Gradually transition to transparent (no highlight) */
+  }
+}
+
 .notifications-menu {
   position: absolute;
   top: 100%;
