@@ -17,8 +17,42 @@ export class PreferenceMgmtComponent {
   isInterestFieldEmpty: boolean = false;
   updateStatus: string = "";
 
-  availableClasses: string[] = ["Class A", "Class B", "Class C"];
-  availableInterests: string[] = ["Interest 1", "Interest 2", "Interest 3"];
+  availableClasses: string[] = [
+    "MAP526",
+    "CSE301",
+    "ENG202",
+    "PHY123",
+    "MATH405",
+    "BIO301",
+    "CHEM201",
+    "ART101",
+    "HIS202",
+    "PSY301",
+    "SOC401",
+    "ECON202",
+  ];
+  availableInterests: string[] = [
+    "Painting",
+    "Playing Musical Instruments",
+    "Cooking and Baking",
+    "Gardening",
+    "Reading Books",
+    "Writing and Journaling",
+    "Photography",
+    "Hiking and Nature Walks",
+    "Swimming",
+    "Dancing",
+    "Collecting",
+    "DIY Crafts",
+    "Watching Movies and TV Shows",
+    "Playing Video Games",
+    "Traveling",
+    "Yoga and Meditation",
+    "Playing Sports",
+    "Knitting or Crocheting",
+    "Volunteering",
+    "Puzzle Solving",
+  ];
 
   constructor(
     private authService: AuthService,
