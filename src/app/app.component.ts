@@ -15,12 +15,10 @@ export class AppComponent implements OnInit {
   public token: any | undefined;
   user: any;
   highlightedNotification: number | null = null;
-
   faBell = faBell;
   faTimes = faTimes;
   fnotifs: string[] = this.notificationsService.notifications; // Array to store notifications
   hnn = this.notificationsService.hasNewNotification;  
-  //fnotifs: string[] = [];
   showNotifications = false;
 
   constructor(
@@ -37,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleNotifications() {
-    //this.notificationsService.toggleNotifications();
+  
     this.showNotifications = !this.showNotifications;
    
     //console.log(this.hnn);
@@ -110,12 +108,7 @@ export class AppComponent implements OnInit {
       }
     );
   }
-
-  /*
-  clearNotifications() {
-    this.notificationsService.clearNotifications();
-  }
-*/
+ 
 
   @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent) {
@@ -127,13 +120,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        //this.user = this.aservice.readToken();
-        //this.token = this.aservice.readToken();
-        // for (const notification of this.user.notifications) {
-        //   this.fnotifs.push(notification.msg);
-        // }
-        console.log(this.hnn);
+      if (event instanceof NavigationStart) {    
+        
         this.token = this.aservice.readToken();
         if (this.token) {
           this.fnotifs = this.token.notifications.map(

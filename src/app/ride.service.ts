@@ -305,12 +305,12 @@ export class RideService {
   }
   
   
-  reportIssue(rideId: string, issue: any): Observable<any> {
+  reportIssue(rideId: string, issue: any, userId: string): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;
-      return this.http.post<any>(url, issue, { headers });
+      return this.http.post<any>(url, {issue, userId}, { headers });
     }
     return new Observable();
   }

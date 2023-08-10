@@ -107,6 +107,7 @@
 
     <hr *ngIf="cardLoading !== ride.rideId" class="ride-divider" />
     <div *ngIf="cardLoading !== ride.rideId" class="ride-buttons">
+      <br><br>
       <button
         id="mbut"
         class="ride-button"
@@ -175,7 +176,7 @@
       </button>
 
       <!-- <button *ngIf="ride.statusString === 'Complete'" (click)="reportIssue(ride.rideId)"><img src="../../assets/images/issue.png"></button> -->
-
+      <br><br><br>
       <button class="report-issue-button" (click)="reportIssue(ride.rideId)">
         <img src="../../assets/images/issue.png" alt="Report Issue" />
         <span>Report Issue</span>

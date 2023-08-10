@@ -1,57 +1,10 @@
-<!-- <div *ngFor="let ride of rides" class="ride-card">
-
-<div *ngIf="cardLoading !== ride.rideId" class="ride-details">
-    <div>
-      <p>Date: {{ ride.dateTime }}</p>
-      <p *ngIf="ride.exactTime">Arrival Time: {{ ride.exactTime }}</p>
-      <p *ngIf="ride.pickupLocation">
-        Start Location: {{ ride.pickupLocation }}
-      </p>
-      <span
-        *ngIf="!ride.pickupLocation && ride.riders && ride.riders.length > 0"
-      >
-        <p>Pickup Locations</p>
-        <ul class="custom-list">
-          <li *ngFor="let r of ride.riders" class="custom-list-item">
-            <span
-              *ngIf="
-                ride.statusString !== 'Complete' &&
-                ride.statusString !== 'Cancelled'
-              "
-              >{{ r.riderId }}: {{ r.pickupLocation }}</span
-            >
-            <span
-              *ngIf="
-                ride.statusString === 'Complete' ||
-                ride.statusString === 'Cancelled'
-              "
-              >{{ r.riderId }}</span
-            >
-          </li>
-        </ul>
-      </span>
-      <span
-        *ngIf="
-          !ride.pickupLocation && ride.riders && ride.riders.length === 0
-        "
-      >
-        <p>No Riders yet</p>
-      </span>
-      <p><strong>Ride to:</strong> {{ ride.dropoffLocation }}</p>
-      <p *ngIf="ride.driverName">Driver: {{ ride.driverName }}</p>
-    </div>
-</div>
-</div> -->
-
 
 <h2 id="heading">Report Issue</h2>
-
 
   <form [formGroup]="issueForm" (ngSubmit)="onSubmit()"> 
   <label>
    Select Issue Category:
-    <select [(ngModel)]="issue.category" formControlName="category" name="category" placeholder="Select" required>  
-   
+    <select [(ngModel)]="issue.category" formControlName="category" name="category" placeholder="Select" required>   
       <option value="" selected>Select</option>
       <option value="Driver_Behavior">Driver Behavior</option>
       <option value="Vehicle_Condition">Vehicle Condition</option>

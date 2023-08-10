@@ -18,6 +18,7 @@ export class ReportIssueComponent implements OnInit {
   rides: RideList[] | undefined;
   cardLoading: string = "";
   rideId: string | null = null;
+  userId: string | null = null;;
   //selectedRideId: string | undefined;
   //selectedRide: any;
   issue: any = {
@@ -52,6 +53,8 @@ export class ReportIssueComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.user = this.authService.readToken();
+    this.userId = this.user._id;
+    console.log(this.userId);
     this.route.paramMap.subscribe(params => {
       this.rideId = params.get('id');
     });
@@ -76,8 +79,8 @@ export class ReportIssueComponent implements OnInit {
   onSubmit(): void {
    if (this.issueForm.valid) {
     // Call the API to report the issue
-    if (this.rideId !== null) {
-      this.rideService.reportIssue(this.rideId, this.issue).subscribe(
+    if (this.rideId !== null && this.user._id !== null) {
+      this.rideService.reportIssue(this.rideId, this.issue, this.user._id).subscribe(
         () => {          
           this.toastr.success("Issue Reported!");
           this.submitted = true;
