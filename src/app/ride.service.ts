@@ -125,7 +125,6 @@ export class RideService {
         riderID: riderId,
         pickupLocation: pickupLocation,
       };
-      console.log("This is the riderData", riderData);
       return this.http.post<{ message: string }>(
         `${environment.userAPIBase}/rides/${rideId}/riders`,
         { ride: rideId, newRider: riderData },
