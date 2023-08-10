@@ -279,6 +279,16 @@ export class RideService {
       }
     }
 
+    //get username for reportedIssues
+    if (ride.issue){
+      for (const issue of ride.issue){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(issue.issueAuthor);
+
+        if (res){
+          issue.issueAuthor = res._usernames[issue.issueAuthor];
+        }
+      }
+    }
 
     return ride;
   }

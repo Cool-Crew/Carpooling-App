@@ -5,8 +5,8 @@ export class Rider {
 
 
 export class Issue {
-  issueID: string = "";
-  // issue author: string = "";
+  _id: string = "";
+  issueAuthor: string = "";
   category: string = "";
   description: string = "";
   priority: string = "";

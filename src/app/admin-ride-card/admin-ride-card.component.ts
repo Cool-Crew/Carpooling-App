@@ -18,10 +18,7 @@ export class AdminRideCardComponent implements OnInit{
   constructor() { }
 
   async ngOnInit(): Promise<void> {
-    
-    console.log(this.ride)
-
-    
+        
   }
 }
 // 

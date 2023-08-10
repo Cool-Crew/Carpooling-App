@@ -1,5 +1,6 @@
 <div class="AdminRideCard" *ngIf="ride">
     <h2>Ride To: {{ ride.dropoffLocation?.name }}</h2>
+    <p><b>Dropoff Location:</b>  {{ ride.dropoffLocation?.address }}</p>
     <p><b>Status:</b> {{ ride.status }}</p>
     <p><b>Date:</b> {{ dateStr }}</p>
     <p><b>Time:</b> {{ timeStr }}</p>

@@ -6,7 +6,7 @@ import { Issue } from '../Ride';
   templateUrl: './admin-issues-for-ride-details.component.html',
   styleUrls: ['./admin-issues-for-ride-details.component.css']
 })
-export class AdminIssuesForRideDetailsComponent {
+export class AdminIssuesForRideDetailsComponent{
   @Input() issue: Issue | undefined;
 
 }
