@@ -43,7 +43,7 @@ const routes: Routes = [
     component: UpdateComponent,
     canActivate: [GuardAuthService],
   },
-  { path: "home", component: HomeComponent, canActivate: [GuardAuthService] },
+  { path: "home", component: HomeComponent},
   {
     path: "create-ride",
     component: CreateRideComponent,

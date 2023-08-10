@@ -1,0 +1,156 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 30px;    
+    background-color: #f5f5f5;
+  }
+  
+  header {
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  main {
+    padding: 2rem;
+  }
+  
+  h1, h2 {
+    color: #3498db;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    color: #4e0808;
+  }
+
+  h2 {
+    font-size: 23px;    
+  }
+  
+  section {
+    margin-bottom: 2rem;
+  }
+  
+  p {
+font-size: 16px;
+  }
+
+  ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+  
+  footer {
+    background-color: #f5f5f5;
+    padding: 1rem 0;
+    text-align: center;
+  }
+  
+  /* Add more styles as needed to enhance the visual appeal */
+
+  h4{
+    text-align: center;
+    color:#da4611;
+  }
+
+  #tm {
+    text-align: center;
+    color:#2dcc0e;
+  }
+  
+.centered {
+    text-align: center;
+    padding: 30px 0;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 48px;
+    color: #333;
+  }
+  
+  .section {
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #ffdfa9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section h2 {
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .section h2::before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 2px;
+    background-color: #333;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #qualities ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+  }
+  
+  #qualities ul li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  
+  #qualities ul li::before {
+    content: "\2022"; /* Bullet character */
+    position: absolute;
+    left: 0;
+    top: 5px; /* Adjust the vertical alignment of the bullet */
+    color: #3498db; /* Bullet color */
+    font-size: 20px;
+  }
+  
+.section ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+  }
+  
+  .section ul li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  
+  .section ul li::before {
+    content: "\2022"; /* Bullet character */
+    position: absolute;
+    left: 0;
+    top: 5px; /* Adjust the vertical alignment of the bullet */
+    color: #3498db; /* Bullet color */
+    font-size: 20px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  
+  

@@ -27,7 +27,8 @@ export class ReportIssueComponent implements OnInit {
     priority: 'Low',
     issueDate: '',
     issueTime: '',   
-    affectedPassengers: false
+    affectedPassengers: false,
+    userID: this.userId,
   };
   issueForm = new FormGroup({   
     category: new FormControl("", Validators.required),
@@ -80,6 +81,7 @@ export class ReportIssueComponent implements OnInit {
    if (this.issueForm.valid) {
     // Call the API to report the issue
     if (this.rideId !== null && this.user._id !== null) {
+      this.issue.userID = this.user._id;
       this.rideService.reportIssue(this.rideId, this.issue, this.user._id).subscribe(
         () => {          
           this.toastr.success("Issue Reported!");

@@ -6,6 +6,11 @@
   background: url(../../assets/images/blob.svg) center center no-repeat;
 }
 
+#boc {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
 .container {
 max-width: 1200px;
 margin: 0 auto;

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
 import { AuthService } from "./auth.service";
-import { Ride, RideList } from "./Ride";
+import { Issue, Ride, RideList } from "./Ride";
 
 interface Usernames {
   [key: string]: string;
@@ -319,8 +319,13 @@ export class RideService {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;
-      return this.http.post<any>(url, {issue, userId}, { headers });
+      //const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;              
+      return this.http.post<any>(
+        `${environment.userAPIBase}/rides/${rideId}/report-issue`, issue,
+        { 
+        headers        
+        }      
+      );
     }
     return new Observable();
   }

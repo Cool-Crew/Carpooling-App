@@ -37,6 +37,7 @@ export class AdminRideDetailsComponent implements OnInit {
     let holder = await this.rideService.getRide(this.rideId);
     if (holder) {
       this.ride = await this.rideService.replaceIdsWithUsernames(holder._ride);
+      console.log(`${holder._ride} was passed to replace the id with name`)
     }
 
     //cleaning date and time

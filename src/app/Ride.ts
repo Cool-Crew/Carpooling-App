@@ -6,13 +6,15 @@ export class Rider {
 
 export class Issue {
   _id: string = "";
-  issueAuthor: string = "";
+  issueAuthor: string = "";  
+  //author: string = "";
   category: string = "";
   description: string = "";
   priority: string = "";
   issueDate: string = "";
   issueTime: string = "";
   affectedPassengers: boolean = false;
+  userID: string = "";
 }
 
 export class Message {
