@@ -120,7 +120,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   createRoomByApi(userId: string, rideId: string) {
     this._messageService.createRoomByApi(rideId, userId,).then((res) => {
       this.roomDetails = res?._room;
-      console.log("api ", res)
       this.getHistoryRoom(this.roomDetails?._id);
     }).catch(err => console.log(err))
   }
@@ -134,13 +133,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (this.messageList.length == 0) {
           this.isLoadingMessage = "Get Started Chat"
         }
-        console.log('total api length ', this.messageList.length)
       })
       .catch((err) => { console.log("error") })
   }
 
   getPrivateChatHistory(senderId: string, receiverId: string) {
-    console.log("sender id", senderId, "receiver id", receiverId)
     this._messageService.getRoomDetails(senderId, receiverId)
       .then((res) => {
         if (res?._room) {
