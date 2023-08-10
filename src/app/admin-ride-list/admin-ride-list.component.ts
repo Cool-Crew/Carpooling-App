@@ -144,37 +144,30 @@ export class AdminRideListComponent {
     }
 
     if (this.driverFilter != ""){
-      console.log("updating driver from updateFilters()")
       await this.updateDriver();
     }
 
     if (this.creatorFilter != ""){
-      console.log("updating creator from updateFilters()")
       await this.updateCreator();
     }
 
     if (this.riderFilter != ""){
-      console.log("updating rider from updateFilters()")
       await this.updateRiders();
     }
 
     if (this.status != "All"){
-      console.log("updating status from updateFilters()")
       await this.updateStatus();
     }
 
     if (this.doFilter != ""){
-      console.log("updating dropoff from updateFilters()")
       await this.updateDropoffFilter();
     }
 
     if (this.issueFilter != "All"){
-      console.log("updating issues from updateFilters()")
       await this.updateIssues();
     }
 
     if (this.ratingFilter != -1){
-      console.log("updating rating from updateFilters()")
       await this.updateRating();
     }
 

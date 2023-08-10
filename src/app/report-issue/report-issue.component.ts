@@ -55,7 +55,6 @@ export class ReportIssueComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.user = this.authService.readToken();
     this.userId = this.user._id;
-    console.log(this.userId);
     this.route.paramMap.subscribe(params => {
       this.rideId = params.get('id');
     });

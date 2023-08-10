@@ -111,7 +111,6 @@ export class AdminFeedbackListComponent implements OnInit {
     }
   }
   async updateDriver(): Promise<void> {
-    console.log('updateDriver');
     //regex matching this.driverFilter
     if (this.driverFilter != ""){
       let regex = new RegExp(this.driverFilter, 'i');
@@ -124,7 +123,6 @@ export class AdminFeedbackListComponent implements OnInit {
   }
 
   async updateSubmitter(): Promise<void> {
-    console.log('updateSubmitter');
    if (this.submitterFilter != ""){
       //filter this.feedbacks submitter in the ride
       //regex matching this.submitterFilter
@@ -139,7 +137,6 @@ export class AdminFeedbackListComponent implements OnInit {
   }
 
   async updateCreator(): Promise<void> {
-    console.log('updateCreator');
     //regex matching this.creatorFilter
     if (this.creatorFilter != ""){
       let regex = new RegExp(this.creatorFilter, 'i');
