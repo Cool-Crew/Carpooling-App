@@ -1,21 +1,24 @@
 <div class="rides-table">
   <div class="table-topper">
     <h2>All Rides</h2>
+    <div *ngIf="loading" class="loader"></div>
     <div class="range-selector">
-      <h3>Show Rides From:</h3>
-      <select
-        id="range"
-        [(ngModel)]="range"
-        (change)="updateRange()"
-      >
-        <option value="-1">Future</option>
-        <option value="0">Today</option>
-        <option value="7">Previous 7 Days</option>
-        <option value="30">Previous 30 Days</option>
-        <option value="180">Previous 6 Months</option>
-        <option value="365">Previous Year</option>
-        <option value="666">All</option>
-      </select>
+      <span>
+        <h3>Show Rides From:</h3>
+        <select
+          id="range"
+          [(ngModel)]="range"
+          (change)="updateRange()"
+        >
+          <option value="-1">Future</option>
+          <option value="0">Today</option>
+          <option value="7">Previous 7 Days</option>
+          <option value="30">Previous 30 Days</option>
+          <option value="180">Previous 6 Months</option>
+          <option value="365">Previous Year</option>
+          <option value="666">All</option>
+        </select>
+      </span>
     </div>
   </div>
 

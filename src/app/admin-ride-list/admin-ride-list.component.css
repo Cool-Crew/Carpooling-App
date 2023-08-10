@@ -1,3 +1,61 @@
+.loader {
+    display: inline-block; /* Change display to inline-block */
+    width: .5em;
+    height: .5em;
+    margin-left: 5px; /* Adjust the spacing between h2 and loader */
+}
+
+.loader:before {
+    content: "";
+    display: inline-block;
+    width: .5em;
+    height: .5em;
+    margin: 0 0.3em;
+    background-color: #3498db;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2em); /* Adjust the distance each dot bounces */
+    }
+}
+/* ============================================================================================== */
+
+.table-topper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 5em;
+}
+.table-topper h2 {
+    margin-right: .2em;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    
+}
+
+.range-selector {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+.range-selector h3 {
+    margin-bottom: .1em;
+}
+.range-selector span {
+    display:flex-inline;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 body, h2, p, ul, li {
     margin: 0;
     padding: 0;
@@ -20,14 +78,6 @@ body, h2, p, ul, li {
     font-size: 14px;
     overflow-y: auto;
     width: 100%;
-}
-
-.table-topper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
 }
 
 thead th {

@@ -1,10 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
-import { RideList } from "../Ride";
 import { RideService } from "../ride.service";
 import { Ride, Status } from '../Ride';
-import { HttpClient } from "@angular/common/http";
-import { Router } from "@angular/router";
 
 interface Usernames {
   [key: string]: string;
@@ -37,6 +34,7 @@ export class AdminRideListComponent {
   filteredRides: Ride[] | undefined = [];
 
   initialized: boolean = false;
+  loading: boolean = false;
 
   constructor(private rideService: RideService) { }
 
@@ -137,6 +135,7 @@ export class AdminRideListComponent {
 
 
   async updateFilters(): Promise<void> {
+    this.loading = true;
     await this.getRides();
 
     if (this.range != 333){
@@ -172,6 +171,7 @@ export class AdminRideListComponent {
     }
 
     this.filteredRides = this.rides;
+    this.loading = false;
   }
 
   async updateIssues(): Promise<void> {
@@ -291,6 +291,7 @@ export class AdminRideListComponent {
   }
 
   async updateRange(): Promise<void> {
+    this.loading=true;
 
     await this.getRides();
 
@@ -349,6 +350,7 @@ export class AdminRideListComponent {
       this.rides = this.rides?.filter(ride => ride.dateTime && (ride.dateTime >= lastMonth) && (ride.dateTime < today));
     }
     this.filteredRides= this.rides;
+    this.loading = false;
   }
   
   cancelRide(rideId: string): void {
