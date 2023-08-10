@@ -11,20 +11,22 @@
 .form-container {
   margin: 1em;
   margin-top: 0;
-  border-color: #ccc;
+  /* border-color: #ccc; */
   border-radius: 5px;
   padding: 1em;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
   display: flex;
   flex-direction: row;
-  flex-grow: 1; /* Allow the form-container to grow and take up available space */
+  /* flex-grow: 1; Allow the form-container to grow and take up available space */
   flex: 1;
+  flex-wrap: wrap;
   height: 57em;
+  min-width: 250px;
 }
 
 .map-container {
-  width: 60%; 
-  height: 100%; /* Adjust the height as desired */
+  width: 50%; 
+  height: 400px; /* Adjust the height as desired */
 }
 
 form {
@@ -44,7 +46,8 @@ app-available-rides-list {
   align-self: stretch;
   max-height: 100%;
   overflow-y: auto;
-  max-width: 28em;
+  max-width: 30em;
+  flex: 1;
 }
 
 label {
@@ -66,7 +69,7 @@ select {
 button {
   display: block;
   width: 100%;
-  padding: .5em;
+  padding: .5em 1em;
   background-color: rgb(63, 81, 181);
   color: #fff;
   border: none;
@@ -128,4 +131,10 @@ hr {
   height: 1px;
   background-color: #ccc;
   margin: 1em 0;
+}
+
+@media (max-width: 395px ) {
+  .map-container {
+    visibility: hidden;
+  }
 }
