@@ -61,7 +61,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this._messageService.getUsersList()
       .then((res) => {
-        this.userList = res._users; console.log(this.userList)
+        this.userList = res._users;
       })
       .catch((err) => console.log(err))
     this.createRoomByApi(this.user._id, this.rideId);
@@ -92,18 +92,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.chatMood == "group" && this.newMessage != '') {
       this._messageService.createRoom(roomId);
       this._messageService.SendMessage({ rideId, message, senderName, senderId, roomId })
-      // console.log("group chat")
     } else if (this.newMessage != '') {
       let receiverId = this.receiver._id;
       let roomId = this.privateRoom?._id;
       this._messageService.sendMessagePrivate({ message, senderId, senderName, receiverId, roomId })
-      // console.log("private chat")
     }
     this.newMessage = "";
   }
 
   switchUser(chatRoom: any, type?: string) {
-    // console.log("chat room Id ", chatRoom._id)
     this._messageService.leaveRoom(this.roomDetails._id);
     if (type == "group") {
       this.roomDetails = chatRoom;
@@ -111,16 +108,13 @@ export class ChatComponent implements OnInit, OnDestroy {
       this._messageService.createRoom(chatRoom._id);
       this.chatMood = "group";
       this.TitleName = this.rideDetails.dropoffLocation;
-      // console.log("group")
     } else {
       this.chatMood = "private";
       this._messageService.createPrivateRooms(this.user._id);
       this.getPrivateChatHistory(this.user._id, chatRoom._id);
-      // console.log("private")
       this.TitleName = chatRoom.username;
       this.receiver = chatRoom;
     }
-    // console.log("clear", chatRoom);
   }
 
   createRoomByApi(userId: string, rideId: string) {
@@ -149,7 +143,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log("sender id", senderId, "receiver id", receiverId)
     this._messageService.getRoomDetails(senderId, receiverId)
       .then((res) => {
-        // console.log("room details", res);
         if (res?._room) {
           this.getHistoryRoom(res?._room?._id);
           this.privateRoom = res?._room;
