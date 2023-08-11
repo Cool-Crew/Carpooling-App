@@ -15,6 +15,7 @@
   overflow-y: auto; 
   border-collapse: collapse;
   margin-bottom: 20px;
+  width: 100%;
 }
 .th-filter-selector {
   display: flex;
@@ -98,8 +99,9 @@
     border: none;
   }
 
-  .table thead {
-    /* display: none;  */
+  .table .non-filter
+  {
+    display: none;
   }
 
   .table tr {
