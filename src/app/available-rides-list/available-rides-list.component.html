@@ -1,16 +1,21 @@
 <div class="results-container">
-    <!-- if no rides are available, instead display an error message -->
-    <div class='form-error-msg'*ngIf="rides?.length == 0">
-        <h2>No rides available</h2>
-    </div>
-    <app-ride-card 
-        *ngFor="let ride of ridesForCards"
-        [puLocation]="puLocation"
-        [doLocation]="doLocation"
-        [ride]="ride" 
-        [useMatching]="useMatching"
-        (newRideEvent)="rideSelected($event)">
-
+  <div *ngIf="loading">
+    <!-- Show loader when rides array is empty -->
+    <div class="loader"></div>
+  </div>
+  <!-- if no rides are available, instead display an error message -->
+  <div class="form-error-msg" *ngIf="rides?.length == 0 && !loading">
+    <h2>No rides available</h2>
+  </div>
+  <span *ngIf="!loading">
+    <app-ride-card
+      *ngFor="let ride of ridesForCards"
+      [puLocation]="puLocation"
+      [doLocation]="doLocation"
+      [ride]="ride"
+      [useMatching]="useMatching"
+      (newRideEvent)="rideSelected($event)"
+    >
     </app-ride-card>
-    
+  </span>
 </div>
