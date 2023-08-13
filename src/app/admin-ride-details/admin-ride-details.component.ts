@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import { RideService } from '../ride.service';
-import { Feedback, Issue, Ride } from '../Ride';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { RideService } from "../ride.service";
+import { Feedback, Issue, Ride } from "../Ride";
 
 @Component({
-  selector: 'app-admin-ride-details',
-  templateUrl: './admin-ride-details.component.html',
-  styleUrls: ['./admin-ride-details.component.css']
+  selector: "app-admin-ride-details",
+  templateUrl: "./admin-ride-details.component.html",
+  styleUrls: ["./admin-ride-details.component.css"],
 })
 export class AdminRideDetailsComponent implements OnInit {
-  rideId = this.route.snapshot.paramMap.get('id');
+  rideId = this.route.snapshot.paramMap.get("id");
   ride: Ride | undefined;
   rideDate: Date | undefined;
   dateStr: string | undefined;
@@ -17,11 +17,12 @@ export class AdminRideDetailsComponent implements OnInit {
   riderCount: number = 0;
   rideFeedbacks: Feedback[] | undefined;
   rideIssues: Issue[] | undefined;
+  loading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
-    private rideService: RideService,
-    ) {}
+    private rideService: RideService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     //get ride with rideId
@@ -29,7 +30,7 @@ export class AdminRideDetailsComponent implements OnInit {
     //set feedback
     await this.setFeedback();
     await this.setIssues();
-
+    this.loading = false;
     console.log(this.ride);
   }
 
@@ -37,12 +38,11 @@ export class AdminRideDetailsComponent implements OnInit {
     let holder = await this.rideService.getRide(this.rideId);
     if (holder) {
       this.ride = await this.rideService.replaceIdsWithUsernames(holder._ride);
-      console.log(`${holder._ride} was passed to replace the id with name`)
+      console.log(`${holder._ride} was passed to replace the id with name`);
     }
 
     //cleaning date and time
     await this.cleanDateTime();
-    
   }
 
   async cleanDateTime(): Promise<void> {
@@ -55,75 +55,74 @@ export class AdminRideDetailsComponent implements OnInit {
     var monthName: string | undefined;
     switch (this.rideDate?.getMonth()) {
       case 0:
-        monthName = 'January';
+        monthName = "January";
         break;
       case 1:
-        monthName = 'February';
+        monthName = "February";
         break;
       case 2:
-        monthName = 'March';
+        monthName = "March";
         break;
       case 3:
-        monthName = 'April';
+        monthName = "April";
         break;
       case 4:
-        monthName = 'May';
+        monthName = "May";
         break;
       case 5:
-        monthName = 'June';
+        monthName = "June";
         break;
       case 6:
-        monthName = 'July';
+        monthName = "July";
         break;
       case 7:
-        monthName = 'August';
+        monthName = "August";
         break;
       case 8:
-        monthName = 'September';
+        monthName = "September";
         break;
       case 9:
-        monthName = 'October';
+        monthName = "October";
         break;
       case 10:
-        monthName = 'November';
+        monthName = "November";
         break;
       case 11:
-        monthName = 'December';
+        monthName = "December";
         break;
       default:
-        monthName = '';
+        monthName = "";
         break;
     }
     this.dateStr = `${this.rideDate?.getDate()} ${monthName}, ${this.rideDate?.getFullYear()}`;
 
     //setting time string for display
-    if (this.rideDate){
+    if (this.rideDate) {
       let hour = this.rideDate?.getHours();
       let minute = this.rideDate?.getMinutes();
-      let ampm = hour >= 12 ? 'pm' : 'am';
+      let ampm = hour >= 12 ? "pm" : "am";
       hour = hour % 12;
       hour = hour ? hour : 12;
 
       //formatting for 12hr clock
-      if (hour < 10){
+      if (hour < 10) {
         this.timeStr = `0${hour}:`;
       } else {
         this.timeStr = `${hour}:`;
       }
-      if (minute < 10){
+      if (minute < 10) {
         this.timeStr += `0${minute} ${ampm}`;
-      }else {
+      } else {
         this.timeStr += `${minute} ${ampm}`;
       }
     }
 
     //count number of riders
-    this.ride?.riders.forEach(rider => {
+    this.ride?.riders.forEach((rider) => {
       this.riderCount++;
     });
 
     //swap rider, driver, and creator IDs for usernames
-    
   }
 
   async setFeedback(): Promise<void> {
@@ -136,5 +135,4 @@ export class AdminRideDetailsComponent implements OnInit {
   async setIssues(): Promise<void> {
     this.rideIssues = this.ride?.issue;
   }
-
 }

@@ -1,30 +1,3 @@
-
-.loader {
-  display: inline-block; /* Change display to inline-block */
-  width: .5em;
-  height: .5em;
-  margin-left: 5px; /* Adjust the spacing between h2 and loader */
-}
-
-.loader:before {
-  content: "";
-  display: inline-block;
-  width: .5em;
-  height: .5em;
-  margin: 0 0.3em;
-  background-color: #3498db;
-  border-radius: 50%;
-  animation: bounce 1.5s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-      transform: translateY(0);
-  }
-  50% {
-      transform: translateY(-2em); /* Adjust the distance each dot bounces */
-  }
-}
 /* ============================================================================================== */
 
 .feedbacks-table {
@@ -33,14 +6,14 @@
   border-collapse: collapse;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 2em;
 }
 
 .table {
   font-family: Arial, sans-serif;
   font-size: 14px;
-  overflow-y: auto; 
+  overflow-y: auto;
   border-collapse: collapse;
   margin-bottom: 20px;
   width: 100%;
@@ -52,7 +25,7 @@
   align-items: center;
 }
 
-.loader-wrap{
+.loader-wrap {
   display: flex;
   flex-direction: row;
 }
@@ -64,7 +37,6 @@
   align-items: center;
   margin-bottom: 10px;
 }
-
 
 .table thead {
   background-color: rgb(110, 93, 225);
@@ -79,7 +51,7 @@
 }
 
 .range-selector h3 {
-  margin-bottom: .1em;
+  margin-bottom: 0.1em;
 }
 .range-selector span {
   display: flex-inline;
@@ -89,7 +61,6 @@
 .range-selector {
   margin-bottom: 10px;
 }
-
 
 .table th,
 .table td {
@@ -107,11 +78,10 @@
 }
 
 @media screen and (min-width: 901px) and (max-width: 1200px) {
-  .rating{
+  .rating {
     max-width: 50px;
   }
-  .th-filter-selector
-  {
+  .th-filter-selector {
     max-width: 110px;
   }
 }
@@ -134,7 +104,7 @@
   .table tr,
   .table th,
   .table td {
-    display: block; 
+    display: block;
   }
 
   .table th,
@@ -144,8 +114,7 @@
     border: none;
   }
 
-  .table .non-filter
-  {
+  .table .non-filter {
     display: none;
   }
 
@@ -156,7 +125,7 @@
   }
 
   .table td:before {
-    content: attr(data-label); 
+    content: attr(data-label);
     font-weight: bold;
     text-transform: uppercase;
     display: block;
@@ -164,7 +133,49 @@
   }
 }
 
-  
- 
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px; /* Adjust the height to make it larger */
+}
 
-  
+.loader:before {
+  content: "";
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
+  width: 50px; /* Adjust the width to make it larger */
+  height: 50px; /* Adjust the height to make it larger */
+  animation: spin 2s linear infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Style for the cell containing the message */
+.no-data-cell {
+  text-align: center; /* Center the content horizontally */
+}
+
+/* Style for the box containing the message */
+.no-data-box {
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold; /* Make the text bold */
+  padding: 10px;
+  background-color: #f0f5ff; /* Light bluish color */
+  border: 1px solid #a7c7e7; /* Slightly darker border color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block; /* This will make the box size automatically fit its content */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

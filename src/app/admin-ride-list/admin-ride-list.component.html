@@ -1,15 +1,10 @@
 <div class="rides-table">
   <div class="table-topper">
     <h2>All Rides</h2>
-    <div *ngIf="loading" class="loader"></div>
     <div class="range-selector">
       <span>
         <h3>Show Rides From:</h3>
-        <select
-          id="range"
-          [(ngModel)]="range"
-          (change)="updateRange()"
-        >
+        <select id="range" [(ngModel)]="range" (change)="updateRange()">
           <option value="-1">Future</option>
           <option value="0">Today</option>
           <option value="7">Previous 7 Days</option>
@@ -25,64 +20,60 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Driver
+        <th>
+          Driver
           <div class="th-filter-selector">
-            <input 
+            <input
               placeholder="Filter by driver"
               [(ngModel)]="driverFilter"
               (ngModelChange)="updateDriver()"
-            >
+            />
           </div>
         </th>
-        <th>Creator
+        <th>
+          Creator
           <div class="th-filter-selector">
-            <input 
+            <input
               placeholder="Filter by creator"
               [(ngModel)]="creatorFilter"
               (ngModelChange)="updateCreator()"
-            >
+            />
           </div>
         </th>
-        <th>Riders
+        <th>
+          Riders
           <div class="th-filter-selector">
-            <input 
+            <input
               [(ngModel)]="riderFilter"
               (ngModelChange)="updateRiders()"
               placeholder="Filter by rider"
-              >
+            />
           </div>
         </th>
         <!-- <th>Start Location</th> -->
-        <th>Dropoff Location
+        <th>
+          Dropoff Location
           <div class="th-filter-selector">
-            <input 
+            <input
               placeholder="Filter by dropoff location"
               [(ngModel)]="doFilter"
               (ngModelChange)="updateDropoffFilter()"
-            >
+            />
           </div>
         </th>
-        <th>Date 
-          <button
-              *ngIf="dateSortDirection === 0"
-              (click)="updateDateSort()"
-            >
-              🔽
-            </button>
-            <button
-              *ngIf="dateSortDirection === 1"
-              (click)="updateDateSort()"
-            >
-              🔼
-            </button>
+        <th>
+          Date
+          <button *ngIf="dateSortDirection === 0" (click)="updateDateSort()">
+            🔽
+          </button>
+          <button *ngIf="dateSortDirection === 1" (click)="updateDateSort()">
+            🔼
+          </button>
         </th>
-        <th>Status
+        <th>
+          Status
           <div class="th-filter-selector">
-            <select 
-            id="status"
-            [(ngModel)]="status"
-            (change)="updateStatus()"
-            >
+            <select id="status" [(ngModel)]="status" (change)="updateStatus()">
               <option value="All">All</option>
               <option value="Not_Started">Not_Started</option>
               <option value="In_Progress">In Progress</option>
@@ -92,12 +83,13 @@
             </select>
           </div>
         </th>
-        <th>Avg Rating
+        <th>
+          Avg Rating
           <div class="th-filter-selector">
-            <select 
-            id="rating"
-            [(ngModel)]="ratingFilter"
-            (change)="updateRating()"
+            <select
+              id="rating"
+              [(ngModel)]="ratingFilter"
+              (change)="updateRating()"
             >
               <option value="-1">All</option>
               <option value="1">1</option>
@@ -106,14 +98,15 @@
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
-          </div>          
+          </div>
         </th>
-        <th>Issues Reported
+        <th>
+          Issues Reported
           <div class="th-filter-selector">
-            <select 
-            id="issue"
-            [(ngModel)]="issueFilter"
-            (change)="updateIssues()"
+            <select
+              id="issue"
+              [(ngModel)]="issueFilter"
+              (change)="updateIssues()"
             >
               <option value="All">All</option>
               <option value="Driver_Behavior">Driver Behavior</option>
@@ -124,12 +117,10 @@
             </select>
           </div>
         </th>
-        <th>Action:
+        <th>
+          Action:
           <div class="th-filter-selector">
-            <select 
-            id="action"
-            [(ngModel)]="action"
-            >
+            <select id="action" [(ngModel)]="action">
               <option value="Cancel">Cancel</option>
               <option value="View">View</option>
             </select>
@@ -138,38 +129,57 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ride of filteredRides">
+      <tr *ngIf="loading">
+        <td colspan="9" class="loader-cell">
+          <!-- Add your loader component or HTML here -->
+          <div class="loader"></div>
+        </td>
+      </tr>
+      <tr *ngFor="let ride of filteredRides" [class.hidden]="loading">
         <td data-label="Driver">{{ ride.driver }}</td>
         <td data-label="Creator">{{ ride.creator }}</td>
         <td data-label="Riders">
           <span *ngFor="let rider of ride.riders">
             {{ rider.riderID }}
-            <br> <!-- Optional line break to separate riderIDs -->
+            <br />
+            <!-- Optional line break to separate riderIDs -->
           </span>
         </td>
-        <td data-label="Dropoff Location">{{ ride.dropoffLocation?.name}}</td>
+        <td data-label="Dropoff Location">
+          {{ ride.dropoffLocation?.name }}
+        </td>
         <td data-label="Date">{{ ride.dateTime | date }}</td>
         <td data-label="Status">{{ ride.status }}</td>
-        <td data-label="Average Rating" class="avg-rating">{{ ride.avgFeedbackRating }}</td>
+        <td data-label="Average Rating" class="avg-rating">
+          {{ ride.avgFeedbackRating }}
+        </td>
         <td data-label="Issues">
           <span>
             <!-- For holding array of issue categories -->
-            <p *ngFor="let issue of ride.issue">{{issue.category}}</p>
+            <p *ngFor="let issue of ride.issue">{{ issue.category }}</p>
           </span>
         </td>
         <td>
-          <button 
-          *ngIf="action == 'Cancel'"
-          class="btn btn-danger" 
-          (click)="cancelRide(ride._id)"
-          >Cancel</button>
+          <button
+            *ngIf="action == 'Cancel'"
+            class="btn btn-danger"
+            (click)="cancelRide(ride._id)"
+          >
+            Cancel
+          </button>
 
           <button
-          *ngIf="action == 'View'"
-          class="btn btn-primary"
-          [routerLink]="'/admin/rideDetails/' + ride._id"
-          >View
-        </button>
+            *ngIf="action == 'View'"
+            class="btn btn-primary"
+            [routerLink]="'/admin/rideDetails/' + ride._id"
+          >
+            View
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && (!filteredRides || filteredRides.length === 0)">
+        <td colspan="9" class="no-data-cell">
+          <div class="no-data-box">No Data Found.</div>
         </td>
       </tr>
     </tbody>
