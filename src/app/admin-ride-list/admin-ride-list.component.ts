@@ -135,11 +135,13 @@ export class AdminRideListComponent {
 
 
   async updateFilters(): Promise<void> {
-    this.loading = true;
-    await this.getRides();
-
-    if (this.range != 333){
+    
+    if (this.range != 666){
       await this.updateRange();
+      this.loading = true;
+    } else {
+      this.loading = true;
+      await this.getRides();
     }
 
     if (this.driverFilter != ""){
