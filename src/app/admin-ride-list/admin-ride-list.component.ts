@@ -261,7 +261,7 @@ export class AdminRideListComponent {
 
   async updateStatus(): Promise<void> {
 
-    if (this.status == "All" && !this.initialized){
+    if (this.status == "All" && this.initialized){
       this.updateFilters();
     }
     else {
