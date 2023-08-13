@@ -28,16 +28,22 @@ export class AdminFeedbackListComponent implements OnInit {
   ];
   selectedCategory: string = "All"
 
+  initialized: boolean = false;
+  loading: boolean = false;
+
   constructor(private rideService: RideService) { }
 
   async getFeedbacks(): Promise<void>{
+    this.loading = true;
     this.rideService.getFeedback().subscribe(
       (response: any) => {
         this.feedbacks = response._feedback;
         this.displayedFeedbacks = this.feedbacks
+        this.loading = false;
       },
       (error: any) => {
         console.log(error);
+        this.loading = false;
       }
     );
   }

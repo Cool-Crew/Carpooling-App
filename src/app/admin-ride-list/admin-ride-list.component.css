@@ -103,6 +103,10 @@ thead th {
     align-items: center;
 }
 
+.th-filter-selector input{
+    max-width: 145px;
+}
+
 td {
     padding: 8px;
     border-bottom: 1px solid #ccc;

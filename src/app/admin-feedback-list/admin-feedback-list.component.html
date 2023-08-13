@@ -1,6 +1,9 @@
 <div class="feedbacks-table">
   <div class="table-topper">
-    <h2>All Feedbacks</h2>
+    <div class="loader-wrap">
+      <h2>All Feedbacks</h2>
+      <div *ngIf="loading" class="loader"></div>
+    </div>
     <div class="range-selector">
       <h3>Show Feedbacks From:</h3>
       <select
