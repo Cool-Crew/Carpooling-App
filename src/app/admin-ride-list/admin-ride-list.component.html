@@ -73,7 +73,7 @@
         <th>
           Status
           <div class="th-filter-selector">
-            <select id="status" [(ngModel)]="status" (change)="updateStatus()">
+            <select id="status" [(ngModel)]="status" (change)="updateFilters()">
               <option value="All">All</option>
               <option value="Not_Started">Not_Started</option>
               <option value="In_Progress">In Progress</option>
@@ -89,7 +89,7 @@
             <select
               id="rating"
               [(ngModel)]="ratingFilter"
-              (change)="updateRating()"
+              (change)="updateFilters()"
             >
               <option value="-1">All</option>
               <option value="1">1</option>
@@ -106,7 +106,7 @@
             <select
               id="issue"
               [(ngModel)]="issueFilter"
-              (change)="updateIssues()"
+              (change)="updateFilters()"
             >
               <option value="All">All</option>
               <option value="Driver_Behavior">Driver Behavior</option>
