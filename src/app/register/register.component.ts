@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { first } from "rxjs";
+import { Router } from "@angular/router";
 import { AuthService } from "../auth.service";
 import RegisterUser from "../RegisterUser";
 import { ToastrService } from "ngx-toastr";
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private aservice: AuthService,
     private toastr: ToastrService,
+    private router: Router,
     private notificationsService: NotificationsService
   ) {}
 
@@ -68,6 +70,8 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.aservice.readToken();
+    if (this.aservice.readToken()) {
+      this.router.navigate(["/home"]);
+    }
   }
 }

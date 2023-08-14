@@ -38,5 +38,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.aservice.readToken()) {
+      this.router.navigate(["/home"]);
+    }
+  }
 }
