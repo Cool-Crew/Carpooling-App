@@ -27,20 +27,21 @@ export class RideService {
     return;
   }
 
-  async getRide(rideId: any): Promise<{message: String; _ride: Ride} | undefined> {
+  async getRide(
+    rideId: any
+  ): Promise<{ message: String; _ride: Ride } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       return this.http
-        .get<{message:String; _ride:Ride}>(
+        .get<{ message: String; _ride: Ride }>(
           `${environment.userAPIBase}/ridedetails/${rideId}`,
-           { headers }
+          { headers }
         )
         .toPromise();
     }
     return;
   }
-
 
   async getUserRides(
     riderId: any
@@ -58,8 +59,9 @@ export class RideService {
     return;
   }
 
-
-  async getUsernames(userIds: string): Promise<{ message: string; _usernames: Usernames } | undefined> {
+  async getUsernames(
+    userIds: string
+  ): Promise<{ message: string; _usernames: Usernames } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
@@ -70,22 +72,19 @@ export class RideService {
             { headers }
           )
           .toPromise();
-  
+
         return response;
       } catch (error: any) {
-        // Handle specific HTTP error codes or other possible errors here
         if (error.status === 401) {
-          // Unauthorized error
-          console.error('Unauthorized: Please check your authentication token.');
+          console.error(
+            "Unauthorized: Please check your authentication token."
+          );
         } else if (error.status === 404) {
-          // Not found error
-          
-          console.error('Usernames not found.');
+          console.error("Usernames not found.");
         } else {
-          // General error
-          console.error('An error occurred:', error);
+          console.error("An error occurred:", error);
         }
-        return undefined; // or throw an appropriate exception
+        return undefined;
       }
     }
     return;
@@ -257,68 +256,64 @@ export class RideService {
     return new Observable();
   }
 
-
- 
-
-  async replaceIdsWithUsernames(ride:Ride): Promise<Ride> {
-
+  async replaceIdsWithUsernames(ride: Ride): Promise<Ride> {
     // get username for creator
-    if (ride.creator){
-        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.creator);
-      if (res){
+    if (ride.creator) {
+      let res: { message: string; _usernames: Usernames } | undefined =
+        await this.getUsernames(ride.creator);
+      if (res) {
         ride.creator = res._usernames[ride.creator];
-      }
-      else {
+      } else {
         ride.creator = "Deleted User";
       }
     }
 
     //get username for driver
-    if (ride.driver){
-      let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.driver);
-      if (res){
+    if (ride.driver) {
+      let res: { message: string; _usernames: Usernames } | undefined =
+        await this.getUsernames(ride.driver);
+      if (res) {
         ride.driver = res._usernames[ride.driver];
-      }
-      else {
+      } else {
         ride.driver = "Deleted User";
       }
     }
 
     //get username for riders
-    if (ride.riders){
-      for (const rider of ride.riders){
-        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(rider.riderID);
-        if (res){
+    if (ride.riders) {
+      for (const rider of ride.riders) {
+        let res: { message: string; _usernames: Usernames } | undefined =
+          await this.getUsernames(rider.riderID);
+        if (res) {
           rider.riderID = res._usernames[rider.riderID];
-        }
-        else {
+        } else {
           rider.riderID = "Deleted User";
         }
       }
     }
 
     //get username for feedbacks
-    if (ride.feedback){
-      for (const feedback of ride.feedback){
-        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(feedback.riderId);
-        if (res){
+    if (ride.feedback) {
+      for (const feedback of ride.feedback) {
+        let res: { message: string; _usernames: Usernames } | undefined =
+          await this.getUsernames(feedback.riderId);
+        if (res) {
           feedback.riderId = res._usernames[feedback.riderId];
-        }
-        else {
+        } else {
           feedback.riderId = "Deleted User";
         }
       }
     }
 
     //get username for reportedIssues
-    if (ride.issue){
-      for (const issue of ride.issue){
-        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(issue.issueAuthor);
+    if (ride.issue) {
+      for (const issue of ride.issue) {
+        let res: { message: string; _usernames: Usernames } | undefined =
+          await this.getUsernames(issue.issueAuthor);
 
-        if (res){
+        if (res) {
           issue.issueAuthor = res._usernames[issue.issueAuthor];
-        }
-        else {
+        } else {
           issue.issueAuthor = "Deleted User";
         }
       }
@@ -329,36 +324,35 @@ export class RideService {
 
   async getMatchingValues(userId: string): Promise<any> {
     const token = this.auth.getToken();
-    
+
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
       try {
-        const response = await this.http.get<any>(
-          `${environment.userAPIBase}/users/${userId}/matchingInfo`,
-          {
+        const response = await this.http
+          .get<any>(`${environment.userAPIBase}/users/${userId}/matchingInfo`, {
             headers,
-          }
-        ).toPromise();
+          })
+          .toPromise();
         return response;
       } catch (error) {
         throw error;
       }
     }
-    
-    throw new Error('Token not available.');
+
+    throw new Error("Token not available.");
   }
-  
-  
+
   reportIssue(rideId: string, issue: any, userId: string): Observable<any> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      //const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;              
+      //const url = `${environment.userAPIBase}/rides/${rideId}/report-issue`;
       return this.http.post<any>(
-        `${environment.userAPIBase}/rides/${rideId}/report-issue`, issue,
-        { 
-        headers        
-        }      
+        `${environment.userAPIBase}/rides/${rideId}/report-issue`,
+        issue,
+        {
+          headers,
+        }
       );
     }
     return new Observable();
