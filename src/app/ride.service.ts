@@ -59,16 +59,33 @@ export class RideService {
   }
 
 
-  async getUsernames(userIds:string): Promise<{ message: string; _usernames: Usernames } | undefined> {
+  async getUsernames(userIds: string): Promise<{ message: string; _usernames: Usernames } | undefined> {
     const token = this.auth.getToken();
     if (token) {
       const headers = { Authorization: `JWT ${token}` };
-      return this.http
-        .get<{ message: string; _usernames: Usernames }>(
-          `${environment.userAPIBase}/username/${userIds}`,
-          { headers }
-        )
-        .toPromise();
+      try {
+        const response = await this.http
+          .get<{ message: string; _usernames: Usernames }>(
+            `${environment.userAPIBase}/username/${userIds}`,
+            { headers }
+          )
+          .toPromise();
+  
+        return response;
+      } catch (error: any) {
+        // Handle specific HTTP error codes or other possible errors here
+        if (error.status === 401) {
+          // Unauthorized error
+          console.error('Unauthorized: Please check your authentication token.');
+        } else if (error.status === 404) {
+          // Not found error
+          console.error('Usernames not found.');
+        } else {
+          // General error
+          console.error('An error occurred:', error);
+        }
+        return undefined; // or throw an appropriate exception
+      }
     }
     return;
   }
@@ -245,9 +262,14 @@ export class RideService {
   async replaceIdsWithUsernames(ride:Ride): Promise<Ride> {
 
     // get username for creator
-    let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.creator);
-    if (res){
-      ride.creator = res._usernames[ride.creator];
+    if (ride.creator){
+        let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.creator);
+      if (res){
+        ride.creator = res._usernames[ride.creator];
+      }
+      else {
+        ride.creator = "Deleted User";
+      }
     }
 
     //get username for driver
@@ -255,6 +277,9 @@ export class RideService {
       let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(ride.driver);
       if (res){
         ride.driver = res._usernames[ride.driver];
+      }
+      else {
+        ride.driver = "Deleted User";
       }
     }
 
@@ -264,6 +289,9 @@ export class RideService {
         let res: {message: string, _usernames: Usernames} | undefined = await this.getUsernames(rider.riderID);
         if (res){
           rider.riderID = res._usernames[rider.riderID];
+        }
+        else {
+          rider.riderID = "Deleted User";
         }
       }
     }
@@ -275,6 +303,9 @@ export class RideService {
         if (res){
           feedback.riderId = res._usernames[feedback.riderId];
         }
+        else {
+          feedback.riderId = "Deleted User";
+        }
       }
     }
 
@@ -285,6 +316,9 @@ export class RideService {
 
         if (res){
           issue.issueAuthor = res._usernames[issue.issueAuthor];
+        }
+        else {
+          issue.issueAuthor = "Deleted User";
         }
       }
     }
