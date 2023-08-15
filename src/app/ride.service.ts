@@ -79,6 +79,7 @@ export class RideService {
           console.error('Unauthorized: Please check your authentication token.');
         } else if (error.status === 404) {
           // Not found error
+          
           console.error('Usernames not found.');
         } else {
           // General error
