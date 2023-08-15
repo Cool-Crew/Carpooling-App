@@ -2,6 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
 
+## Demo Server
+To view a demo of the application please go to `https://carpooling-app.vercel.app/`. We have three user accounts set up that we recommend for exploration of the application:
+
+- admin_01
+  - login email: user@admin.com
+  - password: admin123
+
+- BlueDriver123
+  - login email: bd@bd.com
+  - password: test123
+
+-RedRider321
+  - login email: rr@gmail.com
+  - password: test123
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
