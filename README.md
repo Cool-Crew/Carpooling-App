@@ -13,7 +13,7 @@ To view a demo of the application please go to `https://carpooling-app.vercel.ap
   - login email: bd@bd.com
   - password: test123
 
--RedRider321
+- RedRider321
   - login email: rr@gmail.com
   - password: test123
 
